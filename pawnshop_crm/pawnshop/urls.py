@@ -5,5 +5,6 @@ app_name = 'pawnshop'
 
 urlpatterns = [
     path('credits/', CreditListView.as_view(), name='credit_list'),
-    path('credits/create_client/', ClientCreateView.as_view(), name='client_create'),
+    path('credits/client_create/', ClientCreateView.as_view(), name='client_create'),
+    path('credits/confirm_document_create/', ConfirmDocumentCreateView.as_view(), name='confirm_document_create'),
 ]

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Lombard CRM
+{% endblock %}
+
+{% block heading %}
+    Добавить документ
+{% endblock %}
+
+{% block content %}
+    <div class="form-wrapper">
+        <form action="{% url 'pawnshop:confirm_document_create' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="client_pk" value="{{ client_pk }}">
+            {% include 'partials/_form.html' %}
+            <div class="form-group">
+                <button type="submit" class="btn btn-dark btn-sm">Добавить документ</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

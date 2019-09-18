@@ -96,10 +96,10 @@ class Client(models.Model):
 
 
 class ConfirmDocument(models.Model):
-    owner = models.OneToOneField(
+    client = models.OneToOneField(
         'pawnshop.Client',
         related_name='confirm_document',
-        verbose_name='Владелец',
+        verbose_name='Клиент',
         on_delete=models.CASCADE,
         null=False,
         blank=False,
@@ -114,8 +114,8 @@ class ConfirmDocument(models.Model):
     iin = models.CharField(
         verbose_name='ИИН',
         max_length=100,
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         default=None
     )
     serial_number = models.CharField(
