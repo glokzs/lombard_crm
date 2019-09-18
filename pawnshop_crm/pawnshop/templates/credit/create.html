@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Lombard CRM
+{% endblock %}
+
+{% block heading %}
+    Выбор клиента
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-between">
+        <div class="col-5">
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Поиск клиента">
+                    <div class="client-container">
+                        <!--                            Loaded-->
+                        <div class="client-item">
+                            <div class="client-item-name">
+                                <span>Бейсембаев Куаныш Ибраимович</span>
+                            </div>
+                            <div class="client-item-detail-container">
+                                <p class="client-item-detail"><span class="bold-text">• Дата рождения:</span> 04.11.1998</p>
+                                <p class="client-item-detail"><span class="bold-text">• Удостоверение:</span> 123456789</p>
+                            </div>
+                        </div>
+                        <div class="client-item">
+                            <div class="client-item-name">
+                                <span>Бейсембаев Куаныш Ибраимович</span>
+                            </div>
+                            <div class="client-item-detail-container">
+                                <p class="client-item-detail"><span class="bold-text">• Дата рождения:</span> 04.11.1998</p>
+                                <p class="client-item-detail"><span class="bold-text">• Удостоверение:</span> 123456789</p>
+                            </div>
+                        </div>
+                        <!--                            Loading-->
+                        <div class="spinner-wrapper">
+                            <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                        </div>
+                        <!--                            No results-->
+                        <div class="no-content">
+                            <p class="no-content-text">Ничего не найдено</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-4">
+            <form>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Фамилия<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите фамилию">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Имя<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите имя">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Дата рождения<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите дату рождения">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Населенный пункт<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите населенный пункт">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Улица<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите улицу">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Номер дом<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите номер дома">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Номер квартиры<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите номер квартиры">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Фактический адрес проживания<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите фактический адрес проживания">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Место рождения<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите место рождения">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Документы<span class="required-indicator"> *</span></label>
+                    <input type="file" class="form-control-file">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-grbtn-smoup">
+                    <label for="exampleInputEmail1">Контактный телефон<span class="required-indicator"> *</span></label>
+                    <input type="text" class="form-control" placeholder="Введите контактный телефон">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Фотография<span class="required-indicator"> *</span></label>
+                    <input type="file" class="form-control-file">
+                    <small class="form-text">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-dark btn-sm">Добавить клиента</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
