@@ -22,6 +22,20 @@
                         <p class="no-content-text">Ничего не найдено</p>
                     </div>
                 </div>
+                {% if recent_client %}
+                    <div class="recent-client-wrapper">
+                        <h5 class="recent-client-heading">Добавленный пользователь</h5>
+                        <div class="client-item">
+                            <div class="client-item-name">
+                                <span>{{ recent_client.last_name }} {{ recent_client.first_name }} {% if recent_client.middle_name %}{{ recent_client.middle_name }}{% endif %}</span>
+                            </div>
+                            <div class="client-item-detail-container">
+                                <p class="client-item-detail"><span class="bold-text">• Дата рождения:</span> {{ recent_client.birth_date }}</p>
+                                <p class="client-item-detail"><span class="bold-text">• ИИН:</span> {{ recent_client.confirm_document.iin }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <div class="col-4">

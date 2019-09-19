@@ -18,6 +18,13 @@ class ClientCreateView(CreateView):
     model = Client
     form_class = ClientForm
 
+    def get_context_data(self, **kwargs):
+        recent_client_pk = self.request.GET.get('recent_client_pk')
+        if recent_client_pk:
+            recent_client = get_object_or_404(Client, pk=self.request.GET.get('recent_client_pk'))
+            kwargs['recent_client'] = recent_client
+        return super().get_context_data(**kwargs)
+
     def get_success_url(self):
         return reverse('pawnshop:confirm_document_create', kwargs={'client_pk': self.object.pk})
 
@@ -38,6 +45,7 @@ class ClientListAjaxView(View):
 
         for client in clients:
             client_object = {
+                'pk': client.pk,
                 'first_name': client.first_name,
                 'last_name': client.last_name,
                 'middle_name': client.middle_name,
@@ -63,4 +71,4 @@ class ConfirmDocumentCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('pawnshop:client_create')
+        return reverse('pawnshop:client_create') + f"?recent_client_pk={self.kwargs.get('client_pk')}"
