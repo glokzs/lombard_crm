@@ -29,6 +29,22 @@ class ClientCreateView(CreateView):
         return reverse('pawnshop:confirm_document_create', kwargs={'client_pk': self.object.pk})
 
 
+class ClientDetailAjaxView(View):
+    def get(self, request, *args, **kwargs):
+        client_pk = int(self.request.GET.get('client_pk'))
+        client = get_object_or_404(Client, pk=client_pk)
+        data = {
+            'client': {
+                'first_name': client.first_name,
+                'last_name': client.last_name,
+                'middle_name': client.middle_name,
+                'birth_date': client.birth_date,
+                'iin': client.confirm_document.iin
+            }
+        }
+        return JsonResponse(data)
+
+
 class ClientListAjaxView(View):
     def get(self, request, *args, **kwargs):
         query = self.request.GET.get('query')

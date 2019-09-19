@@ -1,0 +1,32 @@
+<script>
+    function addClientElement(client) {
+        document.querySelector('.selected-client-item-wrapper').innerHTML = '';
+        const clientElement = document.createElement('div');
+        clientElement.classList.add('selected-client-item');
+        clientElement.innerHTML = `
+                <div class="client-item-name">
+                    <span>${ client.last_name } ${ client.first_name } ${client.middle_name === null ? '' : client.middle_name}</span>
+                </div>
+                <div class="client-item-detail-container">
+                    <p class="client-item-detail"><span class="bold-text">• Дата рождения:</span> ${ client.birth_date }</p>
+                    <p class="client-item-detail"><span class="bold-text">• ИИН:</span> ${ client.iin }</p>
+                </div>
+        `;
+        document.querySelector('.selected-client-item-wrapper').appendChild(clientElement);
+    }
+
+    document.querySelectorAll('.client-item').forEach(function (clientItem) {
+        clientItem.addEventListener('click', function () {
+            const clientPk = clientItem.dataset.client_pk;
+            document.querySelector('#selected_client_input').value = clientPk;
+            const url = '{% url 'pawnshop:client_detail_ajax' %}' + '?client_pk=' + clientPk;
+
+            fetch(url).then(function (response) {
+                if (response.ok)
+                    return response.json()
+            }).then(function (response) {
+                addClientElement(response.client);
+            });
+        });
+    });
+</script>

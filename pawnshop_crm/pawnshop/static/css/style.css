@@ -9,12 +9,11 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	opacity: 0;
 	position: absolute;
 	top: 10px;
 	left: 50%;
 	transform: translateX(-50%);
-	transition: opacity 0.3s;
+	z-index: -100;
 }
 .lds-ellipsis {
 	display: inline-block;
@@ -138,16 +137,20 @@ body {
 .client-container-wrapper {
 	padding: 10px 0;
 	width: 100%;
-	/*overflow: auto;*/
 	position: relative;
 	transition: max-height 0.3s;
 }
+.client-container-wrapper .spinner-wrapper,
+.client-container-wrapper .no-content {
+	opacity: 0;
+	transition: opacity 1s;
+}
 .client-container-wrapper.loading .spinner-wrapper {
 	opacity: 1;
+	z-index: 100;
 }
 .client-container-wrapper.empty .no-content {
 	opacity: 1;
-	/*display: block;*/
 }
 .client-container {
 	width: 100%;
@@ -158,6 +161,26 @@ body {
 	padding: 5px;
 	cursor: pointer;
 	margin-bottom: 5px;
+	animation: client-item-animation 1s;
+	transition: 0.3s;
+}
+@keyframes client-item-animation {
+	from {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+.selected-client-item-wrapper {
+	overflow: hidden;
+}
+.selected-client-item {
+	padding: 5px;
+	margin-bottom: 5px;
+	animation: client-item-animation 1s;
 	transition: 0.3s;
 }
 .client-item:hover {
@@ -185,9 +208,7 @@ body {
 	margin: 0;
 }
 .no-content {
-	opacity: 0;
 	padding: 5px 0;
-	transition: opacity 0.3s;
 }
 .no-content-text {
 	font-size: 12px;
@@ -204,4 +225,11 @@ body {
 	line-height: 120%;
 	text-align: center;
 	margin: 0;
+}
+.client-select-form-wrapper {
+	margin-top: 20px;
+	width: 100%;
+}
+.client-select-form {
+	width: 100%;
 }

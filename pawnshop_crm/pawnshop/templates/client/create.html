@@ -24,8 +24,8 @@
                 </div>
                 {% if recent_client %}
                     <div class="recent-client-wrapper">
-                        <h5 class="recent-client-heading">Добавленный пользователь</h5>
-                        <div class="client-item">
+                        <h5 class="recent-client-heading">Добавленный клиент</h5>
+                        <div class="client-item" data-client_pk="{{ recent_client.pk }}">
                             <div class="client-item-name">
                                 <span>{{ recent_client.last_name }} {{ recent_client.first_name }} {% if recent_client.middle_name %}{{ recent_client.middle_name }}{% endif %}</span>
                             </div>
@@ -36,6 +36,22 @@
                         </div>
                     </div>
                 {% endif %}
+                <div class="client-select-form-wrapper">
+                    <form action="#" class="client-select-form">
+                        <div class="form-group">
+                            <label>Клиент<span class="required-indicator"> *</span></label>
+                        </div>
+                        <div class="selected-client-item-wrapper">
+                            <div class="no-content">
+                                <p class="no-content-text">Клиент не выбран</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="client_pk" id="selected_client_input">
+                            <button type="submit" class="btn btn-dark btn-sm">Выбрать клиента</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="col-4">
@@ -49,4 +65,5 @@
         </div>
     </div>
     {% include 'partials/_client_search_script.html' %}
+    {% include 'partials/_client_add_script.html' %}
 {% endblock %}
