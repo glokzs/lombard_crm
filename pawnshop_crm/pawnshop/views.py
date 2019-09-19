@@ -19,7 +19,7 @@ class ClientCreateView(CreateView):
     form_class = ClientForm
 
     def get_success_url(self):
-        return reverse('pawnshop:confirm_document_create') + f'?client_pk={self.object.pk}'
+        return reverse('pawnshop:confirm_document_create', kwargs={'client_pk': self.object.pk})
 
 
 class ClientListAjaxView(View):
@@ -54,11 +54,11 @@ class ConfirmDocumentCreateView(CreateView):
     form_class = ConfirmDocumentForm
 
     def get_context_data(self, **kwargs):
-        kwargs['client_pk'] = self.request.GET.get('client_pk')
+        kwargs['client_pk'] = self.kwargs.get('client_pk')
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
-        client = get_object_or_404(Client, pk=self.request.POST.get('client_pk'))
+        client = get_object_or_404(Client, pk=self.kwargs.get('client_pk'))
         form.instance.client = client
         return super().form_valid(form)
 

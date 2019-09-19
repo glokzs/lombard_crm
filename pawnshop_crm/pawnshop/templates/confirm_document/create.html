@@ -10,9 +10,8 @@
 
 {% block content %}
     <div class="form-wrapper">
-        <form action="{% url 'pawnshop:confirm_document_create' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'pawnshop:confirm_document_create' client_pk %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="hidden" name="client_pk" value="{{ client_pk }}">
             {% include 'partials/_form.html' %}
             <div class="form-group">
                 <button type="submit" class="btn btn-dark btn-sm">Добавить документ</button>
