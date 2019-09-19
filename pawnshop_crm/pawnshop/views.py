@@ -1,3 +1,5 @@
+from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.generic import *
@@ -18,6 +20,32 @@ class ClientCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('pawnshop:confirm_document_create') + f'?client_pk={self.object.pk}'
+
+
+class ClientListAjaxView(View):
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get('query')
+        first_name_query = Q(first_name__icontains=query)
+        last_name_query = Q(last_name__icontains=query)
+        iin_query = Q(confirm_document__iin__icontains=query)
+        clients = Client.objects.filter(first_name_query | last_name_query | iin_query)
+
+        data = {
+            'clients': []
+        }
+        if not query:
+            return JsonResponse(data)
+
+        for client in clients:
+            client_object = {
+                'first_name': client.first_name,
+                'last_name': client.last_name,
+                'middle_name': client.middle_name,
+                'birth_date': client.birth_date,
+                'iin': client.confirm_document.iin
+            }
+            data['clients'].append(client_object)
+        return JsonResponse(data)
 
 
 class ConfirmDocumentCreateView(CreateView):

@@ -11,40 +11,18 @@
 {% block content %}
     <div class="row justify-content-between">
         <div class="col-5">
-            <form>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Поиск клиента">
-                    <div class="client-container">
-                        <!--                            Loaded-->
-                        <div class="client-item">
-                            <div class="client-item-name">
-                                <span>Бейсембаев Куаныш Ибраимович</span>
-                            </div>
-                            <div class="client-item-detail-container">
-                                <p class="client-item-detail"><span class="bold-text">• Дата рождения:</span> 04.11.1998</p>
-                                <p class="client-item-detail"><span class="bold-text">• Удостоверение:</span> 123456789</p>
-                            </div>
-                        </div>
-                        <div class="client-item">
-                            <div class="client-item-name">
-                                <span>Бейсембаев Куаныш Ибраимович</span>
-                            </div>
-                            <div class="client-item-detail-container">
-                                <p class="client-item-detail"><span class="bold-text">• Дата рождения:</span> 04.11.1998</p>
-                                <p class="client-item-detail"><span class="bold-text">• Удостоверение:</span> 123456789</p>
-                            </div>
-                        </div>
-                        <!--                            Loading-->
-                        <div class="spinner-wrapper">
-                            <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-                        </div>
-                        <!--                            No results-->
-                        <div class="no-content">
-                            <p class="no-content-text">Ничего не найдено</p>
-                        </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="client_search_input" placeholder="Поиск клиента">
+                <div class="client-container-wrapper empty">
+                    <div class="client-container"></div>
+                    <div class="spinner-wrapper">
+                        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="no-content">
+                        <p class="no-content-text">Ничего не найдено</p>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
         <div class="col-4">
             <form action="{% url 'pawnshop:client_create' %}" method="post" enctype="multipart/form-data">
@@ -56,4 +34,5 @@
             </form>
         </div>
     </div>
+    {% include 'partials/_client_search_script.html' %}
 {% endblock %}

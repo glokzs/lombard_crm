@@ -6,7 +6,7 @@ body {
 	background-color: #ecf0f1;
 }
 .spinner-wrapper {
-	display: flex;
+	display: none;
 	justify-content: center;
 	align-items: center;
 }
@@ -129,8 +129,17 @@ body {
 	75% { border-color: #ff7979; }
 	100% { border-color: #ced4da; }
 }
-.client-container {
+.client-container-wrapper {
 	padding: 10px 0;
+	width: 100%;
+}
+.client-container-wrapper.loading .spinner-wrapper {
+	display: flex;
+}
+.client-container-wrapper.empty .no-content {
+	display: block;
+}
+.client-container {
 	width: 100%;
 }
 .client-item {
@@ -164,6 +173,7 @@ body {
 	margin: 0;
 }
 .no-content {
+	display: none;
 	padding: 5px 0;
 }
 .no-content-text {

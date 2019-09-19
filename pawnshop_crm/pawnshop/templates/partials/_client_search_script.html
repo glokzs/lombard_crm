@@ -1,0 +1,50 @@
+<script>
+    function setEmptyClientContainer () {
+        const clientContainerWrapper = document.querySelector('.client-container-wrapper');
+        clientContainerWrapper.classList.add('empty');
+        clientContainerWrapper.classList.remove('loading');
+    }
+    function setLoadingClientContainer () {
+        const clientContainerWrapper = document.querySelector('.client-container-wrapper');
+        clientContainerWrapper.classList.remove('empty');
+        clientContainerWrapper.classList.add('loading');
+    }
+    function setResultClientContainer () {
+        const clientContainerWrapper = document.querySelector('.client-container-wrapper');
+        clientContainerWrapper.classList.remove('empty');
+        clientContainerWrapper.classList.remove('loading');
+    }
+
+    document.querySelector('#client_search_input').addEventListener('input', function (event) {
+        setLoadingClientContainer();
+
+        const url = '{% url 'pawnshop:client_list_ajax' %}' + '?query=' + event.target.value;
+        fetch(url).then(function (response) {
+            if (response.ok)
+                return response.json();
+        }).then(function (response) {
+            const clientContainer = document.querySelector('.client-container');
+            clientContainer.innerHTML = '';
+            if (response.clients.length !== 0) {
+                setResultClientContainer();
+                response.clients.map(function (client) {
+                    const clientItem = document.createElement('div');
+                    clientItem.classList.add('client-item');
+                    clientItem.innerHTML = `
+                    <div class="client-item-name">
+                        <span>${client.last_name} ${client.first_name} ${client.middle_name}</span>
+                    </div>
+                    <div class="client-item-detail-container">
+                        <p class="client-item-detail"><span class="bold-text">• Дата рождения:</span> ${client.birth_date}</p>
+                        <p class="client-item-detail"><span class="bold-text">• ИИН:</span> ${client.iin}</p>
+                    </div>
+                `;
+                    clientContainer.appendChild(clientItem);
+                });
+            }
+            else {
+                setEmptyClientContainer();
+            }
+        })
+    });
+</script>
