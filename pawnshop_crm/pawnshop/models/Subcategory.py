@@ -17,7 +17,7 @@ class Subcategory(models.Model):
         null=True,
         blank=True,
         default=None,
-        verbose_name='Родительская субкатегория',
+        verbose_name='Родительская подкатегория',
         on_delete=models.CASCADE
     )
     name = models.CharField(
@@ -33,4 +33,8 @@ class Subcategory(models.Model):
         verbose_name_plural = 'Подкатегории'
 
     def __str__(self):
-        return self.name
+        if self.category:
+            parent = f'Категория: {self.category.name}'
+        else:
+            parent = f'Подкатегория: {self.subcategory.name}'
+        return f'({parent}) - Подкатегория \'{self.name}\''

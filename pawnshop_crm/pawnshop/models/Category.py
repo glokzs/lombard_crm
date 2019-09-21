@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Category(models.Model):
     name = models.CharField(
         verbose_name='Имя категории',
@@ -14,4 +15,4 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.name
+        return f'Категория \'{self.name}\''

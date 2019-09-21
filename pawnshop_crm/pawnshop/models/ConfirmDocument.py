@@ -58,3 +58,6 @@ class ConfirmDocument(models.Model):
     class Meta:
         verbose_name = 'Документ',
         verbose_name_plural = 'Документы'
+
+    def __str__(self):
+        return f'{self.client} - {self.document_type} ({self.iin})'

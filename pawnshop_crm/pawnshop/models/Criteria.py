@@ -20,4 +20,4 @@ class Criteria(models.Model):
         verbose_name_plural = 'Критерии'
 
     def __str__(self):
-        return self.name
+        return f'Критерий \'{self.name}\''
