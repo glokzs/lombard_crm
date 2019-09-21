@@ -9,4 +9,5 @@ urlpatterns = [
     path('clients/<int:client_pk>/confirm_document_create/', ConfirmDocumentCreateView.as_view(), name='confirm_document_create'),
     path('credits/', CreditListView.as_view(), name='credit_list'),
     path('credits/client_create/', ClientCreateView.as_view(), name='client_create'),
+    path('pledge_items/create/', PledgeItemCreateView.as_view(), name='pledge_item_create'),
 ]

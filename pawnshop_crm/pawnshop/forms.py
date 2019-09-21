@@ -1,5 +1,5 @@
 from django import forms
-from .models import Client, ConfirmDocument
+from .models import *
 
 
 class ClientForm(forms.ModelForm):
@@ -12,3 +12,9 @@ class ConfirmDocumentForm(forms.ModelForm):
     class Meta:
         model = ConfirmDocument
         exclude = ['client']
+
+
+class PledgeItemForm(forms.ModelForm):
+    class Meta:
+        model = PledgeItem
+        exclude = []
