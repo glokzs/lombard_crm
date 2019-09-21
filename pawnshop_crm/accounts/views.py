@@ -36,6 +36,7 @@ def user_login_view(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         print(f'user {user}')
+        print (f'when user changed password: {user.initial_password_changed_at}')
         if user:
             login(request, user)
             return redirect('accounts:login')
