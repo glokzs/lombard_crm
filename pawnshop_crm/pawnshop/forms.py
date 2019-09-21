@@ -19,6 +19,7 @@ class ClientForm(forms.ModelForm):
     )
     middle_name = forms.CharField(
         label='Отчество',
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Введите отчество'
@@ -51,6 +52,7 @@ class ClientForm(forms.ModelForm):
     )
     apartment_number = forms.CharField(
         label='Номер квартиры',
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Введите номер квартиры'
@@ -58,13 +60,15 @@ class ClientForm(forms.ModelForm):
     )
     actual_address = forms.CharField(
         label='Фактический адрес проживания',
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Введите фактический адрес проживания'
         })
     )
     birth_place = forms.CharField(
-        label='Фактический место рождения',
+        label='Место рождения',
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Введите место рождения'
@@ -93,6 +97,7 @@ class ClientForm(forms.ModelForm):
     )
     files = forms.FileField(
         label='Файлы',
+        required=False,
         widget=forms.FileInput(
             attrs={
                 'class': 'form-control-file',
@@ -106,6 +111,62 @@ class ClientForm(forms.ModelForm):
 
 
 class ConfirmDocumentForm(forms.ModelForm):
+    DOCUMENT_TYPE_CHOICES = [
+        ['Удостоверение', 'Удостоверение'],
+        ['Паспорт', 'Паспорт'],
+    ]
+
+    document_type = forms.ChoiceField(
+        label='Тип документа',
+        choices=DOCUMENT_TYPE_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+        })
+    )
+    iin = forms.CharField(
+        label='ИИН',
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите ИИН'
+        })
+    )
+    serial_number = forms.CharField(
+        label='Серийный номер',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите серийный номер'
+        })
+    )
+
+    GIVEN_BY_CHOICES = [
+        ['МВД РК', 'МВД РК']
+    ]
+
+    given_by = forms.ChoiceField(
+        label='Выдан кем',
+        choices=GIVEN_BY_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+        })
+    )
+    given_at = forms.DateField(
+        label='Дата выдачи',
+        widget=forms.SelectDateWidget
+    )
+    note = forms.CharField(
+        label='Примечание',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите примечание'
+        })
+    )
+    image = forms.ImageField(
+        label='Фотография',
+        widget=forms.FileInput(attrs={
+            'class': 'form-control-file',
+        })
+    )
+
     class Meta:
         model = ConfirmDocument
         exclude = ['client']

@@ -162,6 +162,7 @@ body {
 	cursor: pointer;
 	margin-bottom: 5px;
 	animation: client-item-animation 1s;
+	border-radius: 4px;
 	transition: 0.3s;
 }
 @keyframes client-item-animation {
@@ -174,14 +175,15 @@ body {
 		opacity: 1;
 	}
 }
-.selected-client-item-wrapper {
-	overflow: hidden;
-}
 .selected-client-item {
 	padding: 5px;
 	margin-bottom: 5px;
 	animation: client-item-animation 1s;
 	transition: 0.3s;
+	background: #fff;
+	border: 1px solid #82db4a;
+	box-shadow: 0 0 0 0.2rem rgba(130, 219, 75, 0.5);
+	border-radius: 4px;
 }
 .client-item:hover {
 	background-color: #fff;
