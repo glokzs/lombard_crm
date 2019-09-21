@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Lombard CRM
+{% endblock %}
+
+{% block heading %}
+Авторизация
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <form action="{% url 'accounts:login' %}" method="POST" class="form">
+        {% csrf_token %}
+        {% if has_error %}
+        <p class="form-error">Неверное имя пользователя или пароль.</p>
+        {% endif %}
+        <div class="form-group">
+            <label for="exampleInputEmail1">Электронная почта<span class="required-indicator"> *</span></label>
+            <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="Введите имейл">
+            <small class="form-text">Validation error</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Пароль<span class="required-indicator"> *</span></label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите пароль">
+            <small class="form-text">Validation error</small>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-dark btn-sm">Войти</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
