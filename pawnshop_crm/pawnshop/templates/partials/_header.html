@@ -5,9 +5,11 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        {% if not user.is_authenticated %}
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link" href="#">Авторизация</a>
             </div>
+            {% endif%}
         </div>
     </div>
 </nav>

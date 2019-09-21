@@ -32,13 +32,13 @@ def user_login_view(request):
     context = {}
     if request.method == 'POST':
         email = request.POST.get('email')
-        username = User.username.get(email={email})
+        username = User.objects.get(email__exact=f'{email}').username
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         print(f'user {user}')
         if user:
             login(request, user)
-            return redirect('pawnshop:clients')
+            return redirect('accounts:login')
         else:
             context['has_error'] = True
     return render(request, 'user/login.html', context=context)
