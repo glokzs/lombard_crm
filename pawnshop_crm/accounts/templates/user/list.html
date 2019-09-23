@@ -5,41 +5,26 @@
     <th>Фамилия</th>
     <th>Email</th>
     <th>Тип прав</th>
-    <th>Активирован</th>
+    <th>Активен</th>
+    <th>Действия</th>
+
   </tr>
 
 {% for user in user_list %}
 
   <tr>
     <td>{{user.first_name}}</td>
-    <td>{{user.middle_name}}</td>
-    <td>50</td>
+      <td>Вставить отчество</td>
+    <td>{{user.last_name}}</td>
+    <td>{{user.email}}</td>
+      <td>Оценщик</td>
+      <td>Активен</td>
+      <td>Редактировать</td>
   </tr>
-
-           <a href="{% url 'webapp:comment_detail' comment.pk %}">{{ comment.created_at|date:'d.m.Y' }} {{ comment.created_at|time:'H:i:s' }}</a>
-           к статье  <a href="{% url 'webapp:article_view' comment.article.pk %}">{{ comment.article.title }}</a>
-       </h3>
-   {% endif %}
-   <p> Автор: {{ comment.author|capfirst }}
-   <a class="comment-delete" href="{% url 'webapp:comment_delete' comment.pk %}">Удалить</a>
-   <a class="comment-edit" href="{% url 'webapp:comment_update' comment.pk %}">Редактировать</a></p>
-
-   <p class="pre-space">{{ comment.text }}</p>
-   <hr>
 {% endfor %}
 
-
-
-
-
-  <tr>
-    <td>Jill</td>
-    <td>Smith</td>
-    <td>50</td>
-  </tr>
-  <tr>
-    <td>Eve</td>
-    <td>Jackson</td>
-    <td>94</td>
-  </tr>
 </table>
+
+
+
+

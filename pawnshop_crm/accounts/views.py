@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 from django.shortcuts import redirect, render
-
+from django.views.generic import ListView
 
 from accounts.models import User
 
@@ -32,33 +32,10 @@ def logout_view(request):
 
 
 
-# class UserListAjaxView(View):
-#     def get(self, request, *args, **kwargs):
-#         query = self.request.GET.get('query')
-#         first_name_query = Q(first_name__icontains=query)
-#         middle_name_query = Q(first_name__icontains=query)
-#         last_name_query = Q(last_name__icontains=query)
-#
-#         iin_query = Q(confirm_document__iin__icontains=query)
-#         users = User.objects.filter(first_name_query | last_name_query | iin_query)
-#
-#         data = {
-#             'users': []
-#         }
-#         if not query:
-#             return JsonResponse(data)
-#
-#         for user in users:
-#             user_object = {
-#                 'pk': user.pk,
-#                 'first_name': user.first_name,
-#                 'last_name': user.last_name,
-#                 'middle_name': user.middle_name,
-#                 'birth_date': user.birth_date,
-#                 'iin': user.confirm_document.iin
-#             }
-#             data['users'].append(user_object)
-#         return JsonResponse(data)
+class UserListView(ListView):
+    model = User
+    template_name = 'user/list.html'
+
 
 # def register_view(request, *args, **kwargs):
 #     if request.method == 'POST':
