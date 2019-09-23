@@ -1,4 +1,4 @@
-<table style="width:100%">
+<table style="width:400">
 <tr>
     <th>Имя</th>
     <th>Отчество</th>
@@ -14,16 +14,17 @@
 
   <tr>
     <td>{{user.first_name}}</td>
-      <td>Вставить отчество</td>
+      <td>{{user.middle_name}}</td>
     <td>{{user.last_name}}</td>
     <td>{{user.email}}</td>
-      <td>Оценщик</td>
-      <td>Активен</td>
-      <td>Редактировать</td>
+      <td>{{user.user_type}}</td>
+      <td>{{user.initial_password_changed_at}}</td>
+      <td><a href="#">Редактировать</a></td>
   </tr>
 {% endfor %}
 
 </table>
+    <a href="#">(+) Добавить</a>
 
 
 
