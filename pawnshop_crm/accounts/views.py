@@ -28,11 +28,34 @@ from django.shortcuts import redirect, render
 from accounts.models import User
 
 
+# def user_login_view(request):
+#     context = {}
+#     if request.method == 'POST':
+#         email = request.POST.get('email')
+#         username = User.objects.get(email__exact=f'{email}').username
+#         password = request.POST.get('password')
+#         user = authenticate(request, username=username, password=password)
+#         print(f'user {user}')
+#         print (f'when user changed password: {user.initial_password_changed_at}')
+#         if user:
+#             login(request, user)
+#             return redirect('accounts:login')
+#         else:
+#             context['has_error'] = True
+#     return render(request, 'user/login.html', context=context)
+
+
+
 def user_login_view(request):
     context = {}
     if request.method == 'POST':
         email = request.POST.get('email')
-        username = User.objects.get(email__exact=f'{email}').username
+        try:
+            username = User.objects.get(email__exact=f'{email}').username
+            # context['has_error'] = True
+        except:
+            context['has_error'] = True
+            return render(request, 'user/login.html', context=context)
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         print(f'user {user}')
@@ -43,6 +66,7 @@ def user_login_view(request):
         else:
             context['has_error'] = True
     return render(request, 'user/login.html', context=context)
+
 
 
 def logout_view(request):
