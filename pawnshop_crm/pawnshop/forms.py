@@ -206,6 +206,7 @@ class PledgeItemForm(forms.ModelForm):
     )
     note = forms.CharField(
         label='Примечание',
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Введите примечание'
@@ -213,6 +214,7 @@ class PledgeItemForm(forms.ModelForm):
     )
     image = forms.ImageField(
         label='Фотография',
+        required=False,
         widget=forms.FileInput(attrs={
             'class': 'form-control-file',
         })
