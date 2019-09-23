@@ -97,6 +97,8 @@ body {
 }
 .form-group > small {
 	display: none;
+	font-size: 12px;
+	text-align: center;
 }
 .form-group > label {
 	font-size: 14px;
@@ -112,6 +114,12 @@ body {
 }
 .form-group.error > input {
 	animation: form-error-input 2s;
+}
+.form-error {
+	text-align: center;
+	color: #ff7979;
+	font-size: 12px;
+	line-height: 120%;
 }
 .form-control {
 	font-size: 14px;
