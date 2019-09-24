@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 from django.shortcuts import redirect, render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from accounts.models import User
 
@@ -30,6 +30,11 @@ def logout_view(request):
     logout(request)
     return redirect('accounts:login')
 
+class AdminView(DetailView):
+    template_name = 'admin_cabine.html'
+    pk_url_kwarg = 'user_pk'
+    # user_pk or pk
+    model = User
 
 
 class UserListView(ListView):
