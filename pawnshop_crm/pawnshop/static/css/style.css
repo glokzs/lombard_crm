@@ -256,3 +256,13 @@ body {
 		max-height: 100vh;
 	}
 }
+
+.control-button {
+    margin-right: 5px;
+
+    }
+
+.control-button:last-child {
+    margin-right: 0;
+
+    }
