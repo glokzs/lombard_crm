@@ -7,14 +7,12 @@ Lombard CRM
 {% block heading %}
 Кабинет администратора
 
-Список пользователей
-
-  {% include "user/list.html" %}
 
 {% endblock %}
 
 
 {% block content %}
+  {% include "user/list.html" %}
     <div class="d-flex justify-content-center">
         <a href="#" class="btn btn-dark">+ Добавить пользователя</a>
     </div>

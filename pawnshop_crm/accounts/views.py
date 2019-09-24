@@ -33,7 +33,6 @@ def logout_view(request):
 class AdminView(DetailView):
     template_name = 'admin_cabine.html'
     pk_url_kwarg = 'user_pk'
-    # user_pk or pk
     model = User
 
 
