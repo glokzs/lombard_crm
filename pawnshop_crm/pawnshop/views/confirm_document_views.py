@@ -16,9 +16,9 @@ class ConfirmDocumentCreateView(CreateView):
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
-        client = get_object_or_404(Client, pk=self.kwargs.get('client_pk'))
+        client = get_object_or_404(Client, pk=self.request.session['client_pk'])
         form.instance.client = client
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('pawnshop:client_create') + f"?recent_client_pk={self.kwargs.get('client_pk')}"
+        return reverse('pawnshop:client_create')

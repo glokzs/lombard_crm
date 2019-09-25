@@ -13,15 +13,16 @@ class ClientCreateView(CreateView):
     model = Client
     form_class = ClientForm
 
-    def get_context_data(self, **kwargs):
-        recent_client_pk = self.request.GET.get('recent_client_pk')
-        if recent_client_pk:
-            recent_client = get_object_or_404(Client, pk=self.request.GET.get('recent_client_pk'))
-            kwargs['recent_client'] = recent_client
-        return super().get_context_data(**kwargs)
+    # def get_context_data(self, **kwargs):
+    #     recent_client_pk = self.request.GET.get('recent_client_pk')
+    #     if recent_client_pk:
+    #         recent_client = get_object_or_404(Client, pk=self.request.GET.get('recent_client_pk'))
+    #         kwargs['recent_client'] = recent_client
+    #     return super().get_context_data(**kwargs)
 
     def get_success_url(self):
-        return reverse('pawnshop:confirm_document_create', kwargs={'client_pk': self.object.pk})
+        self.request.session['client_pk'] = self.object.pk
+        return reverse('pawnshop:confirm_document_create')
 
 
 class ClientDetailAjaxView(View):

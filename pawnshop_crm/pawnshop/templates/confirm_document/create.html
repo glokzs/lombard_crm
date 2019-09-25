@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="form-wrapper">
-        <form action="{% url 'pawnshop:confirm_document_create' client_pk %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'pawnshop:confirm_document_create' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% include 'partials/_form.html' %}
             <div class="form-group">
