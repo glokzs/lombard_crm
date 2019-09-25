@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Lombard CRM
+{% endblock %}
+
+{% block heading %}
+    Добавить клиента
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-between">
+
+        <div class="col-4">
+            <form action="{% url 'accounts:create' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include 'partials/_form.html' %}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-dark btn-sm">Добавить клиента</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
