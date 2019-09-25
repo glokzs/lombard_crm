@@ -4,7 +4,7 @@ from django.db import models
 class Loan(models.Model):
     client = models.ForeignKey(
         'pawnshop.Client',
-        related_name='loan',
+        related_name='loans',
         verbose_name='Клиент',
         on_delete=models.CASCADE,
         null=False,
@@ -14,8 +14,8 @@ class Loan(models.Model):
     pledge_item = models.ForeignKey(
         'pawnshop.PledgeItem',
         related_name='loan',
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         default=None,
         verbose_name='Предмет залога',
         on_delete=models.CASCADE
@@ -31,9 +31,7 @@ class Loan(models.Model):
     duration = models.IntegerField(
         verbose_name='Период',
         default=5,
-        null=False
-
-
+        null=False,
     )
     date_of_expire = models.DateTimeField(
         verbose_name='Срок погашения займа',
@@ -49,7 +47,6 @@ class Loan(models.Model):
         blank=False,
         default=None
     )
-
 
     class Meta:
         verbose_name = 'Сумма займа',

@@ -2,6 +2,15 @@ from django.db import models
 
 
 class PledgeItem(models.Model):
+    category = models.ForeignKey(
+        'pawnshop.Category',
+        related_name='pledge_items',
+        null=False,
+        blank=False,
+        default=None,
+        verbose_name='Относится к категории',
+        on_delete=models.CASCADE
+    )
     subcategory = models.ForeignKey(
         'pawnshop.Subcategory',
         related_name='pledge_items',

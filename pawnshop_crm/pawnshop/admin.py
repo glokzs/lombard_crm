@@ -15,3 +15,6 @@ admin.site.register(Criteria)
 admin.site.register(CriteriaPledgeItem)
 admin.site.register(PledgeItem)
 admin.site.register(Loan, LoanViewAdmin)
+
+
+admin.site.site_header = 'Lombard CRM'
