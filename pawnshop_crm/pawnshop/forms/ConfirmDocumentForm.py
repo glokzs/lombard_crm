@@ -10,6 +10,7 @@ class ConfirmDocumentForm(forms.ModelForm):
 
     document_type = forms.ChoiceField(
         label='Тип документа',
+        required=True,
         choices=DOCUMENT_TYPE_CHOICES,
         widget=forms.Select(attrs={
             'class': 'form-control',
@@ -17,6 +18,7 @@ class ConfirmDocumentForm(forms.ModelForm):
     )
     iin = forms.CharField(
         label='ИИН',
+        required=True,
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
             'placeholder': 'Введите ИИН'
@@ -24,6 +26,7 @@ class ConfirmDocumentForm(forms.ModelForm):
     )
     serial_number = forms.CharField(
         label='Серийный номер',
+        required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Введите серийный номер'
@@ -36,6 +39,7 @@ class ConfirmDocumentForm(forms.ModelForm):
 
     given_by = forms.ChoiceField(
         label='Выдан кем',
+        required=True,
         choices=GIVEN_BY_CHOICES,
         widget=forms.Select(attrs={
             'class': 'form-control',
@@ -43,6 +47,7 @@ class ConfirmDocumentForm(forms.ModelForm):
     )
     given_at = forms.DateField(
         label='Дата выдачи',
+        required=True,
         widget=forms.SelectDateWidget
     )
     note = forms.CharField(
