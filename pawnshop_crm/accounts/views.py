@@ -6,7 +6,6 @@ from django.views.generic import ListView, DetailView
 
 from accounts.models import User
 
-
 def user_login_view(request):
     context = {}
     if request.method == 'POST':
@@ -25,31 +24,11 @@ def user_login_view(request):
             context['has_error'] = True
     return render(request, 'user/login.html', context=context)
 
-
 def logout_view(request):
     logout(request)
     return redirect('accounts:login')
 
-class AdminView(DetailView):
-    template_name = 'admin_cabine.html'
+class UserDetailView(DetailView):
+    template_name = 'user/detail.html'
     pk_url_kwarg = 'user_pk'
     model = User
-
-
-class UserListView(ListView):
-    model = User
-    template_name = 'user/list.html'
-
-
-# def register_view(request, *args, **kwargs):
-#     if request.method == 'POST':
-#         form = UserCreationForm(data=request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#
-#             user.save()
-#             login(request, user)
-#             return redirect('webapp:index')
-#     else:
-#         form = UserCreationForm()
-#     return render(request, 'user_create.html', context={'form': form})
