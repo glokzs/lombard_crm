@@ -8,6 +8,13 @@ class Category(models.Model):
         blank=False,
         default=None
     )
+    interest_rate = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        null=False,
+        blank=False,
+        default=None
+    )
 
     class Meta:
         verbose_name = 'Категория'
