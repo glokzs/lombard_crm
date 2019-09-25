@@ -16,7 +16,7 @@ class User(AbstractUser):
         verbose_name='Пароль изменен')
 
     middle_name = models.CharField(
-        max_length=30,
+        max_length=100,
         null=False,
         blank=False,
         default="Test",
@@ -24,7 +24,7 @@ class User(AbstractUser):
     )
 
     user_type = models.CharField(
-        max_length=1,
+        max_length=100,
         null=False,
         blank=False,
         default="Auditor",
