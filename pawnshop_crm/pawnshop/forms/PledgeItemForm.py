@@ -6,10 +6,14 @@ def _get_category_choices():
     category_choices = [
         ['', 'Выберите категорию']
     ]
-    categories = Category.objects.all()
-    for category in categories:
-        category_choices.append([category.pk, category.name])
-    return category_choices
+    try:
+        categories = Category.objects.all()
+
+        for category in categories:
+            category_choices.append([category.pk, category.name])
+        return category_choices
+    except:
+        return []
 
 
 class PledgeItemForm(forms.ModelForm):
