@@ -1,25 +1,40 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Lombard CRM
+Lombard CRM
 {% endblock %}
 
 {% block heading %}
-    Добавить клиента
+Добавить клиента
 {% endblock %}
 
 {% block content %}
-    <div class="row justify-content-between">
+<div class="row justify-content-between">
 
-        <div class="col-4">
-            <form action="{% url 'accounts:create' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% include 'partials/_form.html' %}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-dark btn-sm">Добавить клиента</button>
-                </div>
-            </form>
-        </div>
+    <div class="col-4">
+        <form action="{% url 'accounts:create' %}" method="post">
+            {% csrf_token %}
+            {% for error in form.non_field_errors %}
+            <p class="form-error">{{ error }}</p>
+            {% endfor %}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="form-label
+            {% if field.field.required %}required{% endif %}">{{ field.label }}</label>
+                {% if field.errors %}
+                {{ field }}
+                {% for error in field.errors %}
+                <p class="form-error">{{ error }}</p>
+                {% endfor %}
+                {% else %}
+                {{ field }}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit">Зарегистрировать пользователя</button>
+        </form>
     </div>
+</div>
 
 {% endblock %}
