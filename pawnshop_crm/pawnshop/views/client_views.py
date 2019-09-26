@@ -13,12 +13,15 @@ class ClientCreateView(CreateView):
     model = Client
     form_class = ClientForm
 
-    # def get_context_data(self, **kwargs):
-    #     recent_client_pk = self.request.GET.get('recent_client_pk')
-    #     if recent_client_pk:
-    #         recent_client = get_object_or_404(Client, pk=self.request.GET.get('recent_client_pk'))
-    #         kwargs['recent_client'] = recent_client
-    #     return super().get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        try:
+            recent_client_pk =  self.request.session['recent_client_pk']
+            if recent_client_pk:
+                recent_client = get_object_or_404(Client, pk=self.request.session['recent_client_pk'])
+                kwargs['recent_client'] = recent_client
+            return super().get_context_data(**kwargs)
+        except:
+            return super().get_context_data(**kwargs)
 
     def get_success_url(self):
         self.request.session['client_pk'] = self.object.pk

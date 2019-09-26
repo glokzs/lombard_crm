@@ -9,6 +9,7 @@ class Category(models.Model):
         default=None
     )
     interest_rate = models.DecimalField(
+        verbose_name='Процентная ставка',
         max_digits=3,
         decimal_places=1,
         null=False,
