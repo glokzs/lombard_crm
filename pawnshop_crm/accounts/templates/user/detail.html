@@ -26,26 +26,6 @@ Lombard CRM
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Иван Иванов Иванович</td>
-                    <td>example@example.com</td>
-                    <td>Кассир-оценщик</td>
-                    <td><span class="text-success">Активен</span></td>
-                    <td>
-                        <button type="button" class="btn btn-dark btn-sm control-button">Действие1</button>
-                        <button type="button" class="btn btn-dark btn-sm control-button">Действие2</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Иван Иванов Иванович</td>
-                    <td>example@example.com</td>
-                    <td>Кассир-оценщик</td>
-                    <td><span class="text-danger">Неактивен</span></td>
-                    <td>
-                        <button type="button" class="btn btn-dark btn-sm control-button">Действие1</button>
-                        <button type="button" class="btn btn-dark btn-sm control-button">Действие2</button>
-                    </td>
-                </tr>
                 {% for user in users %}
                 <tr>
                     <td>{{ user.last_name }}
