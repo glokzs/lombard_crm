@@ -9,44 +9,40 @@ Lombard CRM
 {% endblock %}
 
 {% block content %}
-<section class="content">
-    <div class="container content-container">
-        <div class="d-flex justify-content-center">
-            <a href="{% url 'accounts:create' %}" class="btn btn-dark btn-sm control-button">+ Добавить сотрудника</a>
-        </div>
-        <div class="table-wrapper">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>ФИО</th>
-                    <th>Email</th>
-                    <th>Должность</th>
-                    <th>Статус</th>
-                    <th>Действия</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.last_name }}
-                        {% if user.middle_name %}
-                        {{ user.middle_name }}
-                        {% else %}
-                        {% endif%}
-                        {{ user.first_name }}
-                    </td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.user_type }}</td>
-                    <td><span class="text-danger">Неактивен</span></td>
-                    <td>
-                        <button type="button" class="btn btn-dark btn-sm control-button">Действие</button>
-                    </td>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+<div class="d-flex justify-content-center">
+    <a href="{% url 'accounts:create' %}" class="btn btn-dark btn-sm control-button">+ Добавить сотрудника</a>
+</div>
+<div class="table-wrapper">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ФИО</th>
+            <th>Email</th>
+            <th>Должность</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.last_name }}
+                {% if user.middle_name %}
+                {{ user.middle_name }}
+                {% else %}
+                {% endif%}
+                {{ user.first_name }}
+            </td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.user_type }}</td>
+            <td><span class="text-danger">Неактивен</span></td>
+            <td>
+                <button type="button" class="btn btn-dark btn-sm control-button">Действие</button>
+            </td>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
 
 <!-- Scripts -->
