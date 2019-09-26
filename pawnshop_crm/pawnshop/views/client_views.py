@@ -17,10 +17,10 @@ class ClientCreateView(CreateView):
         try:
             recent_client_pk =  self.request.session['recent_client_pk']
             if recent_client_pk:
-                recent_client = get_object_or_404(Client, pk=self.request.session['recent_client_pk'])
+                recent_client = get_object_or_404(Client, pk=recent_client_pk)
                 kwargs['recent_client'] = recent_client
             return super().get_context_data(**kwargs)
-        except:
+        except KeyError:
             return super().get_context_data(**kwargs)
 
     def get_success_url(self):
