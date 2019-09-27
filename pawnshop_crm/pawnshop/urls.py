@@ -11,4 +11,5 @@ urlpatterns = [
     path('credits/client_create/', ClientCreateView.as_view(), name='client_create'),
     path('pledge_items/create/', PledgeItemCreateView.as_view(), name='pledge_item_create'),
     path('subcategories/', SubcategoryDetailAjaxView.as_view(), name='subcategory_detail_ajax'),
+    path('loan/calculate/', LoanCalculateAjaxView.as_view(), name='calculate'),
 ]
