@@ -23,9 +23,9 @@ class FakeOperation(models.Model):
     note = models.TextField(
         verbose_name='Описание фейк операции',
         max_length=100,
-        null=False,
-        blank=False,
-        default=None
+        null=True,
+        blank=True,
+        default='Описание'
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
