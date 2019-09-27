@@ -64,4 +64,5 @@ class PledgeItemForm(forms.ModelForm):
 
     class Meta:
         model = PledgeItem
+        fields = ['name', 'price', 'description', 'note', 'image', 'category']
         exclude = ['subcategory']
