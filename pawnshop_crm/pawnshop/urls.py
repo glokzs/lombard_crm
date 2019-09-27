@@ -1,4 +1,5 @@
 from django.urls import path
+from pawnshop.views.loan_views import LoanCalculateAjaxView
 from .views import *
 
 app_name = 'pawnshop'
