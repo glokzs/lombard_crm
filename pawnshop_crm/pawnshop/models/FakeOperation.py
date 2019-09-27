@@ -8,7 +8,6 @@ class FakeOperation(models.Model):
         null=False,
         blank=False,
         default=None,
-        required=True,
         verbose_name='Относится к клиентам',
         on_delete=models.CASCADE
     )
@@ -18,7 +17,6 @@ class FakeOperation(models.Model):
         null=False,
         blank=False,
         default=None,
-        required=True,
         verbose_name='Относится к залоговому имуществу',
         on_delete=models.CASCADE
     )
