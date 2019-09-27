@@ -25,7 +25,7 @@ class FakeOperation(models.Model):
         max_length=100,
         null=True,
         blank=True,
-        default='Описание'
+        default=None
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
