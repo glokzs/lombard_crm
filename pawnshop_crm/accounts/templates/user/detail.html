@@ -27,11 +27,11 @@ Lombard CRM
         {% for user in users %}
         <tr>
             <td>{{ user.last_name }}
+                {{ user.first_name }}
                 {% if user.middle_name %}
                 {{ user.middle_name }}
                 {% else %}
                 {% endif%}
-                {{ user.first_name }}
             </td>
             <td>{{ user.email }}</td>
             <td>{{ user.user_type }}</td>
