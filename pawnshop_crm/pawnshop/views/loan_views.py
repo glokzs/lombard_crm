@@ -11,12 +11,31 @@ from ..forms import *
 
 class LoanCalculateAjaxView(View):
     def get(self, request, *args, **kwargs):
-        requested_amount = int(self.request.GET.get('requested_amount'))
+        client_amount = int(self.request.GET.get('client_amount'))
         duration = int(self.request.GET.get('duration'))
-        interest_rate = 0.9
-        total_amount = round(requested_amount * 100 / (99 - (duration * interest_rate)))
 
-        return JsonResponse({"total_amount": total_amount})
+        data = {
+            'duration_error': False,
+            'client_amount_error': False
+        }
+
+        # check duration
+        if duration < 5 or duration > 30:
+            data['duration_error'] = True
+
+        # check client_amount
+        MINIMUM_CLIENT_AMOUNT = 1000
+        if client_amount < MINIMUM_CLIENT_AMOUNT:
+            data['client_amount_error'] = True
+
+        data['total_amount'] = self._calculate_total_amount(client_amount, duration)
+        return JsonResponse(data=data)
+
+    def _calculate_total_amount(self, client_amount, duration):
+        pledge_item_pk = self.request.session.get('pledge_item_pk')
+        interest_rate = get_object_or_404(PledgeItem, pk=pledge_item_pk).category.interest_rate
+        total_amount = 100 * client_amount / (99 - interest_rate * duration)
+        return total_amount
 
 class LoanCreateView(CreateView):
     model = Loan
