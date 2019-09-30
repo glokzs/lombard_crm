@@ -2,7 +2,7 @@ from django import forms
 from ..models import *
 
 
-class ClientForm(forms.ModelForm):
+class ClientCreateForm(forms.ModelForm):
     first_name = forms.CharField(
         label='Имя',
         widget=forms.TextInput(attrs={

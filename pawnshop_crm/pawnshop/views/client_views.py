@@ -11,21 +11,26 @@ from ..forms import *
 class ClientCreateView(CreateView):
     template_name = 'client/create.html'
     model = Client
-    form_class = ClientForm
+    form_class = ClientCreateForm
 
     def get_context_data(self, **kwargs):
-        try:
-            recent_client_pk =  self.request.session['recent_client_pk']
-            if recent_client_pk:
-                recent_client = get_object_or_404(Client, pk=recent_client_pk)
-                kwargs['recent_client'] = recent_client
+        recent_client_pk = self.request.session.get('recent_client_pk')
+        if recent_client_pk:
+            recent_client = get_object_or_404(Client, pk=recent_client_pk)
+            kwargs['recent_client'] = recent_client
             return super().get_context_data(**kwargs)
-        except KeyError:
-            return super().get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
     def get_success_url(self):
         self.request.session['client_pk'] = self.object.pk
         return reverse('pawnshop:confirm_document_create')
+
+
+class ClientChooseView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        self.request.session['client_pk'] = self.kwargs.get('client_pk')
+        self.request.session.pop('recent_client_pk', None)
+        return reverse('pawnshop:pledge_item_create')
 
 
 class ClientDetailAjaxView(View):

@@ -14,7 +14,6 @@
             if (response.ok)
                 return response.json()
         }).then(function (response) {
-            console.log('max: ' + maxDepth, 'current: ' + response.depth);
             if (response.subcategories.length !== 0)
                 createSubcategoryField(response);
             else

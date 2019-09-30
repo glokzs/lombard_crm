@@ -16,7 +16,7 @@ def _get_category_choices():
         return []
 
 
-class PledgeItemForm(forms.ModelForm):
+class PledgeItemCreateForm(forms.ModelForm):
     name = forms.CharField(
         label='Название',
         widget=forms.TextInput(attrs={
@@ -64,5 +64,5 @@ class PledgeItemForm(forms.ModelForm):
 
     class Meta:
         model = PledgeItem
-        fields = ['name', 'price', 'description', 'note', 'image', 'category']
-        exclude = ['subcategory']
+        fields = ['name', 'price', 'description', 'note', 'image']
+        exclude = ['subcategory', 'category']

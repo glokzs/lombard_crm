@@ -49,7 +49,10 @@
                         clientItemClone.classList.remove('client-item');
                         clientItemClone.classList.add('selected-client-item');
                         selectClientWrapper.appendChild(clientItemClone);
-                        document.querySelector('#selected_client_input').value = clientPk;
+
+                        const clientChooseButton = document.querySelector('#client_choose_btn');
+                        clientChooseButton.href = '/clients/' + clientPk + '/choose/';
+                        clientChooseButton.classList.remove('disabled');
                     });
                 });
             }

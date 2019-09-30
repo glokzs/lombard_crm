@@ -60,5 +60,4 @@ class PledgeItem(models.Model):
         verbose_name = 'Предмет залога'
         verbose_name_plural = 'Предметы залога'
 
-    def __str__(self):
-        return f'{self.subcategory.name} - \'{self.name}\' - {self.price}'
+

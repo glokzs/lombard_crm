@@ -49,8 +49,8 @@ class Loan(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Сумма займа',
-        verbose_name_plural = 'Суммы займа'
+        verbose_name = 'Займ',
+        verbose_name_plural = 'Займы'
 
     def __str__(self):
         return f'{self.client} - {self.client_amount} ({self.total_amount})'

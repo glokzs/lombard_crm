@@ -18,9 +18,11 @@
     document.querySelectorAll('.client-item').forEach(function (clientItem) {
         clientItem.addEventListener('click', function () {
             const clientPk = clientItem.dataset.client_pk;
-            document.querySelector('#selected_client_input').value = clientPk;
-            const url = '{% url 'pawnshop:client_detail_ajax' %}' + '?client_pk=' + clientPk;
+            const clientChooseButton = document.querySelector('#client_choose_btn');
+            clientChooseButton.href = '/clients/' + clientPk + '/choose/';
+            clientChooseButton.classList.remove('disabled');
 
+            const url = '{% url 'pawnshop:client_detail_ajax' %}' + '?client_pk=' + clientPk;
             fetch(url).then(function (response) {
                 if (response.ok)
                     return response.json()

@@ -2,7 +2,7 @@ from django import forms
 from ..models import *
 
 
-class ConfirmDocumentForm(forms.ModelForm):
+class ConfirmDocumentCreateForm(forms.ModelForm):
     DOCUMENT_TYPE_CHOICES = [
         ['Удостоверение', 'Удостоверение'],
         ['Паспорт', 'Паспорт'],

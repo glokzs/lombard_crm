@@ -37,20 +37,17 @@
                     </div>
                 {% endif %}
                 <div class="client-select-form-wrapper">
-                    <form action="{% url 'pawnshop:pledge_item_create' %}" class="client-select-form">
-                        <div class="form-group">
-                            <label>Клиент<span class="required-indicator"> *</span></label>
+                    <div class="form-group">
+                        <label>Клиент<span class="required-indicator"> *</span></label>
+                    </div>
+                    <div class="selected-client-item-wrapper">
+                        <div class="no-content">
+                            <p class="no-content-text">Клиент не выбран</p>
                         </div>
-                        <div class="selected-client-item-wrapper">
-                            <div class="no-content">
-                                <p class="no-content-text">Клиент не выбран</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" name="client_pk" id="selected_client_input">
-                            <button type="submit" class="btn btn-dark btn-sm">Выбрать клиента</button>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="form-group">
+                        <a href="#" id="client_choose_btn" class="btn btn-dark btn-sm disabled">Выбрать клиента</a>
+                    </div>
                 </div>
             </div>
         </div>
