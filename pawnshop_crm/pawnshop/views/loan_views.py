@@ -18,7 +18,6 @@ class LoanCalculateAjaxView(View):
 
         return JsonResponse({"total_amount": total_amount})
 
-
 class LoanCreateView(CreateView):
     model = Loan
     template_name = 'loan/create.html'

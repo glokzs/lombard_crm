@@ -23,7 +23,7 @@ class Loan(models.Model):
     client_amount = models.DecimalField(
         verbose_name='Запрашиваемая сумма',
         max_digits=10,
-        decimal_places=2,
+        decimal_places=10,
         null=False,
         blank=False,
         default=None
@@ -42,7 +42,7 @@ class Loan(models.Model):
     total_amount = models.DecimalField(
         verbose_name='Итоговая сумма кредита',
         max_digits=10,
-        decimal_places=2,
+        decimal_places=10,
         null=False,
         blank=False,
         default=None
