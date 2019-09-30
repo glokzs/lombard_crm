@@ -7,7 +7,7 @@ class LoanCreateForm(forms.ModelForm):
         label='Запрашиваемая сумма',
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
-            'placeholder': ''
+            'placeholder': 'Введите запрашиваемую сумму'
         })
     )
     duration = forms.IntegerField(
@@ -25,7 +25,7 @@ class LoanCreateForm(forms.ModelForm):
         required=True,
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
-            # 'disabled': 'true',
+            'disabled': 'true',
         })
     )
 

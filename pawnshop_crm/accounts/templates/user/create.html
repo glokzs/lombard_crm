@@ -8,13 +8,11 @@ Lombard CRM
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-between">
-    <div class="col-4">
-        <form action="{% url 'accounts:create' %}" method="post">
+<div class="form-wrapper">
+        <form action="{% url 'accounts:create' %}" method="post" class="form">
             {% csrf_token %}
             {% include 'partials/_form.html' %}
-            <button type="submit">Зарегистрировать пользователя</button>
+            <button class="btn btn-dark btn-sm" type="submit">Зарегистрировать пользователя</button>
         </form>
-    </div>
 </div>
 {% endblock %}

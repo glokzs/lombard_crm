@@ -1,0 +1,42 @@
+<script>
+    const clientAmountInput = document.querySelector('#id_client_amount');
+    const durationInput = document.querySelector('#id_duration');
+    const totalAmountInput = document.querySelector('#id_total_amount');
+
+    function sendAjaxRequest(clientAmount, duration) {
+        const url = '{% url 'pawnshop:loan_calculate_ajax' %}' + `?client_amount=${clientAmount}&duration=${duration}`;
+        fetch(url).then(function (response) {
+            if (response.ok)
+                return response.json();
+        }).then(function (response) {
+            const clientAmountWrapper = clientAmountInput.parentElement;
+            const durationWrapper = durationInput.parentElement;
+
+            if (response.client_amount_error && response.duration_error) {
+                clientAmountWrapper.classList.add('error');
+                durationWrapper.classList.add('error');
+            }
+            else if (response.client_amount_error)
+                clientAmountWrapper.classList.add('error');
+            else if (response.duration_error)
+                durationWrapper.classList.add('error');
+            else
+                totalAmountInput.value = Math.round(response.total_amount * 100) / 100;
+        })
+    }
+
+    clientAmountInput.addEventListener('input', function (event) {
+        clientAmountInput.parentElement.classList.remove('error');
+        if (clientAmountInput.value.length !== 0 && durationInput.value.length !== 0)
+            sendAjaxRequest(clientAmountInput.value, durationInput.value);
+        else
+            totalAmountInput.value = '';
+    });
+    durationInput.addEventListener('input', function (event) {
+        durationInput.parentElement.classList.remove('error');
+        if (clientAmountInput.value.length !== 0 && durationInput.value.length !== 0)
+            sendAjaxRequest(clientAmountInput.value, durationInput.value);
+        else
+            totalAmountInput.value = '';
+    });
+</script>

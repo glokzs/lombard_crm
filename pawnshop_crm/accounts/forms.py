@@ -44,7 +44,9 @@ class UserForm(forms.ModelForm):
         label='Должность',
         choices=USER_TYPES,
         required=True,
-        widget=forms.Select()
+        widget=forms.Select(attrs={
+            'class': 'form-control'
+        })
     )
     email = forms.EmailField(
         label='Email',
