@@ -51,7 +51,8 @@
                         selectClientWrapper.appendChild(clientItemClone);
 
                         const clientChooseButton = document.querySelector('#client_choose_btn');
-                        clientChooseButton.href = '/clients/' + clientPk + '/choose/';
+                        // clientChooseButton.href = '/clients/' + clientPk + '/choose/';
+                        clientChooseButton.href = '{% url 'pawnshop:client_choose' %}?client_pk=' + clientPk;
                         clientChooseButton.classList.remove('disabled');
                     });
                 });

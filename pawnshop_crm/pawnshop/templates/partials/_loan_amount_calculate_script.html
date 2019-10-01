@@ -4,7 +4,7 @@
     const totalAmountInput = document.querySelector('#id_total_amount');
 
     function sendAjaxRequest(clientAmount, duration) {
-        const url = '{% url 'pawnshop:loan_calculate_ajax' %}' + `?client_amount=${clientAmount}&duration=${duration}`;
+        const url = '{% url 'pawnshop:loan_calculate_ajax' %}' + `?client_amount=${clientAmount}&duration=${duration}&interest_rate=` + {{ interest_rate }};
         fetch(url).then(function (response) {
             if (response.ok)
                 return response.json();

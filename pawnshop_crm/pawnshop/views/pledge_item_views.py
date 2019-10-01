@@ -11,6 +11,11 @@ class PledgeItemCreateView(CreateView):
     model = PledgeItem
     form_class = PledgeItemCreateForm
 
+    def get_context_data(self, **kwargs):
+        client_pk = self.kwargs.get('client_pk')
+        kwargs['client_pk'] = client_pk
+        return super().get_context_data(**kwargs)
+
     def form_valid(self, form):
         category_pk = int(self.request.POST.get('category'))
         subcategory_pk = int(self.request.POST.get('subcategory'))
@@ -19,5 +24,11 @@ class PledgeItemCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        self.request.session['pledge_item_pk'] = self.object.pk
-        return reverse('pawnshop:loan_create')
+        # self.request.session['pledge_item_pk'] = self.object.pk
+        client_pk = self.kwargs.get('client_pk')
+        pledge_item_pk = self.object.pk
+        kwargs = {
+            'client_pk': client_pk,
+            'pledge_item_pk': pledge_item_pk
+        }
+        return reverse('pawnshop:loan_create', kwargs=kwargs)
