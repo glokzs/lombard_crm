@@ -63,9 +63,7 @@ class LoanCreateView(CreateView):
         return super().form_valid(form)
 
     def _calculate_total_amount(self, client_amount, duration, interest_rate):
-
         total_amount = 100 * client_amount / (99 - interest_rate * duration)
-        print(total_amount)
         return total_amount
 
     def _get_date_of_expire(self, duration):
