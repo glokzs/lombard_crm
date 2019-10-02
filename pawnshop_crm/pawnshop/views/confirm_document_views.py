@@ -22,6 +22,4 @@ class ConfirmDocumentCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        # self.request.session['recent_client_pk'] = self.object.pk
-        # self.request.session.pop('client_pk', None)
         return reverse('pawnshop:client_create') + f'?recent_client_pk={self.object.pk}'

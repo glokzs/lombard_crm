@@ -24,7 +24,6 @@ class PledgeItemCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        # self.request.session['pledge_item_pk'] = self.object.pk
         client_pk = self.kwargs.get('client_pk')
         pledge_item_pk = self.object.pk
         kwargs = {

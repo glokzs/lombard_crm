@@ -33,8 +33,6 @@ class LoanCalculateAjaxView(View):
         return JsonResponse(data=data)
 
     def _calculate_total_amount(self, client_amount, duration, interest_rate):
-        # pledge_item_pk = self.request.session.get('pledge_item_pk')
-        # interest_rate = get_object_or_404(PledgeItem, pk=pledge_item_pk).category.interest_rate
         total_amount = 100 * client_amount / (99 - interest_rate * duration)
         return total_amount
 

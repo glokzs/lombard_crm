@@ -23,14 +23,11 @@ class ClientCreateView(CreateView):
             return super().get_context_data(**kwargs)
 
     def get_success_url(self):
-        # self.request.session['client_pk'] = self.object.pk
         return reverse('pawnshop:confirm_document_create', kwargs={'client_pk': self.object.pk})
 
 
 class ClientChooseView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-        # self.request.session['client_pk'] = self.kwargs.get('client_pk')
-        # self.request.session.pop('recent_client_pk', None)
         client_pk = self.request.GET.get('client_pk')
         return reverse('pawnshop:pledge_item_create', kwargs={'client_pk': client_pk})
 
