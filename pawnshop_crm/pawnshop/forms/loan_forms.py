@@ -7,7 +7,7 @@ from ..models import *
 class LoanCreateForm(forms.ModelForm):
     client_amount = forms.DecimalField(
         label='Запрашиваемая сумма',
-        max_digits=8,
+        max_digits=20,
         decimal_places=2,
         widget=forms.NumberInput(attrs={
             'class': 'form-control',

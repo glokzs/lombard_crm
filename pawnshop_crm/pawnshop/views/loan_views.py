@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import *
 
@@ -50,11 +50,23 @@ class LoanCreateView(CreateView):
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
-        duration = int(self.request.POST.get('duration'))
-        form.instance.date_of_expire = self._get_date_of_expire(duration)
+        data = form.cleaned_data
+        pledge_item = get_object_or_404(PledgeItem, pk=self.kwargs.get('pledge_item_pk'))
+        form.instance.date_of_expire = self._get_date_of_expire(data.get('duration'))
         form.instance.client = get_object_or_404(Client, pk=self.kwargs.get('client_pk'))
-        form.instance.pledge_item = get_object_or_404(PledgeItem, pk=self.kwargs.get('pledge_item_pk'))
+        form.instance.pledge_item = pledge_item
+        interest_rate = pledge_item.category.interest_rate
+        client_amount = int(self.request.POST.get('client_amount'))
+        duration = int(self.request.POST.get('duration'))
+
+        form.instance.total_amount = self._calculate_total_amount(client_amount, duration, interest_rate)
         return super().form_valid(form)
+
+    def _calculate_total_amount(self, client_amount, duration, interest_rate):
+
+        total_amount = 100 * client_amount / (99 - interest_rate * duration)
+        print(total_amount)
+        return total_amount
 
     def _get_date_of_expire(self, duration):
         return datetime.now() + timedelta(days=duration)
