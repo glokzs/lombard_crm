@@ -72,4 +72,10 @@ class LoanCreateView(CreateView):
     def get_success_url(self):
         self.request.session.pop('client_pk', None)
         self.request.session.pop('pledge_item_pk', None)
-        return reverse('pawnshop:credit_list')
+        return reverse('pawnshop:loan_list')
+
+
+class LoanListView(ListView):
+    template_name = 'loan/list.html'
+    context_object_name = 'loans'
+    model = Loan
