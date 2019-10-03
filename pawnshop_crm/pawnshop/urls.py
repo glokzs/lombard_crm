@@ -3,7 +3,8 @@ from .views import *
 
 app_name = 'pawnshop'
 
-urlpatterns = [
+urlpatterns = (
+    path('', IndexView.as_view(), name='index'),
     path('clients/list/', ClientListAjaxView.as_view(), name='client_list_ajax'),
     path('clients/', ClientDetailAjaxView.as_view(), name='client_detail_ajax'),
     path('clients/<int:client_pk>/confirm_documents/create/', ConfirmDocumentCreateView.as_view(),
@@ -16,6 +17,6 @@ urlpatterns = [
     path('loan/calculate/', LoanCalculateAjaxView.as_view(), name='loan_calculate_ajax'),
     path('clients/<int:client_pk>/pledge_items/<int:pledge_item_pk>/loans/create/', LoanCreateView.as_view(),
          name='loan_create'),
-    path('clients/<int:client_pk>/pledge_items/<int:pledge_item_pk>/criteries/create/',
+    path('clients/<int:client_pk>/pledge_items/<int:pledge_item_pk>/criteria_list/create/',
          CriteriaValueCreateView.as_view(), name='criteria_value_create'),
-]
+)
