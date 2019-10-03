@@ -116,9 +116,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "pawnshop:index"
-LOGOUT_REDIRECT_URL = "accounts:login"
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'pawnshop:index'
+LOGOUT_REDIRECT_URL = 'pawnshop:index'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

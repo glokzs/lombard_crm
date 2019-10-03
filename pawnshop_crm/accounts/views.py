@@ -14,15 +14,15 @@ def user_login_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         try:
-            username = User.objects.get(email__exact=f'{email}').username
-        except:
+            username = User.objects.get(email__iexact=email).username
+        except User.DoesNotExist:
             context['has_error'] = True
             return render(request, 'user/login.html', context=context)
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('accounts:login')
+            return redirect('pawnshop:index')
         else:
             context['has_error'] = True
     return render(request, 'user/login.html', context=context)
@@ -30,7 +30,7 @@ def user_login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('accounts:login')
+    return redirect('pawnshop:index')
 
 
 class UserDetailView(ListView):

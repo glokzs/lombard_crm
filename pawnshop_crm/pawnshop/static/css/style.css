@@ -265,15 +265,3 @@ body {
 .table-wrapper {
 	margin-top: 10px;
 }
-.table {
-	width: 100%;
-}
-th {
-	font-size: 14px;
-	line-height: 120%;
-
-}
-td {
-	font-size: 12px;
-	line-height: 120%;
-}
