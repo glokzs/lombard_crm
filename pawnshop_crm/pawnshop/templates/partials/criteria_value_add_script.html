@@ -1,0 +1,25 @@
+<script>
+    document.querySelector('#send_btn').addEventListener('click', function (event) {
+        const data = {
+            criteria: {}
+        };
+        document.querySelectorAll('.criteria_value_input').forEach(function (input) {
+            const criteriaPk = input.id.split('_')[1];
+            data.criteria[criteriaPk] = input.value;
+        });
+        const url = '{% url 'pawnshop:criteria_value_create' client_pk pledge_item_pk %}';
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
+            }
+        }).then(function (response) {
+            if (response.ok)
+                return response.json();
+        }).then(function (response) {
+            console.log(response);
+        });
+    });
+</script>

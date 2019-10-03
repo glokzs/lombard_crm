@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Lombard CRM
+{% endblock %}
+
+{% block heading %}
+    Добавление критериев
+{% endblock %}
+
+{% block content %}
+    <div class="form-wrapper">
+        <form action="#" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for criteria in criteria_list %}
+                <div class="form-group ">
+                    <label for="id_first_name">{{ criteria.name }}<span class="required-indicator"> *</span></label>
+                    <input type="text" id="criteria_{{ criteria.pk }}" class="form-control criteria_value_input" required>
+                </div>
+            {% empty %}
+                <div class="no-content">
+                    <p class="no-content-text">Ничего не найдено</p>
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                <a href="{% url 'pawnshop:loan_create' client_pk pledge_item_pk %}" id="send_btn" class="btn btn-dark btn-sm">Сохранить</a>
+            </div>
+        </form>
+    </div>
+    {% include 'partials/criteria_value_add_script.html' %}
+{% endblock %}

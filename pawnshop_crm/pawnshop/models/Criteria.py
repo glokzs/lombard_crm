@@ -4,7 +4,7 @@ from django.db import models
 class Criteria(models.Model):
     category = models.ManyToManyField(
         'pawnshop.Category',
-        related_name='criteries',
+        related_name='criteria_list',
         verbose_name='Относится к категории'
     )
     name = models.CharField(

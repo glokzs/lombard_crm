@@ -3,7 +3,7 @@ from .ConfirmDocument import *
 from .Category import *
 from .Subcategory import *
 from .Criteria import *
-from .CriteriaPledgeItem import *
+from .CriteriaValue import *
 from .PledgeItem import *
 from .Loan import *
 from .FakeOperation import *

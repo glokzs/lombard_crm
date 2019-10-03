@@ -30,4 +30,5 @@ class PledgeItemCreateView(CreateView):
             'client_pk': client_pk,
             'pledge_item_pk': pledge_item_pk
         }
-        return reverse('pawnshop:loan_create', kwargs=kwargs)
+        return reverse('pawnshop:criteria_value_create', kwargs=kwargs)
+        # return reverse('pawnshop:loan_create', kwargs=kwargs)
