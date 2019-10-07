@@ -9,6 +9,9 @@ USER_TYPE_CHOICES = (
 
 
 class User(AbstractUser):
+    email = models.EmailField(
+        unique=True)
+
     initial_password_changed_at = models.DateTimeField(
         null=True,
         blank=True,
