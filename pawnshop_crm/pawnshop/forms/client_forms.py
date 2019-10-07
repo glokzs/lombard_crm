@@ -27,7 +27,11 @@ class ClientCreateForm(forms.ModelForm):
     )
     birth_date = forms.DateField(
         label='Дата рождения',
-        widget=forms.SelectDateWidget
+        widget=forms.DateInput(attrs={
+            'placeholder': 'Введите дату рождения',
+            'id': 'birth_date',
+            'class': 'form-control'
+        })
     )
     location = forms.CharField(
         label='Населенный пункт',

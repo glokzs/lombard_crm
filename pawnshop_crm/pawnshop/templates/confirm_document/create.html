@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}
     Lombard CRM
 {% endblock %}
@@ -18,4 +20,11 @@
             </div>
         </form>
     </div>
+    <script src="{% static 'js/foopicker.js' %}"></script>
+    <script>
+        const foopicker = new FooPicker({
+            id: 'given_at',
+            dateFormat: 'MM/dd/yyyy'
+        });
+    </script>
 {% endblock %}

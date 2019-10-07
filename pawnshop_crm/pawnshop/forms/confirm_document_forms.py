@@ -48,7 +48,11 @@ class ConfirmDocumentCreateForm(forms.ModelForm):
     given_at = forms.DateField(
         label='Дата выдачи',
         required=True,
-        widget=forms.SelectDateWidget
+        widget=forms.DateInput(attrs={
+            'placeholder': 'Введите дату выдачи',
+            'id': 'given_at',
+            'class': 'form-control'
+        })
     )
     note = forms.CharField(
         label='Примечание',

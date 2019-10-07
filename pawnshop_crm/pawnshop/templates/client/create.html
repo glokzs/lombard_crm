@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}
     Lombard CRM
 {% endblock %}
@@ -63,4 +65,11 @@
     </div>
     {% include 'partials/_client_search_script.html' %}
     {% include 'partials/_client_add_script.html' %}
+    <script src="{% static 'js/foopicker.js' %}"></script>
+    <script>
+        const foopicker = new FooPicker({
+            id: 'birth_date',
+            dateFormat: 'MM/dd/yyyy'
+        });
+    </script>
 {% endblock %}
