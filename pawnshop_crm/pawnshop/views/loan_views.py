@@ -33,7 +33,7 @@ class LoanCalculateAjaxView(View):
         return JsonResponse(data=data)
 
     def _calculate_total_amount(self, client_amount, duration, interest_rate):
-        total_amount = 100 * client_amount / (99 - interest_rate * duration)
+        total_amount = int(100 * client_amount / (99 - interest_rate * duration))
         return total_amount
 
 
