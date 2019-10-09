@@ -32,7 +32,7 @@
     <tr>
       <th scope="row">1</th>
       <td>{{ loan.client.first_name }} {{ loan.client.last_name }}</td>
-      <td>Стандарт</td>
+      <td>{{ loan.pledge_item.category.name }}</td>
       <td>{{ loan.created_at|date:'d.m.Y' }}</td>
       <td>{{ loan.duration }}</td>
       <td>{{ loan.date_of_expire|date:'d.m.Y' }}</td>
