@@ -55,6 +55,14 @@ class UserForm(forms.ModelForm):
             'placeholder': 'Введите email'
         })
     )
+    password = forms.CharField(
+        label='Пароль',
+        required = True,
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите пароль'
+        })
+    )
 
     def clean(self):
         email = self.cleaned_data.get('email')
@@ -64,4 +72,4 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'middle_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'middle_name', 'email', 'password']

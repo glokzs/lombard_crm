@@ -1,11 +1,12 @@
 from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, CreateView
 
 from accounts.forms import UserForm
+from accounts.mixins import GroupRequiredMixin
 from accounts.models import User
 
 
@@ -39,7 +40,8 @@ class UserDetailView(ListView):
     context_object_name = 'users'
 
 
-class UserCreateView(CreateView):
+class UserCreateView(GroupRequiredMixin,CreateView):
+    group_required = [u'Cashier', u'Admin']
     template_name = 'user/create.html'
     model = User
     form_class = UserForm
@@ -53,10 +55,10 @@ class UserCreateView(CreateView):
             last_name=data['last_name'],
             email=data['email'],
             user_type=data['user_type'],
-
+            password= data['password']
         )
         self.object = user
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse('accounts:user_detail', kwargs={'user_pk': 1})
+        return reverse('accounts:user_detail', kwargs={'user_pk': self.object.user.pk})
