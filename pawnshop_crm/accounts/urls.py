@@ -8,6 +8,6 @@ app_name = 'accounts'
 urlpatterns = [
     path('login/', user_login_view, name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('<int:user_pk>/', UserDetailView.as_view(), name='detail'),
+    path('<int:pk>/', UserDetailView.as_view(), name='detail'),
     path('create/', UserCreateView.as_view(), name='create')
 ]

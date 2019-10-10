@@ -40,7 +40,7 @@ class UserDetailView(ListView):
     context_object_name = 'users'
 
 
-class UserCreateView(GroupRequiredMixin,CreateView):
+class UserCreateView(GroupRequiredMixin, CreateView):
     group_required = [u'Cashier', u'Admin']
     template_name = 'user/create.html'
     model = User
@@ -55,10 +55,10 @@ class UserCreateView(GroupRequiredMixin,CreateView):
             last_name=data['last_name'],
             email=data['email'],
             user_type=data['user_type'],
-            password= data['password']
+            password=data['password']
         )
         self.object = user
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse('accounts:user_detail', kwargs={'user_pk': self.object.user.pk})
+        return reverse('accounts:detail', kwargs={'pk': self.request.user.pk})
