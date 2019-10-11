@@ -41,7 +41,7 @@ class UserDetailView(ListView):
 
 
 class UserCreateView(GroupRequiredMixin, CreateView):
-    group_required = [u'Cashier', u'Admin']
+    group_required = [u'Admin']
     template_name = 'user/create.html'
     model = User
     form_class = UserForm
@@ -57,6 +57,8 @@ class UserCreateView(GroupRequiredMixin, CreateView):
             user_type=data['user_type'],
             password=data['password']
         )
+        user.set_password(user.password)
+        user.save()
         self.object = user
         return redirect(self.get_success_url())
 
