@@ -25,12 +25,3 @@ class User(AbstractUser):
         default="Test",
         verbose_name='Отчество'
     )
-
-    user_type = models.CharField(
-        max_length=100,
-        null=False,
-        blank=False,
-        default="Auditor",
-        choices=USER_TYPE_CHOICES,
-        verbose_name='Тип прав'
-    )

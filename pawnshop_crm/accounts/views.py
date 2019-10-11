@@ -1,6 +1,7 @@
 from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
+from django.contrib.auth.models import Group
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import ListView, CreateView
@@ -54,9 +55,10 @@ class UserCreateView(GroupRequiredMixin, CreateView):
             middle_name=data['middle_name'],
             last_name=data['last_name'],
             email=data['email'],
-            user_type=data['user_type'],
-            password=data['password']
+            password=data['password'],
         )
+        group = Group.objects.get(name=data['group'])
+        group.user_set.add(user)
         user.set_password(user.password)
         user.save()
         self.object = user

@@ -1,13 +1,7 @@
 from django import forms
+from django.contrib.auth.models import Group
 
 from accounts.models import User
-
-USER_TYPES = [
-    ("не указана", "Выберите тип прав"),
-    ("Администратор", "Администратор"),
-    ("Кассир-оценщик", "Кассир-оценщик"),
-    ("Аудитор", "Аудитор")
-]
 
 
 class UserForm(forms.ModelForm):
@@ -40,14 +34,17 @@ class UserForm(forms.ModelForm):
             'placeholder': 'Введите отчество'
         })
     )
-    user_type = forms.ChoiceField(
-        label='Должность',
-        choices=USER_TYPES,
+
+    group = forms.ModelChoiceField(
+        label="Должность",
+        queryset=Group.objects.all(),
         required=True,
         widget=forms.Select(attrs={
-            'class': 'form-control'
+            'class': 'form-control',
+            'default': 'None'
         })
     )
+
     email = forms.EmailField(
         label='Email',
         widget=forms.EmailInput(attrs={
@@ -57,7 +54,7 @@ class UserForm(forms.ModelForm):
     )
     password = forms.CharField(
         label='Пароль',
-        required = True,
+        required=True,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Введите пароль'
@@ -72,4 +69,4 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'middle_name', 'email', 'password']
+        fields = ['username', 'first_name', 'last_name', 'middle_name', 'email', 'password', 'group']
