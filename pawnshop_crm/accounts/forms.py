@@ -70,6 +70,13 @@ class UserForm(forms.ModelForm):
             raise ("Данный Email уже существует")
         return self.cleaned_data
 
+    def save(self, commit=True):
+        user = super().save()
+        user.set_password('password')
+        if commit:
+            user.save()
+        return user
+
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'middle_name', 'email', 'password']

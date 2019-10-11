@@ -57,6 +57,8 @@ class UserCreateView(GroupRequiredMixin, CreateView):
             user_type=data['user_type'],
             password=data['password']
         )
+        user.set_password(user.password)
+        user.save()
         self.object = user
         return redirect(self.get_success_url())
 
