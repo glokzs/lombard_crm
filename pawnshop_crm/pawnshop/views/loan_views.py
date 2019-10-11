@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import *
 
+from accounts.mixins import GroupRequiredMixin
 from ..models import *
 from ..forms import *
 
@@ -37,7 +38,8 @@ class LoanCalculateAjaxView(View):
         return total_amount
 
 
-class LoanCreateView(CreateView):
+class LoanCreateView(GroupRequiredMixin, CreateView):
+    group_required = [u'Cashier', u'Admin']
     model = Loan
     template_name = 'loan/create.html'
     form_class = LoanCreateForm

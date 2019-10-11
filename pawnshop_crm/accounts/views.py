@@ -41,7 +41,7 @@ class UserDetailView(ListView):
 
 
 class UserCreateView(GroupRequiredMixin, CreateView):
-    group_required = [u'Cashier', u'Admin']
+    group_required = [u'Admin']
     template_name = 'user/create.html'
     model = User
     form_class = UserForm
