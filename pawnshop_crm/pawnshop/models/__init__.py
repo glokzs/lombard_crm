@@ -7,3 +7,4 @@ from .CriteriaValue import *
 from .PledgeItem import *
 from .Loan import *
 from .FakeOperation import *
+from .Contract import *
