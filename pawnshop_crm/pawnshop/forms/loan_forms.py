@@ -24,7 +24,6 @@ class LoanCreateForm(forms.ModelForm):
             'placeholder': 'Введите срок займа'
         })
     )
-
     total_amount = forms.DecimalField(
         label='Общая сумма займа',
         required=True,
@@ -39,4 +38,4 @@ class LoanCreateForm(forms.ModelForm):
 
     class Meta:
         model = Loan
-        exclude = ['client', 'pledge_item', 'date_of_expire', 'total_amount']
+        exclude = ['client', 'date_of_expire', 'total_amount']

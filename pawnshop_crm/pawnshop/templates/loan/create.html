@@ -10,13 +10,85 @@
 
 {% block content %}
     <div class="form-wrapper">
-        <form action="{% url 'pawnshop:loan_create' client_pk pledge_item_pk %}" method="post" enctype="multipart/form-data" class="form">
+        <div class="form">
+            <div class="form-group">
+                <label>Залоговые имущества<span class="required-indicator"> *</span></label>
+            </div>
+            <ul class="list-group mb-2">
+                {#                <li class="list-group-item">Dapibus ac facilisis in</li>#}
+                {#                <li class="list-group-item">Morbi leo risus</li>#}
+                {#                <li class="list-group-item">Porta ac consectetur ac</li>#}
+                {#                <li class="list-group-item">Vestibulum at eros</li>#}
+                <div class="no-content">
+                    <p class="no-content-text">Ничего не добавлено</p>
+                </div>
+            </ul>
+            <div class="form-group">
+                <button type="button" class="btn btn-dark btn-sm mb-4" data-toggle="modal" data-target="#pledge_item_modal">Добавить залоговое имущество</button>
+            </div>
+            <div class="modal fade" id="pledge_item_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Добавить залоговое имущество</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" method="post" enctype="multipart/form-data" id="form">
+                                <div class="form-group">
+                                    <label for="id_category">Категория<span class="required-indicator"> *</span></label>
+                                    <select name="category" class="form-control" required="" id="id_category">
+                                        <option value="" selected="">Выберите категорию</option>
+                                        <option value="1">Мобильные телефоны</option>
+                                    </select>
+                                </div>
+                                <div class="subcategory-field-container"></div>
+                                <div class="form-group">
+                                    <label for="id_name">Название<span class="required-indicator"> *</span></label>
+                                    <input type="text" name="name" class="form-control" placeholder="Введите название" required="" id="id_name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_price">Оценочная стоимость<span class="required-indicator"> *</span></label>
+                                    <input type="number" name="price" class="form-control" placeholder="Введите оценочную стоимость (тенге)" step="any" required="" id="id_price">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_description">Описание<span class="required-indicator"> *</span></label>
+                                    <input type="text" name="description" class="form-control" placeholder="Введите описание" required="" id="id_description">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_note">Примечание</label>
+                                    <input type="text" name="note" class="form-control" placeholder="Введите примечание" id="id_note">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_image">Фотография</label>
+                                    <input type="file" name="image" class="form-control-file" accept="image/*" id="id_image">
+                                </div>
+                                <div class="criteria-container"></div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark btn-sm">Добавить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-wrapper">
+        <form action="{% url 'pawnshop:loan_create' client_pk %}" method="post" enctype="multipart/form-data" class="form">
             {% csrf_token %}
+            <div id="pledge_item_pk_container">
+
+            </div>
             {% include 'partials/_form.html' %}
             <div class="form-group">
                 <button type="submit" class="btn btn-dark btn-sm">Добавить займ</button>
             </div>
         </form>
     </div>
-    {% include 'partials/_loan_amount_calculate_script.html' %}
+    {#    {% include 'partials/_loan_amount_calculate_script.html' %}#}
+    {% include 'partials/_client_subcategory_script.html' %}
+    {% include 'partials/_client_criteria_script.html' %}
 {% endblock %}

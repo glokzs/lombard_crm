@@ -1,0 +1,38 @@
+<script>
+    document.querySelector('#id_category').addEventListener('change', function (event) {
+        const categoryPk = event.target.value;
+        if (categoryPk !== '') {
+            const url = '{% url 'pawnshop:criteria_list_ajax' %}' + '?category_pk=' + categoryPk;
+            clearCriteriaFields();
+            getCriteriaList(url);
+        }
+        else
+            clearCriteriaFields();
+    });
+
+    function getCriteriaList (url) {
+        fetch(url).then(function (response) {
+            if (response.ok)
+                return response.json();
+        }).then(function (response) {
+            createCriteriaFields(response);
+        });
+    }
+
+    function createCriteriaFields (response) {
+        response.criteria_list.forEach(function (criteria) {
+            const inputName = 'criteria-' + criteria.pk;
+            const criteriaField = document.createElement('div');
+            criteriaField.classList.add('form-group', 'fade-in');
+            criteriaField.innerHTML = `
+                    <label for="id_subcategory">${criteria.name}<span class="required-indicator"> *</span></label>
+                    <input type="text" name="${inputName}" class="form-control">
+                `;
+            document.querySelector('.criteria-container').appendChild(criteriaField);
+        });
+    }
+    
+    function clearCriteriaFields () {
+        document.querySelector('.criteria-container').innerHTML = '';
+    }
+</script>

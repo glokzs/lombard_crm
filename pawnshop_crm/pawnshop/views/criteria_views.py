@@ -35,3 +35,20 @@ class CriteriaValueCreateView(View):
             'ok': True
         }
         return JsonResponse(data=data)
+
+
+class CriteriaListAjaxView(View):
+    def get(self, request, *args, **kwargs):
+        data = {
+            'criteria_list': []
+        }
+
+        category_pk = self.request.GET.get('category_pk')
+        criteria_list = get_object_or_404(Category, pk=category_pk).criteria_list.all()
+        for criteria in criteria_list:
+            data['criteria_list'].append({
+                'pk': criteria.pk,
+                'name': criteria.name,
+            })
+
+        return JsonResponse(data=data)

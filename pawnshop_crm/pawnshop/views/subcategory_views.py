@@ -5,7 +5,7 @@ from django.views.generic import *
 from ..models import *
 
 
-class SubcategoryDetailAjaxView(View):
+class SubcategoryListAjaxView(View):
     def get(self, request, *args, **kwargs):
         data = {
             'subcategories': [],

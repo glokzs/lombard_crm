@@ -2,6 +2,15 @@ from django.db import models
 
 
 class PledgeItem(models.Model):
+    loan = models.ForeignKey(
+        'pawnshop.Loan',
+        related_name='pledge_items',
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name='Займ',
+        on_delete=models.CASCADE
+    )
     category = models.ForeignKey(
         'pawnshop.Category',
         related_name='pledge_items',

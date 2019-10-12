@@ -11,15 +11,15 @@ class Loan(models.Model):
         blank=False,
         default=None
     )
-    pledge_item = models.ForeignKey(
-        'pawnshop.PledgeItem',
-        related_name='loan',
-        null=False,
-        blank=False,
-        default=None,
-        verbose_name='Предмет залога',
-        on_delete=models.CASCADE
-    )
+    # pledge_item = models.ForeignKey(
+    #     'pawnshop.PledgeItem',
+    #     related_name='loan',
+    #     null=False,
+    #     blank=False,
+    #     default=None,
+    #     verbose_name='Предмет залога',
+    #     on_delete=models.CASCADE
+    # )
     client_amount = models.DecimalField(
         verbose_name='Запрашиваемая сумма',
         max_digits=20,

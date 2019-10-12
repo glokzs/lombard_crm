@@ -4,9 +4,11 @@
     document.querySelector('#id_category').addEventListener('change', function (event) {
         const categoryPk = event.target.value;
         if (categoryPk !== '') {
-            const url = '{% url 'pawnshop:subcategory_detail_ajax' %}' + '?category_pk=' + categoryPk;
+            const url = '{% url 'pawnshop:subcategory_list_ajax' %}' + '?category_pk=' + categoryPk;
             sendAjaxRequest(url);
         }
+        else
+            clearSubcategoryFields(0);
     });
 
     function sendAjaxRequest (url) {
@@ -52,7 +54,7 @@
         subcategorySelect.addEventListener('change', function (event) {
             const categoryPk = event.target.value;
             if (categoryPk !== '') {
-                const url = '{% url 'pawnshop:subcategory_detail_ajax' %}' + '?subcategory_pk=' + categoryPk;
+                const url = '{% url 'pawnshop:subcategory_list_ajax' %}' + '?subcategory_pk=' + categoryPk;
                 sendAjaxRequest(url);
             }
         });

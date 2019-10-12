@@ -31,7 +31,9 @@ class ClientCreateView(GroupRequiredMixin, CreateView):
 class ClientChooseView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         client_pk = self.request.GET.get('client_pk')
-        return reverse('pawnshop:pledge_item_create', kwargs={'client_pk': client_pk})
+        return reverse('pawnshop:loan_create', kwargs={
+            'client_pk': client_pk
+        })
 
 
 class ClientDetailAjaxView(View):

@@ -13,10 +13,13 @@ urlpatterns = (
     path('clients/choose/', ClientChooseView.as_view(), name='client_choose'),
     path('loans/', LoanListView.as_view(), name='loan_list'),
     path('clients/<int:client_pk>/pledge_items/create/', PledgeItemCreateView.as_view(), name='pledge_item_create'),
-    path('subcategories/', SubcategoryDetailAjaxView.as_view(), name='subcategory_detail_ajax'),
+    path('subcategories/', SubcategoryListAjaxView.as_view(), name='subcategory_list_ajax'),
+    path('criteria_list/', CriteriaListAjaxView.as_view(), name='criteria_list_ajax'),
     path('loan/calculate/', LoanCalculateAjaxView.as_view(), name='loan_calculate_ajax'),
-    path('clients/<int:client_pk>/pledge_items/<int:pledge_item_pk>/loans/create/', LoanCreateView.as_view(),
-         name='loan_create'),
-    path('clients/<int:client_pk>/pledge_items/<int:pledge_item_pk>/criteria_list/create/',
-         CriteriaValueCreateView.as_view(), name='criteria_value_create'),
+    path('clients/<int:client_pk>/loans/create/', LoanCreateView.as_view(), name='loan_create'),
+    # path('clients/<int:client_pk>/pledge_items/<int:pledge_item_pk>/criteria_list/create/',
+    #      CriteriaValueCreateView.as_view(), name='criteria_value_create'),
+
+
+    # path('clients/<int:client_pk>/pledge_items/create/', PledgeItemCreateView.as_view(), name='pledge_item_create'),
 )
