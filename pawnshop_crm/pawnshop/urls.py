@@ -17,6 +17,9 @@ urlpatterns = (
     path('criteria_list/', CriteriaListAjaxView.as_view(), name='criteria_list_ajax'),
     path('loan/calculate/', LoanCalculateAjaxView.as_view(), name='loan_calculate_ajax'),
     path('clients/<int:client_pk>/loans/create/', LoanCreateView.as_view(), name='loan_create'),
+    path('pledge_items/create/', PledgeItemCreateAjaxView.as_view(), name='pledge_item_create_ajax'),
+    path('criteria_list/create/', CriteriaValueCreateAjaxView.as_view(),
+         name='criteria_value_create_ajax'),
     # path('clients/<int:client_pk>/pledge_items/<int:pledge_item_pk>/criteria_list/create/',
     #      CriteriaValueCreateView.as_view(), name='criteria_value_create'),
 

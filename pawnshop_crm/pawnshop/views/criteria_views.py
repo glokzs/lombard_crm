@@ -37,6 +37,20 @@ class CriteriaValueCreateView(View):
         return JsonResponse(data=data)
 
 
+class CriteriaValueCreateAjaxView(View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(self.request.body.decode())
+        pledge_item = get_object_or_404(PledgeItem, pk=int(data.get('pledge_item_pk')))
+
+        for criteria_pk, criteria_value in data.get('criteria_value_list').items():
+            pledge_item.criteria_values.create(
+                criteria=get_object_or_404(Criteria, pk=criteria_pk),
+                value=criteria_value
+            )
+
+        return JsonResponse(data={'result': 'ok'})
+
+
 class CriteriaListAjaxView(View):
     def get(self, request, *args, **kwargs):
         data = {
