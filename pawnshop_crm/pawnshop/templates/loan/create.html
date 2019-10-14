@@ -22,7 +22,7 @@
             <div class="form-group">
                 <button type="button" class="btn btn-dark btn-sm mb-4" data-toggle="modal" data-target="#pledge_item_modal">Добавить залоговое имущество</button>
             </div>
-            <div class="form-group">
+            <div class="form-group total_price_form_group">
                 <label>Общая оценочная сумма<span class="required-indicator"> *</span></label>
                 <input type="number" readonly id="total_price_input" value="0" class="form-control">
             </div>
@@ -89,7 +89,7 @@
             </div>
         </form>
     </div>
-    {#    {% include 'partials/_loan_amount_calculate_script.html' %}#}
+    {% include 'partials/_loan_amount_calculate_script.html' %}
     {% include 'partials/_client_subcategory_script.html' %}
     {% include 'partials/_client_criteria_script.html' %}
     {% include 'partials/_loan_create_script.html' %}

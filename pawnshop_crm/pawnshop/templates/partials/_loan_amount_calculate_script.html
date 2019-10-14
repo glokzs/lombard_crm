@@ -20,8 +20,15 @@
                 clientAmountWrapper.classList.add('error');
             else if (response.duration_error)
                 durationWrapper.classList.add('error');
-            else
-                totalAmountInput.value = Math.round(response.total_amount * 100) / 100;
+            else {
+                const totalAmount = Number(Math.round(response.total_amount * 100) / 100);
+                const totalEvaluationPrice = Number(document.getElementById('total_price_input').value);
+                totalAmountInput.value = totalAmount;
+
+                document.querySelector('.total_price_form_group').classList.remove('error');
+                if (totalAmount > totalEvaluationPrice)
+                    document.querySelector('.total_price_form_group').classList.add('error');
+            }
         })
     }
 
