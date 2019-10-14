@@ -15,16 +15,20 @@
                 <label>Залоговые имущества<span class="required-indicator"> *</span></label>
             </div>
             <ul class="list-group mb-2" id="pledge_item_list">
-                <div class="no-content">
-                    <p class="no-content-text">Ничего не добавлено</p>
-                </div>
+                {% for pledge_item in request.session.pledge_item_list %}
+                    <li class="list-group-item pledge_item_element">{{ pledge_item.name }} (Цена: {{ pledge_item.price }})</li>
+                {% empty %}
+                    <div class="no-content">
+                        <p class="no-content-text">Ничего не добавлено</p>
+                    </div>
+                {% endfor %}
             </ul>
             <div class="form-group">
                 <button type="button" class="btn btn-dark btn-sm mb-4" data-toggle="modal" data-target="#pledge_item_modal">Добавить залоговое имущество</button>
             </div>
             <div class="form-group total_price_form_group">
                 <label>Общая оценочная сумма<span class="required-indicator"> *</span></label>
-                <input type="number" readonly id="total_price_input" value="0" class="form-control">
+                <input type="number" readonly id="total_price_input" value="{{ total_price }}" class="form-control">
             </div>
             <div class="modal fade" id="pledge_item_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -81,8 +85,6 @@
     <div class="form-wrapper">
         <form action="{% url 'pawnshop:loan_create' client_pk %}" method="post" enctype="multipart/form-data" class="form">
             {% csrf_token %}
-            <div id="pledge_item_pk_container">
-            </div>
             {% include 'partials/_form.html' %}
             <div class="form-group">
                 <button type="submit" class="btn btn-dark btn-sm">Добавить займ</button>

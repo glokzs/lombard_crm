@@ -1,6 +1,4 @@
 <script>
-    let pledgeItemCounter = 1;
-
     document.querySelector('#pledge_item_create_button').addEventListener('click', function (event) {
         event.preventDefault();
         const pledgeItemData = {};
@@ -31,7 +29,7 @@
         }).then(function (response) {
             createCriteriaAjax(response.pledge_item);
             addPledgeItemToList(response.pledge_item);
-            addPledgeItemPkToForm(response.pledge_item);
+            // addPledgeItemPkToForm(response.pledge_item);
             calculateTotalEvaluationPrice(response.pledge_item);
         });
     }
@@ -63,17 +61,16 @@
     function addPledgeItemToList(pledgeItem) {
         const pledgeItemElement = document.createElement('li');
         pledgeItemElement.classList.add('list-group-item', 'pledge_item_element');
-        pledgeItemElement.innerText = `${pledgeItemCounter++}. ${pledgeItem.name} (Цена: ${pledgeItem.price})`;
+        pledgeItemElement.innerText = `${pledgeItem.name} (Цена: ${pledgeItem.price})`;
         document.getElementById('pledge_item_list').appendChild(pledgeItemElement);
     }
 
-    function addPledgeItemPkToForm(pledgeItem) {
-        const inputElement = document.createElement('input');
-        inputElement.setAttribute('type', 'hidden');
-        inputElement.name = 'pledge_item' + pledgeItem.pk;
-        inputElement.value = pledgeItem.pk;
-        document.getElementById('pledge_item_pk_container').appendChild(inputElement);
-    }
+    {#function addPledgeItemPkToForm(pledgeItem) {#}
+    {#    const inputElement = document.createElement('input');#}
+    {#    inputElement.setAttribute('type', 'hidden');#}
+    {#    inputElement.name = 'pledge_item' + pledgeItem.pk;#}
+    {#    inputElement.value = pledgeItem.pk;#}
+    {#    document.getElementById('pledge_item_pk_container').appendChild(inputElement);#}
 
     function calculateTotalEvaluationPrice(pledgeItem) {
         const input = document.getElementById('total_price_input');

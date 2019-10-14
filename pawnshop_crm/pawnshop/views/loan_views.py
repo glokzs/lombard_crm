@@ -29,10 +29,12 @@ class LoanCalculateAjaxView(View):
         if client_amount < MINIMUM_CLIENT_AMOUNT:
             data['client_amount_error'] = True
 
-        data['total_amount'] = self._calculate_total_amount(client_amount, duration, interest_rate)
+        data['total_amount'] = self._calculate_total_amount(client_amount, duration)
         return JsonResponse(data=data)
 
-    def _calculate_total_amount(self, client_amount, duration, interest_rate):
+    def _calculate_total_amount(self, client_amount, duration):
+        interest_rate = self.request.session.get('pledge_item_list')[0]['interest_rate']
+        print(interest_rate)
         total_amount = int(100 * client_amount / (99 - interest_rate * duration))
         return total_amount
 
@@ -77,7 +79,20 @@ class LoanCreateView(CreateView):
     def get_context_data(self, **kwargs):
         kwargs['category_list'] = Category.objects.all()
         kwargs['client_pk'] = self.kwargs.get('client_pk')
+        kwargs['total_price'] = self._get_total_evaluation_price()
         return super().get_context_data(**kwargs)
+
+    def _get_total_evaluation_price(self):
+        total_price = 0
+        if not self.request.session.get('pledge_item_list'):
+            return total_price
+
+        for pledge_item in self.request.session.get('pledge_item_list'):
+            total_price += int(pledge_item.get('price'))
+        return total_price
+
+    def form_valid(self, form):
+        pass
 
     def get_success_url(self):
         return reverse('pawnshop:loan_list')
