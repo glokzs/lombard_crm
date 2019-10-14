@@ -11,9 +11,8 @@ from ..forms import *
 
 class LoanCalculateAjaxView(View):
     def get(self, request, *args, **kwargs):
-        client_amount = int(self.request.GET.get('client_amount'))
+        client_amount = float(self.request.GET.get('client_amount'))
         duration = int(self.request.GET.get('duration'))
-        interest_rate = float(self.request.GET.get('interest_rate'))
 
         data = {
             'duration_error': False,
@@ -33,7 +32,7 @@ class LoanCalculateAjaxView(View):
         return JsonResponse(data=data)
 
     def _calculate_total_amount(self, client_amount, duration):
-        interest_rate = self.request.session.get('pledge_item_list')[0]['interest_rate']
+        interest_rate = float(self.request.session.get('pledge_item_list')[0]['interest_rate'])
         print(interest_rate)
         total_amount = int(100 * client_amount / (99 - interest_rate * duration))
         return total_amount

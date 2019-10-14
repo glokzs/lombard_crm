@@ -11,7 +11,8 @@ class LoanCreateForm(forms.ModelForm):
         decimal_places=2,
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Введите запрашиваемую сумму'
+            'placeholder': 'Введите запрашиваемую сумму',
+            'step': '10'
         })
     )
     duration = forms.IntegerField(

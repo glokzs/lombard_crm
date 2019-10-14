@@ -3,7 +3,7 @@
     const durationInput = document.querySelector('#id_duration');
     const totalAmountInput = document.querySelector('#id_total_amount');
 
-    function sendAjaxRequest(clientAmount, duration) {
+    function getTotalAmountAjax(clientAmount, duration) {
         const url = '{% url 'pawnshop:loan_calculate_ajax' %}' + `?client_amount=${clientAmount}&duration=${duration}`;
         fetch(url).then(function (response) {
             if (response.ok)
@@ -35,14 +35,14 @@
     clientAmountInput.addEventListener('input', function (event) {
         clientAmountInput.parentElement.classList.remove('error');
         if (clientAmountInput.value.length !== 0 && durationInput.value.length !== 0)
-            sendAjaxRequest(clientAmountInput.value, durationInput.value);
+            getTotalAmountAjax(clientAmountInput.value, durationInput.value);
         else
             totalAmountInput.value = '';
     });
     durationInput.addEventListener('input', function (event) {
         durationInput.parentElement.classList.remove('error');
         if (clientAmountInput.value.length !== 0 && durationInput.value.length !== 0)
-            sendAjaxRequest(clientAmountInput.value, durationInput.value);
+            getTotalAmountAjax(clientAmountInput.value, durationInput.value);
         else
             totalAmountInput.value = '';
     });
