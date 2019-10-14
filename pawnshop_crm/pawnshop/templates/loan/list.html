@@ -30,7 +30,7 @@
   <tbody>
   {% for loan in loans %}
     <tr>
-      <th scope="row">1</th>
+      <td>{{ loan.id }}</td>
       <td>{{ loan.client.first_name }} {{ loan.client.last_name }}</td>
       <td>{{ loan.pledge_item.category.name }}</td>
       <td>{{ loan.created_at|date:'d.m.Y' }}</td>
