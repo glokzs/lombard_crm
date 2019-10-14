@@ -15,10 +15,6 @@
                 <label>Залоговые имущества<span class="required-indicator"> *</span></label>
             </div>
             <ul class="list-group mb-2" id="pledge_item_list">
-                {#                <li class="list-group-item">Dapibus ac facilisis in</li>#}
-                {#                <li class="list-group-item">Morbi leo risus</li>#}
-                {#                <li class="list-group-item">Porta ac consectetur ac</li>#}
-                {#                <li class="list-group-item">Vestibulum at eros</li>#}
                 <div class="no-content">
                     <p class="no-content-text">Ничего не добавлено</p>
                 </div>
@@ -45,7 +41,9 @@
                                     <label for="id_category">Категория<span class="required-indicator"> *</span></label>
                                     <select name="category" class="form-control" required="" id="id_category">
                                         <option value="" selected="">Выберите категорию</option>
-                                        <option value="1">Мобильные телефоны</option>
+                                        {% for category in category_list %}
+                                            <option value="{{ category.pk }}">{{ category.name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="subcategory-field-container"></div>

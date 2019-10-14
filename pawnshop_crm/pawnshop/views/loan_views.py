@@ -75,6 +75,7 @@ class LoanCreateView(CreateView):
     form_class = LoanCreateForm
 
     def get_context_data(self, **kwargs):
+        kwargs['category_list'] = Category.objects.all()
         kwargs['client_pk'] = self.kwargs.get('client_pk')
         return super().get_context_data(**kwargs)
 
