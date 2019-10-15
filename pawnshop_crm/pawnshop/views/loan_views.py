@@ -78,22 +78,30 @@ class LoanCreateView(CreateView):
     def get_context_data(self, **kwargs):
         kwargs['category_list'] = Category.objects.filter(subcategories__isnull=False).distinct()
         kwargs['client_pk'] = self.kwargs.get('client_pk')
-        kwargs['total_price'] = self._get_total_evaluation_price()
+        kwargs['total_price'] = self._get_total_price()
         return super().get_context_data(**kwargs)
 
-    def _get_total_evaluation_price(self):
+    def _get_total_price(self):
         total_price = 0
         if not self.request.session.get('pledge_item_list'):
             return total_price
-
         for pledge_item in self.request.session.get('pledge_item_list'):
             total_price += int(pledge_item.get('price'))
         return total_price
 
     def form_valid(self, form):
-        pass
+        form.instance.date_of_expire = self._get_expire_date(form.cleaned_data.get('duration'))
+        form.instance.total_amount = form.cleaned_data.get('total_amount')
+        form.instance.client = get_object_or_404(Client, pk=self.kwargs.get('client_pk'))
+        return super().form_valid(form)
+
+    def _get_expire_date(self, duration):
+        return datetime.now() + timedelta(duration)
 
     def get_success_url(self):
+        for item in self.request.session.get('pledge_item_list'):
+            print(int(item.get('pk')))
+            # pledge_item = get_object_or_404(PledgeItem, pk=int(item.get('pk')))
         return reverse('pawnshop:loan_list')
 
 
