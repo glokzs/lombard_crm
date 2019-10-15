@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -111,3 +112,34 @@ class LoanListView(ListView):
     template_name = 'loan/list.html'
     context_object_name = 'loans'
     model = Loan
+
+
+class LoantListAjaxView(View):
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get('query')
+        first_name_query = Q(first_name__icontains=query)
+        last_name_query = Q(last_name__icontains=query)
+        iin_query = Q(confirm_document__iin__icontains=query)
+        ticket_number_query = Q(id__icontains=query)
+        loans = Loan.objects.filter(first_name_query | last_name_query | iin_query | ticket_number_query)
+
+        data = {
+            'loans': []
+        }
+        if not query:
+            return JsonResponse(data)
+
+        for loan in loans:
+            loan_object = {
+                'pk': loan.id,
+                'first_name': loan.client.first_name,
+                'last_name': loan.client.last_name,
+                'category': loan.pledge_item.category.name,
+                'created_at': loan.created_at,
+                'duration': loan.duration,
+                'date_of_expire': loan.date_of_expire,
+                'total_amount': loan.total_amount,
+                'interest_rate': loan.pledge_item.category.interest_rate
+            }
+            data['loans'].append(loan_object)
+        return JsonResponse(data)

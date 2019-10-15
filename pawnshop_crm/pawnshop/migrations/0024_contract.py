@@ -10,19 +10,19 @@ class Migration(migrations.Migration):
         ('pawnshop', '0023_auto_20191010_0839'),
     ]
 
-    operations = [
-        migrations.CreateModel(
-            name='Contract',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('open_date', models.DateField(auto_now_add=True, verbose_name='Дата открытия кредита')),
-                ('client', models.ForeignKey(default=None, on_delete=django.db.models.deletion.PROTECT, related_name='contracts', to='pawnshop.Client', verbose_name='клиент')),
-                ('loan', models.ForeignKey(default=None, on_delete=django.db.models.deletion.PROTECT, related_name='contract', to='pawnshop.Client', verbose_name='кредит')),
-                ('ticket_number', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, related_name='contract', to='pawnshop.Contract', verbose_name='номер залогового билета')),
-            ],
-            options={
-                'verbose_name': 'Залоговый билет',
-                'verbose_name_plural': 'залоговые билеты',
-            },
-        ),
-    ]
+    # operations = [
+    #     migrations.CreateModel(
+    #         name='Contract',
+    #         fields=[
+    #             ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+    #             ('open_date', models.DateField(auto_now_add=True, verbose_name='Дата открытия кредита')),
+    #             # ('client', models.ForeignKey(default=None, on_delete=django.db.models.deletion.PROTECT, related_name='contracts', to='pawnshop.Client', verbose_name='клиент')),
+    #             ('loan', models.ForeignKey(default=None, on_delete=django.db.models.deletion.PROTECT, related_name='contract', to='pawnshop.Client', verbose_name='кредит')),
+    #             # ('ticket_number', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, related_name='contract', to='pawnshop.Contract', verbose_name='номер залогового билета')),
+    #         ],
+    #         options={
+    #             'verbose_name': 'Залоговый билет',
+    #             'verbose_name_plural': 'залоговые билеты',
+    #         },
+    #     ),
+    # ]
