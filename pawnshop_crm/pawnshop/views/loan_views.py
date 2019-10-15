@@ -100,8 +100,10 @@ class LoanCreateView(CreateView):
 
     def get_success_url(self):
         for item in self.request.session.get('pledge_item_list'):
-            print(int(item.get('pk')))
-            # pledge_item = get_object_or_404(PledgeItem, pk=int(item.get('pk')))
+            pledge_item = get_object_or_404(PledgeItem, pk=int(item.get('pk')))
+            pledge_item.loan = self.object
+            pledge_item.save()
+        self.request.session.clear()
         return reverse('pawnshop:loan_list')
 
 
