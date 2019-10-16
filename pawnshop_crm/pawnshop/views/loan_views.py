@@ -105,7 +105,7 @@ class LoanCreateView(CreateView):
             pledge_item.loan = self.object
             pledge_item.save()
         self.request.session.clear()
-        return reverse('pawnshop:loan_list')
+        return reverse('pawnshop:loan_detail')
 
 
 class LoanListView(ListView):
@@ -143,3 +143,9 @@ class LoantListAjaxView(View):
             }
             data['loans'].append(loan_object)
         return JsonResponse(data)
+
+class LoanDetailView(DetailView):
+    template_name = 'loan/detail.html'
+    context_object_name = 'loan'
+    model = Loan
+    pk_url_kwarg = 'loan_pk'

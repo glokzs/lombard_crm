@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Lombard CRM
+{% endblock %}
+
+{% block heading %}
+    Кредит
+{% endblock %}
+
+{% block content %}
+
+
+<ul class="list-group mt-4">
+  <li class="list-group-item list-group-item-dark">{{ loan.client.first_name }} {{ loan.client.last_name }}</li>
+  <li class="list-group-item">Сумма кредита: {{ loan.total_amount|floatformat:0 }} тг.</li>
+  <li class="list-group-item">Залоговые имущество: {{ loan.pledge_items }}</li>
+  <li class="list-group-item">Дата выдачи: {{ loan.created_at|date:'d.m.Y' }}</li>
+  <li class="list-group-item">Срок выдачи: на {{ loan.duration }} дней</li>
+  <li class="list-group-item">Дата возврата: {{ loan.date_of_expire|date:'d.m.Y' }}</li>
+  <li class="list-group-item">Кем выдан: Сотрудник</li>
+
+</ul>
+<a href="#" class="btn btn-dark mt-3">Распечатать договор</a>
+{% endblock %}
