@@ -13,35 +13,43 @@
         <a href="{% url 'pawnshop:client_create' %}" class="btn btn-dark btn-sm control-button ">Добавить операцию</a>
     </div>
     <table class="table table-hover mt-4">
-  <thead>
-    <tr>
-      <th scope="col">№</th>
-      <th scope="col">Клиент</th>
-      <th scope="col">Вид залога</th>
-      <th scope="col">Дата выдачи</th>
-      <th scope="col">Срок выдачи</th>
-      <th scope="col">Дата возврата</th>
-      <th scope="col">Сумма кредита</th>
-      <th scope="col">Процентная ставка</th>
-      <th scope="col">Статус</th>
-      <th scope="col">Кем выдан</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for loan in loans %}
-    <tr>
-      <td>{{ loan.id }}</td>
-      <td><a href="{% url 'pawnshop:loan_detail' loan.pk %}">{{ loan.client.first_name }} {{ loan.client.last_name }}</a> </td>
-      <td>{{ loan.pledge_item.category.name }}</td>
-      <td>{{ loan.created_at|date:'d.m.Y' }}</td>
-      <td>{{ loan.duration }}</td>
-      <td>{{ loan.date_of_expire|date:'d.m.Y' }}</td>
-      <td>{{ loan.total_amount|floatformat:0 }}</td>
-      <td>{{ loan.pledge_item.category.interest_rate }}%</td>
-      <td>Открыт</td>
-      <td>Сотрудник</td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
+        <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Клиент</th>
+            <th scope="col">Вид залога</th>
+            <th scope="col">Дата выдачи</th>
+            <th scope="col">Срок выдачи</th>
+            <th scope="col">Дата возврата</th>
+            <th scope="col">Сумма кредита</th>
+            <th scope="col">Процентная ставка</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Кем выдан</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for loan in loans %}
+            <tr>
+                <td>{{ loan.id }}</td>
+                <td><a href="{% url 'pawnshop:loan_detail' loan.pk %}">{{ loan.client.first_name }} {{ loan.client.last_name }}</a> </td>
+                <td>{{ loan.pledge_item.category.name }}</td>
+                <td>{{ loan.created_at|date:'d.m.Y' }}</td>
+                <td>{{ loan.duration }}</td>
+                <td>{{ loan.date_of_expire|date:'d.m.Y' }}</td>
+                <td>{{ loan.total_amount|floatformat:0 }}</td>
+                <td>{{ loan.pledge_item.category.interest_rate }}%</td>
+                <td>Открыт</td>
+                <td>Сотрудник</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="10">
+                    <div class="no-content">
+                        <p class="no-content-text">Нет активных кредитов</p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

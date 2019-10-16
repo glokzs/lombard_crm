@@ -104,7 +104,7 @@ class LoanCreateView(CreateView):
             pledge_item.loan = self.object
             pledge_item.save()
         self.request.session.clear()
-        return reverse('pawnshop:loan_detail')
+        return reverse('pawnshop:loan_detail', kwargs={'loan_pk': self.object.pk})
 
 
 class LoanListView(ListView):
@@ -113,7 +113,7 @@ class LoanListView(ListView):
     model = Loan
 
 
-class LoantListAjaxView(View):
+class LoanListAjaxView(View):
     def get(self, request, *args, **kwargs):
         query = self.request.GET.get('query')
         first_name_query = Q(first_name__icontains=query)
@@ -143,8 +143,23 @@ class LoantListAjaxView(View):
             data['loans'].append(loan_object)
         return JsonResponse(data)
 
+
 class LoanDetailView(DetailView):
     template_name = 'loan/detail.html'
     context_object_name = 'loan'
     model = Loan
     pk_url_kwarg = 'loan_pk'
+
+    def get_context_data(self, **kwargs):
+        kwargs['total_price'] = self._get_total_price()
+        kwargs['interest_rate'] = self._get_interest_rate()
+        return super().get_context_data(**kwargs)
+
+    def _get_interest_rate(self):
+        return self.object.pledge_items.first().category.interest_rate
+
+    def _get_total_price(self):
+        total_price = 0
+        for pledge_item in self.object.pledge_items.all():
+            total_price += pledge_item.price
+        return total_price

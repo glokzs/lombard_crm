@@ -5,21 +5,28 @@
 {% endblock %}
 
 {% block heading %}
-    Кредит
 {% endblock %}
 
 {% block content %}
-
-
-<ul class="list-group mt-4">
-  <li class="list-group-item list-group-item-dark">{{ loan.client.first_name }} {{ loan.client.last_name }}</li>
-  <li class="list-group-item">Сумма кредита: {{ loan.total_amount|floatformat:0 }} тг.</li>
-  <li class="list-group-item">Залоговые имущество: {{ loan.pledge_items }}</li>
-  <li class="list-group-item">Дата выдачи: {{ loan.created_at|date:'d.m.Y' }}</li>
-  <li class="list-group-item">Срок выдачи: на {{ loan.duration }} дней</li>
-  <li class="list-group-item">Дата возврата: {{ loan.date_of_expire|date:'d.m.Y' }}</li>
-  <li class="list-group-item">Кем выдан: Сотрудник</li>
-
-</ul>
-<a href="#" class="btn btn-dark mt-3">Распечатать договор</a>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-6">#{{ loan.pk }} Кредит</h1>
+            <p class="lead">Клиент: {{ loan.client.first_name }} {{ loan.client.last_name }} (ИИН: {{ loan.client.confirm_document.iin }})</p>
+            <p class="lead">Залоговые имущества: </p>
+            <ul class="list-group">
+                {% for pledge_item in loan.pledge_items.all %}
+                    <li class="list-group-item">{{ pledge_item.name }} - {{ pledge_item.description }} ({{ pledge_item.price }} тенге)</li>
+                {% endfor %}
+            </ul>
+            <p class="lead">Срок займа: {{ loan.duration }} дней</p>
+            <p class="lead">Дата открытия: {{ loan.created_at | date:'d.m.Y' }}</p>
+            <p class="lead">Дата закрытия: {{ loan.date_of_expire | date:'d.m.Y' }}</p>
+            <p class="lead">Общая оценочная стоимость: {{ total_price | floatformat:0 }} тенге</p>
+            <p class="lead">Процентная ставка: {{ interest_rate }}%</p>
+            <p class="lead">Выданная сумма: {{ loan.client_amount | floatformat:0 }} тенге</p>
+            <p class="lead">Общая сумма кредита: {{ loan.total_amount | floatformat:0 }} тенге</p>
+            <p class="lead">Статус: <code>открыт</code></p>
+            <a href="{% url 'pawnshop:loan_ticket' loan.pk %}" class="btn btn-dark mt-3">Распечатать договор</a>
+        </div>
+    </div>
 {% endblock %}
