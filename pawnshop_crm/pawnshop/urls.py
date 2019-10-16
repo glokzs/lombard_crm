@@ -26,4 +26,6 @@ urlpatterns = (
 
 
     # path('clients/<int:client_pk>/pledge_items/create/', PledgeItemCreateView.as_view(), name='pledge_item_create'),
+
+    path('loans/<int:loan_pk>/ticket/', TicketDownloadView.as_view(), name='loan_ticket'),
 )

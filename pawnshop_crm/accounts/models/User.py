@@ -10,14 +10,13 @@ USER_TYPE_CHOICES = (
 
 class User(AbstractUser):
     email = models.EmailField(
-        unique=True)
-
+        unique=True
+    )
     initial_password_changed_at = models.DateTimeField(
         null=True,
         blank=True,
         default=None,
         verbose_name='Пароль изменен')
-
     middle_name = models.CharField(
         max_length=100,
         null=False,
