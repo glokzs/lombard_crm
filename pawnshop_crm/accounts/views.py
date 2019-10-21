@@ -7,7 +7,6 @@ from django.urls import reverse
 from django.views.generic import ListView, CreateView
 
 from accounts.forms import UserForm
-from accounts.mixins import GroupRequiredMixin
 from accounts.models import User
 
 
@@ -41,8 +40,7 @@ class UserDetailView(ListView):
     context_object_name = 'users'
 
 
-class UserCreateView(GroupRequiredMixin, CreateView):
-    group_required = [u'Admin']
+class UserCreateView(CreateView):
     template_name = 'user/create.html'
     model = User
     form_class = UserForm
@@ -57,8 +55,6 @@ class UserCreateView(GroupRequiredMixin, CreateView):
             email=data['email'],
             password=data['password'],
         )
-        group = Group.objects.get(name=data['group'])
-        group.user_set.add(user)
         user.set_password(user.password)
         user.save()
         self.object = user

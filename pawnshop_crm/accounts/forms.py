@@ -34,17 +34,6 @@ class UserForm(forms.ModelForm):
             'placeholder': 'Введите отчество'
         })
     )
-
-    group = forms.ModelChoiceField(
-        label="Должность",
-        queryset=Group.objects.all(),
-        required=True,
-        widget=forms.Select(attrs={
-            'class': 'form-control',
-            'default': 'None'
-        })
-    )
-
     email = forms.EmailField(
         label='Email',
         widget=forms.EmailInput(attrs={
@@ -64,9 +53,9 @@ class UserForm(forms.ModelForm):
     def clean(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
-            raise ("Данный Email уже существует")
+            raise ValidationError('Данный Email уже существует')
         return self.cleaned_data
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'middle_name', 'email', 'password', 'group']
+        fields = ['username', 'first_name', 'last_name', 'middle_name', 'email', 'password']

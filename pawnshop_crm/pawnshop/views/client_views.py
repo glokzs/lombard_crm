@@ -4,13 +4,11 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import *
 
-from accounts.mixins import GroupRequiredMixin
 from ..models import *
 from ..forms import *
 
 
-class ClientCreateView(GroupRequiredMixin, CreateView):
-    group_required = [u'Cashier', u'Admin']
+class ClientCreateView(CreateView):
     template_name = 'client/create.html'
     model = Client
     form_class = ClientCreateForm

@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'pawnshop_crm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'dbnew.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -122,5 +122,7 @@ LOGOUT_REDIRECT_URL = 'pawnshop:index'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+TICKET_FOLDER_PATH = os.path.join(MEDIA_ROOT, 'tickets')
 
 AUTH_USER_MODEL = 'accounts.User'

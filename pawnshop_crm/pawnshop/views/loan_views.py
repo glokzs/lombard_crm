@@ -1,5 +1,8 @@
+import os
+import pdfkit
 from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -151,9 +154,37 @@ class LoanDetailView(DetailView):
     pk_url_kwarg = 'loan_pk'
 
     def get_context_data(self, **kwargs):
+        self._generate_ticket()
+
         kwargs['total_price'] = self._get_total_price()
         kwargs['interest_rate'] = self._get_interest_rate()
+        # kwargs['ticket_url'] = ticket
+
         return super().get_context_data(**kwargs)
+
+    def _generate_ticket(self):
+        file_name = f'Залоговый_билет_{self.kwargs.get("loan_pk")}'
+
+        loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
+
+        try:
+            ticket = loan.ticket
+        except Ticket.DoesNotExist:
+            ticket = Ticket.objects.create(
+                loan=loan,
+                file_name=file_name,
+                file_path=os.path.join(settings.TICKET_FOLDER_PATH, file_name)
+            )
+
+        context = {
+            'loan': get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
+        }
+        rendered_ticket = render(self.request, 'ticket/ticket.html', context=context)
+
+        if not os.path.exists(settings.TICKET_FOLDER_PATH):
+            os.makedirs(settings.TICKET_FOLDER_PATH)
+
+        pdfkit.from_string(rendered_ticket.content.decode(), f'{ticket.file_path}.pdf')
 
     def _get_interest_rate(self):
         return self.object.pledge_items.first().category.interest_rate

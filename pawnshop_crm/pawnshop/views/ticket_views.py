@@ -9,13 +9,6 @@ from django.shortcuts import render, get_object_or_404
 from ..models import *
 
 
-# def ticket_download_view(request):
-#     # html = render(request, 'ticket/ticket.html')
-#     # file_path = os.path.join(settings.MEDIA_ROOT, 'ticket.pdf')
-#     # pdfkit.from_string(html.content.decode(), file_path)
-#     return render(request, 'ticket/ticket.html')
-
-
 class TicketDownloadView(View):
     def get(self, request, *args, **kwargs):
         context = {
