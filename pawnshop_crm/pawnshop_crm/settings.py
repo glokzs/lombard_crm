@@ -123,6 +123,7 @@ LOGOUT_REDIRECT_URL = 'pawnshop:index'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-TICKET_FOLDER_PATH = os.path.join(MEDIA_ROOT, 'tickets')
+TICKET_FOLDER = 'tickets'
+TICKET_FOLDER_PATH = os.path.join(MEDIA_ROOT, TICKET_FOLDER)
 
 AUTH_USER_MODEL = 'accounts.User'

@@ -102,11 +102,13 @@ class LoanCreateView(CreateView):
         return datetime.now() + timedelta(duration)
 
     def get_success_url(self):
-        for item in self.request.session.get('pledge_item_list'):
-            pledge_item = get_object_or_404(PledgeItem, pk=int(item.get('pk')))
-            pledge_item.loan = self.object
-            pledge_item.save()
-        self.request.session.clear()
+        pledge_item_list = self.request.session.get('pledge_item_list')
+        if pledge_item_list:
+            for item in pledge_item_list:
+                pledge_item = get_object_or_404(PledgeItem, pk=int(item.get('pk')))
+                pledge_item.loan = self.object
+                pledge_item.save()
+        self.request.session.pop('pledge_item_list', None)
         return reverse('pawnshop:loan_detail', kwargs={'loan_pk': self.object.pk})
 
 
@@ -155,25 +157,25 @@ class LoanDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         self._generate_ticket()
+        loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
 
         kwargs['total_price'] = self._get_total_price()
         kwargs['interest_rate'] = self._get_interest_rate()
-        # kwargs['ticket_url'] = ticket
+        kwargs['ticket_url'] = os.path.join(settings.MEDIA_URL, loan.ticket.file_path)
 
         return super().get_context_data(**kwargs)
 
     def _generate_ticket(self):
         file_name = f'Залоговый_билет_{self.kwargs.get("loan_pk")}'
-
         loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
 
         try:
-            ticket = loan.ticket
+            loan.ticket
         except Ticket.DoesNotExist:
-            ticket = Ticket.objects.create(
+            Ticket.objects.create(
                 loan=loan,
                 file_name=file_name,
-                file_path=os.path.join(settings.TICKET_FOLDER_PATH, file_name)
+                file_path=os.path.join(settings.TICKET_FOLDER, f'{file_name}.pdf')
             )
 
         context = {
@@ -184,7 +186,8 @@ class LoanDetailView(DetailView):
         if not os.path.exists(settings.TICKET_FOLDER_PATH):
             os.makedirs(settings.TICKET_FOLDER_PATH)
 
-        pdfkit.from_string(rendered_ticket.content.decode(), f'{ticket.file_path}.pdf')
+        output_file_name = os.path.join(settings.TICKET_FOLDER_PATH, file_name)
+        pdfkit.from_string(rendered_ticket.content.decode(), f'{output_file_name}.pdf')
 
     def _get_interest_rate(self):
         return self.object.pledge_items.first().category.interest_rate

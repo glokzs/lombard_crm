@@ -26,7 +26,7 @@
             <p class="lead">Выданная сумма: {{ loan.client_amount | floatformat:0 }} тенге</p>
             <p class="lead">Общая сумма кредита: {{ loan.total_amount | floatformat:0 }} тенге</p>
             <p class="lead">Статус: <code>открыт</code></p>
-            <a href="{% url 'pawnshop:loan_ticket' loan.pk %}" class="btn btn-dark mt-3">Распечатать договор</a>
+            <a href="{{ ticket_url }}" class="btn btn-dark mt-3" download>Распечатать договор</a>
         </div>
     </div>
 {% endblock %}
