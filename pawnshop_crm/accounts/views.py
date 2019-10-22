@@ -7,26 +7,51 @@ from django.urls import reverse
 from django.views.generic import ListView, CreateView
 
 from accounts.forms import UserForm
+
+
+from accounts.models import Users
+
 from accounts.models import User
 
+
+#
+# def user_login_view(request):
+#     context = {}
+#     if request.method == 'POST':
+#         email = request.POST.get('email')
+#         try:
+#             username = Users.objects.get(email__iexact=email).username
+#         except Users.DoesNotExist:
+#             context['has_error'] = True
+#             return render(request, 'registration/login.html', context=context)
+#         password = request.POST.get('password')
+#         user = authenticate(request, username=username, password=password)
+#         if user:
+#             login(request, user)
+#             return redirect('pawnshop:index')
+#         else:
+#             context['has_error'] = True
+#     return render(request, 'registration/login.html', context=context)
 
 def user_login_view(request):
     context = {}
     if request.method == 'POST':
-        email = request.POST.get('email')
-        try:
-            username = User.objects.get(email__iexact=email).username
-        except User.DoesNotExist:
-            context['has_error'] = True
-            return render(request, 'user/login.html', context=context)
+        username = request.POST.get('email')
         password = request.POST.get('password')
+        next_url = request.POST.get('next')
         user = authenticate(request, username=username, password=password)
-        if user:
+        if user is not None:
             login(request, user)
+            if next_url:
+                return redirect(next_url)
             return redirect('pawnshop:index')
         else:
             context['has_error'] = True
-    return render(request, 'user/login.html', context=context)
+            context['next'] = next_url
+            context['username'] = username
+    else:
+        context = {'next': request.GET.get('next')}
+    return render(request, 'registration/login.html', context=context)
 
 
 def logout_view(request):
@@ -35,14 +60,14 @@ def logout_view(request):
 
 
 class UserDetailView(ListView):
-    model = User
+    model = Users
     template_name = 'user/detail.html'
     context_object_name = 'users'
 
 
 class UserCreateView(CreateView):
     template_name = 'user/create.html'
-    model = User
+    model = Users
     form_class = UserForm
 
     def form_valid(self, form):

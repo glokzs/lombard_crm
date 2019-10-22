@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import Group
 
-from accounts.models import User
+from accounts.models import Users
 
 
 class UserForm(forms.ModelForm):
@@ -52,10 +52,13 @@ class UserForm(forms.ModelForm):
 
     def clean(self):
         email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise ValidationError('Данный Email уже существует')
+
+        if Users.objects.filter(email=email).exists():
+            raise ("Данный Email уже существует")
         return self.cleaned_data
 
+
     class Meta:
-        model = User
+        model = Users
         fields = ['username', 'first_name', 'last_name', 'middle_name', 'email', 'password']
+

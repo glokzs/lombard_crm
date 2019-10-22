@@ -7,12 +7,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav">
-                {% if user.is_authenticated %}
+
+                    {% if perms.accounts.add_loan %}
                     {#                    <a class="nav-item nav-link" href="{% url 'pawnshop:loan_list' %}">Займы</a>#}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'pawnshop:loan_list' %}">Займы</a>
                     </li>
-                {% endif %}
+                    {% endif %}
+
             </ul>
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
@@ -22,7 +24,9 @@
                             {{ user.username }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% if perms.accounts.add_user %}
                             <a class="dropdown-item" href="{% url 'accounts:detail' user.pk %}">Личный кабинет</a>
+                            {% endif %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'accounts:logout' %}">Выйти</a>
                         </div>

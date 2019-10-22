@@ -9,9 +9,11 @@ Lombard CRM
 {% endblock %}
 
 {% block content %}
+{% if perms.accounts.5 %}
 <div class="d-flex justify-content-center">
     <a href="{% url 'accounts:create' %}" class="btn btn-dark btn-sm control-button">+ Добавить сотрудника</a>
 </div>
+{% endif %}
 <div class="table-wrapper">
     <table class="table">
         <thead>

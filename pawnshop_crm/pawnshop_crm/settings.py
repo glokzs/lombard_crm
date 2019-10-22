@@ -126,4 +126,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 TICKET_FOLDER = 'tickets'
 TICKET_FOLDER_PATH = os.path.join(MEDIA_ROOT, TICKET_FOLDER)
 
-AUTH_USER_MODEL = 'accounts.User'
+# AUTH_USER_MODEL = 'accounts.User'

@@ -9,9 +9,11 @@
 {% endblock %}
 
 {% block content %}
+{% if perms.accounts.add_loan %}
     <div class="d-flex justify-content-center">
         <a href="{% url 'pawnshop:client_create' %}" class="btn btn-dark btn-sm control-button ">Добавить операцию</a>
     </div>
+{% endif %}
     <table class="table table-hover mt-4">
         <thead>
         <tr>
