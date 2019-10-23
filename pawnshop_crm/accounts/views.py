@@ -72,7 +72,7 @@ class UserCreateView(CreateView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        user = User.objects.create(
+        user = Users.objects.create(
             username=data['username'],
             first_name=data['first_name'],
             middle_name=data['middle_name'],

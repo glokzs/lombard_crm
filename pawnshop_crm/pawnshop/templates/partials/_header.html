@@ -26,8 +26,8 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% if perms.accounts.add_user %}
                             <a class="dropdown-item" href="{% url 'accounts:detail' user.pk %}">Личный кабинет</a>
-                            {% endif %}
                             <div class="dropdown-divider"></div>
+                            {% endif %}
                             <a class="dropdown-item" href="{% url 'accounts:logout' %}">Выйти</a>
                         </div>
                     </li>

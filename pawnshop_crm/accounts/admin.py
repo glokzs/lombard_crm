@@ -7,7 +7,7 @@ from .models import Users
 
 class ProfileInline(admin.StackedInline):
     model = Users
-    fields = ['middle_name', 'initial_password_changed_at']
+    fields = ['middle_name', 'initial_password_changed_at', 'email']
 
 
 class ProfileAdmin(UserAdmin):
