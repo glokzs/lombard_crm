@@ -25,8 +25,12 @@
             <p class="lead">Процентная ставка: {{ interest_rate }}%</p>
             <p class="lead">Выданная сумма: {{ loan.client_amount | floatformat:0 }} тенге</p>
             <p class="lead">Общая сумма кредита: {{ loan.total_amount | floatformat:0 }} тенге</p>
-            <p class="lead">Статус: <code>открыт</code></p>
+            <p class="lead">Статус: <span class="text-danger">{{ loan.status }}</span></p>
             <a href="{{ ticket_url }}" class="btn btn-dark mt-3" download>Распечатать договор</a>
+            <div>
+                <a href="#" class="btn btn-dark mt-3">Выкуп</a>
+                <a href="#" class="btn btn-dark mt-3">Частичный выкуп</a>
+            </div>
         </div>
     </div>
 {% endblock %}

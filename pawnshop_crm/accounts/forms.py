@@ -57,8 +57,6 @@ class UserForm(forms.ModelForm):
             raise ("Данный Email уже существует")
         return self.cleaned_data
 
-
     class Meta:
         model = Users
         fields = ['username', 'first_name', 'last_name', 'middle_name', 'email', 'password']
-

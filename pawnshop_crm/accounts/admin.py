@@ -5,7 +5,6 @@ from django.contrib.auth.models import Permission
 from .models import Users
 
 
-
 class ProfileInline(admin.StackedInline):
     model = Users
     fields = ['middle_name', 'initial_password_changed_at']
@@ -13,7 +12,6 @@ class ProfileInline(admin.StackedInline):
 
 class ProfileAdmin(UserAdmin):
     inlines = [ProfileInline]
-
 
 
 admin.site.register(Permission)

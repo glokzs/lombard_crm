@@ -39,4 +39,4 @@ class LoanCreateForm(forms.ModelForm):
 
     class Meta:
         model = Loan
-        exclude = ['client', 'date_of_expire', 'total_amount']
+        exclude = ['client', 'date_of_expire', 'total_amount', 'status']

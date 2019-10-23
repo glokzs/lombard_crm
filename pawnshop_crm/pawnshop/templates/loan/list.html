@@ -33,14 +33,16 @@
         {% for loan in loans %}
             <tr>
                 <td>{{ loan.id }}</td>
-                <td><a href="{% url 'pawnshop:loan_detail' loan.pk %}">{{ loan.client.first_name }} {{ loan.client.last_name }}</a> </td>
+                <td>
+                    <a href="{% url 'pawnshop:loan_detail' loan.pk %}">{{ loan.client.first_name }} {{ loan.client.last_name }}</a>
+                </td>
                 <td>{{ loan.pledge_item.category.name }}</td>
                 <td>{{ loan.created_at|date:'d.m.Y' }}</td>
                 <td>{{ loan.duration }}</td>
                 <td>{{ loan.date_of_expire|date:'d.m.Y' }}</td>
                 <td>{{ loan.total_amount|floatformat:0 }}</td>
-                <td>{{ loan.pledge_item.category.interest_rate }}%</td>
-                <td>Открыт</td>
+                <td>{{ loan.pledge_items.first.category.interest_rate }} %</td>
+                <td>{{ loan.status }}</td>
                 <td>Сотрудник</td>
             </tr>
         {% empty %}

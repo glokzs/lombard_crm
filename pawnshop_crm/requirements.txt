@@ -1,3 +1,4 @@
 Django==2.1.5
+pdfkit==0.6.1
 Pillow==6.1.0
 pytz==2019.1
