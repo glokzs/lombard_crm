@@ -86,45 +86,6 @@ class LoanListView(ListView):
     context_object_name = 'loans'
     model = Loan
 
-    # def get_context_data(self, **kwargs):
-    #     kwargs['interest_rate'] = self._get_interest_rate()
-    #     return super().get_context_data(**kwargs)
-
-    # def _get_interest_rate(self):
-    #     loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
-    #     return loan.pledge_items.first().category.interest_rate
-
-
-class LoanListAjaxView(View):
-    def get(self, request, *args, **kwargs):
-        query = self.request.GET.get('query')
-        first_name_query = Q(first_name__icontains=query)
-        last_name_query = Q(last_name__icontains=query)
-        iin_query = Q(confirm_document__iin__icontains=query)
-        ticket_number_query = Q(id__icontains=query)
-        loans = Loan.objects.filter(first_name_query | last_name_query | iin_query | ticket_number_query)
-
-        data = {
-            'loans': []
-        }
-        if not query:
-            return JsonResponse(data)
-
-        for loan in loans:
-            loan_object = {
-                'pk': loan.id,
-                'first_name': loan.client.first_name,
-                'last_name': loan.client.last_name,
-                'category': loan.pledge_item.category.name,
-                'created_at': loan.created_at,
-                'duration': loan.duration,
-                'date_of_expire': loan.date_of_expire,
-                'total_amount': loan.total_amount,
-                'interest_rate': loan.pledge_item.category.interest_rate
-            }
-            data['loans'].append(loan_object)
-        return JsonResponse(data)
-
 
 class LoanDetailView(DetailView):
     template_name = 'loan/detail.html'
@@ -139,6 +100,7 @@ class LoanDetailView(DetailView):
         kwargs['total_price'] = self._get_total_price()
         kwargs['interest_rate'] = self._get_interest_rate()
         kwargs['ticket_url'] = os.path.join(settings.MEDIA_URL, loan.ticket.file_path)
+        kwargs['is_open'] = True if loan.status == Loan.STATUS_OPEN else False
 
         return super().get_context_data(**kwargs)
 
@@ -174,3 +136,12 @@ class LoanDetailView(DetailView):
         for pledge_item in self.object.pledge_items.all():
             total_price += pledge_item.price
         return total_price
+
+
+class LoanBuyoutView(View):
+    def get(self, request, *args, **kwargs):
+        loan_pk = self.kwargs.get('loan_pk')
+        loan = get_object_or_404(Loan, pk=loan_pk)
+        loan.status = Loan.STATUS_CLOSED
+        loan.save()
+        return redirect(reverse('pawnshop:loan_detail', kwargs={'loan_pk': loan_pk}))

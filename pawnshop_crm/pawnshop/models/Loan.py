@@ -56,10 +56,10 @@ class Loan(models.Model):
         default=None,
         choices=STATUS_CHOICES
     )
-
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Время создания')
+        verbose_name='Время создания'
+    )
 
     class Meta:
         verbose_name = 'Займ',
