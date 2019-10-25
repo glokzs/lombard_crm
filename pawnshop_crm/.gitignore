@@ -5,3 +5,7 @@ venv
 .directory
 media
 .DS_Store
+*.json
+test-pytest
+geckodriver.log
+.pytest_cache
