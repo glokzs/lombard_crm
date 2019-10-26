@@ -3,6 +3,7 @@ import pdfkit
 from datetime import datetime, timedelta
 
 from django.conf import settings
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -41,7 +42,7 @@ class LoanCalculateAjaxView(View):
         return total_amount
 
 
-class LoanCreateView(CreateView):
+class LoanCreateView(UserPassesTestMixin, CreateView):
     model = Loan
     template_name = 'loan/create.html'
     form_class = LoanCreateForm
@@ -80,14 +81,52 @@ class LoanCreateView(CreateView):
         self.request.session.pop('pledge_item_list', None)
         return reverse('pawnshop:loan_detail', kwargs={'loan_pk': self.object.pk})
 
+    def test_func(self):
+        return self.request.user.has_perm('accounts.add_loan')
 
-class LoanListView(ListView):
+
+class LoanListView(UserPassesTestMixin, ListView):
     template_name = 'loan/list.html'
     context_object_name = 'loans'
     model = Loan
+    ordering = ['-created_at']
+
+    def test_func(self):
+        return self.request.user.has_perm('accounts.add_loan')
 
 
-class LoanDetailView(DetailView):
+class LoanListAjaxView(View):
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get('query')
+        first_name_query = Q(first_name__icontains=query)
+        last_name_query = Q(last_name__icontains=query)
+        iin_query = Q(confirm_document__iin__icontains=query)
+        ticket_number_query = Q(id__icontains=query)
+        loans = Loan.objects.filter(first_name_query | last_name_query | iin_query | ticket_number_query)
+
+        data = {
+            'loans': []
+        }
+        if not query:
+            return JsonResponse(data)
+
+        for loan in loans:
+            loan_object = {
+                'pk': loan.id,
+                'first_name': loan.client.first_name,
+                'last_name': loan.client.last_name,
+                'category': loan.pledge_item.category.name,
+                'created_at': loan.created_at,
+                'duration': loan.duration,
+                'date_of_expire': loan.date_of_expire,
+                'total_amount': loan.total_amount,
+                'interest_rate': loan.pledge_item.category.interest_rate
+            }
+            data['loans'].append(loan_object)
+        return JsonResponse(data)
+
+
+class LoanDetailView(UserPassesTestMixin, DetailView):
     template_name = 'loan/detail.html'
     context_object_name = 'loan'
     model = Loan
@@ -100,7 +139,6 @@ class LoanDetailView(DetailView):
         kwargs['total_price'] = self._get_total_price()
         kwargs['interest_rate'] = self._get_interest_rate()
         kwargs['ticket_url'] = os.path.join(settings.MEDIA_URL, loan.ticket.file_path)
-        kwargs['is_open'] = True if loan.status == Loan.STATUS_OPEN else False
 
         return super().get_context_data(**kwargs)
 
@@ -137,11 +175,5 @@ class LoanDetailView(DetailView):
             total_price += pledge_item.price
         return total_price
 
-
-class LoanBuyoutView(View):
-    def get(self, request, *args, **kwargs):
-        loan_pk = self.kwargs.get('loan_pk')
-        loan = get_object_or_404(Loan, pk=loan_pk)
-        loan.status = Loan.STATUS_CLOSED
-        loan.save()
-        return redirect(reverse('pawnshop:loan_detail', kwargs={'loan_pk': loan_pk}))
+    def test_func(self):
+        return self.request.user.has_perm('accounts.add_loan')

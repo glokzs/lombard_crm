@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -8,7 +9,7 @@ from ..models import *
 from ..forms import *
 
 
-class ClientCreateView(CreateView):
+class ClientCreateView(UserPassesTestMixin, CreateView):
     template_name = 'client/create.html'
     model = Client
     form_class = ClientCreateForm
@@ -22,19 +23,24 @@ class ClientCreateView(CreateView):
         except Client.DoesNotExist:
             return super().get_context_data(**kwargs)
 
+    def test_func(self):
+        return self.request.user.has_perm('accounts.add_loan')
+
     def get_success_url(self):
         return reverse('pawnshop:confirm_document_create', kwargs={'client_pk': self.object.pk})
 
 
-class ClientChooseView(RedirectView):
+class ClientChooseView(UserPassesTestMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         client_pk = self.request.GET.get('client_pk')
         return reverse('pawnshop:loan_create', kwargs={
             'client_pk': client_pk
         })
 
+    def test_func(self):
+        return self.request.user.has_perm('accounts.add_loan')
 
-class ClientDetailAjaxView(View):
+class ClientDetailAjaxView(UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
         client_pk = int(self.request.GET.get('client_pk'))
         client = get_object_or_404(Client, pk=client_pk)
@@ -49,8 +55,10 @@ class ClientDetailAjaxView(View):
         }
         return JsonResponse(data)
 
+    def test_func(self):
+        return self.request.user.has_perm('accounts.add_loan')
 
-class ClientListAjaxView(View):
+class ClientListAjaxView(UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
         query = self.request.GET.get('query')
         first_name_query = Q(first_name__icontains=query)
@@ -75,3 +83,6 @@ class ClientListAjaxView(View):
             }
             data['clients'].append(client_object)
         return JsonResponse(data)
+
+    def test_func(self):
+        return self.request.user.has_perm('accounts.add_loan')

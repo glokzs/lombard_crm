@@ -31,5 +31,4 @@ class Users(models.Model):
         permissions = (
                 ('add_user', 'Добавление пользователей'),
                 ('add_loan', 'Добавление займа'),
-
             )

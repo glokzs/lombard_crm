@@ -1,6 +1,7 @@
 from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import Group
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -59,13 +60,15 @@ def logout_view(request):
     return redirect('pawnshop:index')
 
 
-class UserDetailView(ListView):
+class UserDetailView(UserPassesTestMixin, ListView):
     model = Users
     template_name = 'user/detail.html'
     context_object_name = 'users'
 
+    def test_func(self):
+        return self.request.user.has_perm('add_user')
 
-class UserCreateView(CreateView):
+class UserCreateView(UserPassesTestMixin, CreateView):
     template_name = 'user/create.html'
     model = Users
     form_class = UserForm
@@ -84,6 +87,9 @@ class UserCreateView(CreateView):
         user.save()
         self.object = user
         return redirect(self.get_success_url())
+
+    def test_func(self):
+        return self.request.user.has_perm('add_user')
 
     def get_success_url(self):
         return reverse('accounts:detail', kwargs={'pk': self.request.user.pk})
