@@ -139,7 +139,7 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
         kwargs['total_price'] = self._get_total_price()
         kwargs['interest_rate'] = self._get_interest_rate()
         kwargs['ticket_url'] = os.path.join(settings.MEDIA_URL, loan.ticket.file_path)
-
+        kwargs['is_open'] = True if loan.status == Loan.STATUS_OPEN else False
         return super().get_context_data(**kwargs)
 
     def _generate_ticket(self):
@@ -174,6 +174,17 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
         for pledge_item in self.object.pledge_items.all():
             total_price += pledge_item.price
         return total_price
+
+    def test_func(self):
+        return self.request.user.has_perm('accounts.add_loan')
+
+class LoanBuyoutView(UserPassesTestMixin, View):
+    def get(self, request, *args, **kwargs):
+        loan_pk = self.kwargs.get('loan_pk')
+        loan = get_object_or_404(Loan, pk=loan_pk)
+        loan.status = Loan.STATUS_CLOSED
+        loan.save()
+        return redirect(reverse('pawnshop:loan_detail', kwargs={'loan_pk': loan_pk}))
 
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
