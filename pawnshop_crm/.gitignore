@@ -6,6 +6,6 @@ venv
 media
 .DS_Store
 *.json
-test-pytest
+test-pytest.features.test_login
 geckodriver.log
 .pytest_cache
