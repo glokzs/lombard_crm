@@ -1,0 +1,8 @@
+{% load static %}
+<script src="{% static 'js/foopicker.js' %}"></script>
+<script>
+    const foopicker = new FooPicker({
+        id: '{{ field_id }}',
+        dateFormat: 'dd.MM.yyyy'
+    });
+</script>

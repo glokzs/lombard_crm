@@ -36,6 +36,14 @@ class LoanCreateForm(forms.ModelForm):
             'placeholder': 'Здесь выведется общая сумма займа'
         })
     )
+    warranty_date = forms.DateField(
+        label='Дата гарантийного срока',
+        widget=forms.DateInput(attrs={
+            'placeholder': 'Введите дату гарантийного срока',
+            'id': 'warranty_date',
+            'class': 'form-control'
+        })
+    )
 
     class Meta:
         model = Loan

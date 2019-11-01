@@ -1,37 +1,60 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Lombard CRM
+Lombard CRM
 {% endblock %}
 
 {% block heading %}
 {% endblock %}
 
 {% block content %}
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-6">#{{ loan.pk }} Кредит</h1>
-            <p class="lead">Клиент: {{ loan.client.first_name }} {{ loan.client.last_name }} (ИИН: {{ loan.client.confirm_document.iin }})</p>
-            <p class="lead">Залоговые имущества: </p>
-            <ul class="list-group">
-                {% for pledge_item in loan.pledge_items.all %}
-                    <li class="list-group-item">{{ pledge_item.name }} - {{ pledge_item.description }} ({{ pledge_item.price }} тенге)</li>
-                {% endfor %}
-            </ul>
-            <p class="lead">Срок займа: {{ loan.duration }} дней</p>
-            <p class="lead">Дата открытия: {{ loan.created_at | date:'d.m.Y' }}</p>
-            <p class="lead">Дата закрытия: {{ loan.date_of_expire | date:'d.m.Y' }}</p>
-            <p class="lead">Общая оценочная стоимость: {{ total_price | floatformat:0 }} тенге</p>
-            <p class="lead">Процентная ставка: {{ interest_rate }}%</p>
-            <p class="lead">Выданная сумма: {{ loan.client_amount | floatformat:0 }} тенге</p>
-            <p class="lead">Общая сумма кредита: {{ loan.total_amount | floatformat:0 }} тенге</p>
-            <p class="lead">Статус: <span class="text-danger">{{ loan.status }}</span></p>
-            <a href="{{ ticket_url }}" class="btn btn-secondary" download>Скачать залоговый билет</a>
-            <div class="btn-group ml-auto" role="group" aria-label="Basic example">
-                {% if is_open %}
-                    <a href="{% url 'pawnshop:loan_buyout' loan.pk %}" class="btn btn-dark">Выкуп</a>
-                {% endif %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-6">#{{ loan.pk }} Кредит</h1>
+        <p class="lead">Клиент: {{ loan.client.first_name }} {{ loan.client.last_name }} (ИИН: {{ loan.client.confirm_document.iin }})</p>
+        <p class="lead">Залоговые имущества: </p>
+        <ul class="list-group">
+            {% for pledge_item in loan.pledge_items.all %}
+            <li class="list-group-item">{{ pledge_item.name }} - {{ pledge_item.description }} ({{ pledge_item.price }} тенге)</li>
+            {% endfor %}
+        </ul>
+        <p class="lead">Срок займа: {{ loan.duration }} дней</p>
+        <p class="lead">Дата открытия: {{ loan.created_at | date:'d.m.Y' }}</p>
+        <p class="lead">Дата закрытия: {{ loan.date_of_expire | date:'d.m.Y' }}</p>
+        <p class="lead">Общая оценочная стоимость: {{ total_price | floatformat:0 }} тенге</p>
+        <p class="lead">Процентная ставка: {{ interest_rate }}%</p>
+        <p class="lead">Выданная сумма: {{ loan.client_amount | floatformat:0 }} тенге</p>
+        <p class="lead">Общая сумма кредита: {{ loan.total_amount | floatformat:0 }} тенге</p>
+        <p class="lead">Статус: <span class="text-danger">{{ loan.status }}</span></p>
+        <a href="{{ ticket_url }}" class="btn btn-dark" download>Скачать залоговый билет</a>
+        <div class="btn-group ml-auto" role="group" aria-label="Basic example">
+            {% if is_open %}
+            <!--                    <a href="{% url 'pawnshop:loan_buyout' loan.pk %}" class="btn btn-dark">Выкуп</a>-->
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">Выкуп</button>
+            {% endif %}
+        </div>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Выкуп</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Сумма для выкупа</label>
+                            <input type="text" readonly class="form-control" value="{{ loan.total_amount | floatformat:0 }}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-primary">Выкуп</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

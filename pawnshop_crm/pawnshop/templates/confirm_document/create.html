@@ -20,11 +20,5 @@
             </div>
         </form>
     </div>
-    <script src="{% static 'js/foopicker.js' %}"></script>
-    <script>
-        const foopicker = new FooPicker({
-            id: 'given_at',
-            dateFormat: 'MM/dd/yyyy'
-        });
-    </script>
+    {% include 'partials/_datepicker_script.html' with field_id='given_at' %}
 {% endblock %}
