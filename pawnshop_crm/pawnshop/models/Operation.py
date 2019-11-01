@@ -1,20 +1,12 @@
-from django.forms import models
-
+from django.db import models
 
 class Operation(models.Model):
     created_at = models.DateTimeField(
             auto_now_add=True,
             verbose_name='Дата создания'
     )
-    user_first_name = models.CharField(
+    username = models.CharField(
         verbose_name='Имя',
-        max_length=100,
-        null=True,
-        blank=True,
-        default=None
-    )
-    user_last_name = models.CharField(
-        verbose_name='Фамилия',
         max_length=100,
         null=True,
         blank=True,
@@ -28,7 +20,7 @@ class Operation(models.Model):
         default=None
     )
     type_operation = models.CharField(
-        verbose_name='Место рождения',
+        verbose_name='Тип операции',
         max_length=100,
         null=True,
         blank=True,
