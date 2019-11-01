@@ -1,18 +1,40 @@
 import pytest
-from pytest_bdd import scenario, given, then
-from django.contrib.auth.models import User
+from django.test import Client
 
-password = 'ro'
+from pytest_bdd import scenario, given, then
+
+from django.contrib.auth.models import User
+from pytest_django.fixtures import admin_user, django_user_model, client
+
+# pytestmark = pytest.mark.django_db
+
 @scenario('login.feature', 'Login as admin')
 def test_login():
     pass
+
 
 @given('Login page')
 def go_to_login_page(browser, live_server):
     browser.visit(live_server.url +'/admin')
 
 
-@pytest.fixture(scope="session", autouse=True)
+
+# @then('Taking out superuser from db')
+# def get_admin_user():
+#     superusers = User.objects.filter(is_superuser=True)
+#     superuser = superusers.first()
+#     return superuser
+
+# @then('Taking out superuser from db')
+# def get_admin_user():
+#     superuser = admin_user(, django_user_model=User )
+#     print (superuser)
+#     print('asdasd')
+#     return superuser
+
+            # return superuser
+
+# @pytest.fixture(scope="session", autouse=True)
 
 
 # def admin_client(db, admin_user):
@@ -46,25 +68,48 @@ def go_to_login_page(browser, live_server):
     # adminuser.is_staff = True
     # adminuser.save()
 
-# @pytest.mark.django_db
+
+#
+@then ('Create superuser')
+def super_user( django_user_model):
+    username = 'ro'
+    password = 'ro'
+    user = django_user_model.objects.create_user(
+        username=username,
+        password=password,
+        first_name='ro',
+        last_name='ro',
+        is_staff=True,
+        is_superuser=True
+    ).save()
+    return user
+
+
+
+
 @then('I logging as admin')
-def create_admin_login(browser):
-    browser.fill('username', 'ro')
-    browser.fill('password', 'ro')
+def admin_login(browser):
+    # clients = User.objects.all()
+    # print(clients)
+    password = 'ro'
+    client = django_user_model.get(is_superuser=True)
+    browser.fill('username', client.username)
+    browser.fill('password', password)
     browser.driver.find_element_by_class_name('submit-row').click()
+    assert browser.status_code == 200
+
+
+
 
 @then('I should see admin page')
-def admin_login(browser):
+def admin_index(browser):
     assert 'PAWNSHOP' in browser.html
 
-@pytest.mark.django_db(transaction=True)
-def access_db():
-    pass
-
-@then('Click on user model')
-def click_user_model(browser):
-    assert 'ПОЛЬЗОВАТЕЛИ И ГРУППЫ' in browser.html
-
+# # @pytest.mark.django_db(db=True)
+# @then('Click on user model')
+# def click_user_model(browser):
+#     assert 'ПОЛЬЗОВАТЕЛИ И ГРУППЫ' in browser.html
+#
 
 # browser.visit(live_server.url +'/admin')
 
