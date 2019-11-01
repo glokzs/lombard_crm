@@ -27,7 +27,7 @@
                 <td><a href="{% url 'pawnshop:loan_detail' pledge_item.loan.pk %}">{{ pledge_item.loan.id }}</a></td>
                 <td>{{ pledge_item.subcategory.name }}</td>
                 <td>{{ pledge_item.loan.date_of_expire }}</td>
-                <td>-</td>
+                <td>{{ pledge_item.loan.warranty_date }}</td>
                 <td>{{ pledge_item.loan.total_amount|floatformat:0 }} тг.</td>
                 <td>{{ pledge_item.loan.client_amount|floatformat:0 }} тг.</td>
             </tr>
@@ -39,6 +39,7 @@
                     </div>
                 </td>
             </tr>
+
         {% endfor %}
         <tr>
             <th scope="col"></th>

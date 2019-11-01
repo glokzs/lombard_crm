@@ -34,8 +34,14 @@ class Loan(models.Model):
         default=5,
         null=False,
     )
-    date_of_expire = models.DateTimeField(
+    date_of_expire = models.DateField(
         verbose_name='Срок погашения займа',
+        max_length=100,
+        null=False,
+        blank=False
+    )
+    warranty_date = models.DateField(
+        verbose_name='Дата гарантийного срока',
         max_length=100,
         null=False,
         blank=False
