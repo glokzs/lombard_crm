@@ -29,7 +29,6 @@ Lombard CRM
         <a href="{{ ticket_url }}" class="btn btn-dark" download>Скачать залоговый билет</a>
         <div class="btn-group ml-auto" role="group" aria-label="Basic example">
             {% if is_open %}
-            <!--                    <a href="{% url 'pawnshop:loan_buyout' loan.pk %}" class="btn btn-dark">Выкуп</a>-->
             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">Выкуп</button>
             {% endif %}
         </div>
@@ -50,7 +49,7 @@ Lombard CRM
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="button" class="btn btn-primary">Выкуп</button>
+                        <a href="{% url 'pawnshop:loan_buyout' loan.pk %}" class="btn btn-dark">Выкуп</a>
                     </div>
                 </div>
             </div>
