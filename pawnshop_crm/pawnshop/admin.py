@@ -13,5 +13,7 @@ admin.site.register(PledgeItem)
 admin.site.register(Loan)
 admin.site.register(FakeOperation)
 admin.site.register(Ticket)
+admin.site.register(Operation)
+
 
 admin.site.site_header = 'Lombard CRM'
