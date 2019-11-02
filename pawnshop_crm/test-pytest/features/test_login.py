@@ -1,12 +1,9 @@
 from pytest_bdd import scenario, given, then
-# from pytest_django.fixtures import admin_user, django_user_model, client
 
 
 @scenario('login.feature', 'Login as admin')
 def test_login(live_server):
     return live_server
-
-
 
 @given ('Create superuser')
 def super_user(admin_user):
@@ -25,6 +22,6 @@ def admin_login(browser):
 
 @then('I should see admin page')
 def admin_index(browser):
-    assert browser.response.status_code == 200
     assert 'Pawnshop' in browser.html
+    # assert browser.status_code == 200
 

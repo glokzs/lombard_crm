@@ -9,3 +9,4 @@ media
 test-pytest.features.test_login
 geckodriver.log
 .pytest_cache
+.cache
