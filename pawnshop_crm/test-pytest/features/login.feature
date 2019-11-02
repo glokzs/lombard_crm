@@ -2,8 +2,8 @@ Feature: Login as admin
   A sample test
   
 Scenario: Login as admin
-    Given Login page
-    Then Create superuser
+    Given Create superuser
+    And Login page
 
 #    Then Taking out superuser from db
 
