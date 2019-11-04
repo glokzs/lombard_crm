@@ -66,6 +66,8 @@ class LoanCreateView(UserPassesTestMixin, CreateView):
         form.instance.total_amount = form.cleaned_data.get('total_amount')
         form.instance.client = get_object_or_404(Client, pk=self.kwargs.get('client_pk'))
         form.instance.status = Loan.STATUS_OPEN
+        form.save()
+        self.record_operation(form.instance)
         return super().form_valid(form)
 
     def _get_expire_date(self, duration):
@@ -84,14 +86,14 @@ class LoanCreateView(UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
 
-    def record_operation(self):
-        operation = Operation.objects.create(
-            username=Operation.username.username,
-            amount=Operation.amount.total_amount,
-            ticket_number=Operation.ticket_number.pk,
-            type_operation=Operation.STATUS_OPEN,
+    def record_operation(self, loan):
+        Operation.objects.create(
+            employee=self.request.user,
+            amount=loan.total_amount,
+            loan=loan,
+            operation_type=Operation.TYPE_LOAN_CREATE
         )
-        return operation
+
 
 
 class LoanListView(UserPassesTestMixin, ListView):
@@ -194,7 +196,16 @@ class LoanBuyoutView(UserPassesTestMixin, View):
         loan = get_object_or_404(Loan, pk=loan_pk)
         loan.status = Loan.STATUS_CLOSED
         loan.save()
+        self.record_operation(loan)
         return redirect(reverse('pawnshop:loan_detail', kwargs={'loan_pk': loan_pk}))
 
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
+
+    def record_operation(self,loan):
+        Operation.objects.create(
+            employee=self.request.user,
+            amount=loan.total_amount,
+            loan=loan,
+            operation_type=Operation.TYPE_LOAN_BUYOUT
+        )

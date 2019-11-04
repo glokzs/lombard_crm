@@ -2,43 +2,43 @@ from django.db import models
 
 
 class Operation(models.Model):
-    STATUS_OPEN = 'Выдача заема'
-    STATUS_CLOSED = 'Выкуп'
-    STATUS_EXPIRED = 'Пролонгация'
+    TYPE_LOAN_CREATE = 'Добавление займа'
+    TYPE_LOAN_BUYOUT = 'Выкуп займа'
+    TYPE_LOAN_PROLONGATION = 'Пролонгация займа'
 
     STATUS_CHOICES = (
-        (STATUS_OPEN, 'Выдача заема'),
-        (STATUS_CLOSED, 'Выкуп'),
-        (STATUS_EXPIRED, ' Пролонгация'),
+        (TYPE_LOAN_CREATE, 'Добавление займа'),
+        (TYPE_LOAN_BUYOUT, 'Выкуп займа'),
+        (TYPE_LOAN_PROLONGATION, ' Пролонгация займа'),
     )
-    username = models.ForeignKey(
-        'accounts.Users',
-        related_name='operation_user',
+
+    employee = models.ForeignKey(
+        'auth.User',
+        related_name='employee',
         verbose_name='Пользователь',
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        default=None
-    )
-    amount = models.ForeignKey(
-        'pawnshop.Loan',
-        related_name='operation_amount',
-        verbose_name='сумма по операции',
         on_delete=models.PROTECT,
         null=False,
         blank=False,
-        default=0
-    )
-    ticket_number = models.ForeignKey(
-        'pawnshop.Ticket',
-        related_name='operation_ticket',
-        verbose_name='номер билета',
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
         default=None
     )
-    type_operation = models.CharField(
+    amount = models.DecimalField(
+        verbose_name='Сумма операции',
+        max_digits=20,
+        decimal_places=10,
+        null=False,
+        blank=False,
+        default=None
+    )
+    loan = models.ForeignKey(
+        'pawnshop.Loan',
+        related_name='operations',
+        verbose_name='Займ',
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        default=None
+    )
+    operation_type = models.CharField(
         verbose_name='Статус',
         max_length=100,
         null=False,
@@ -57,8 +57,8 @@ class Operation(models.Model):
 
     def __str__(self):
         return f'Операция №\'{self.pk},' \
-            f'Тип операции: {self.type_operation}, ' \
-            f'Билет№ {self.ticket_number}, ' \
+            f'Тип операции: {self.operation_type}, ' \
+            f'Билет№ {self.loan.ticket.pk}, ' \
             f'Сумма: {self.amount}, ' \
             f'Операция проведена: {self.created_at}\'' \
-            f'Инициатор: {self.username} '
+            f'Инициатор: {self.employee} '
