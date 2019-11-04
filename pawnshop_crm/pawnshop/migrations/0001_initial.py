@@ -120,7 +120,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Operation',
+            name='operation',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('type_operation', models.CharField(choices=[('Выдача займа', 'Выдача займа'), ('Выкуп', 'Выкуп'), ('Пролонгация', ' Пролонгация')], default=None, max_length=100, verbose_name='Статус')),

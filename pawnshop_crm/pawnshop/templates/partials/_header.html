@@ -8,36 +8,40 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
-                    {% if perms.accounts.add_loan %}
-                    {#                    <a class="nav-item nav-link" href="{% url 'pawnshop:loan_list' %}">Займы</a>#}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'pawnshop:loan_list' %}">Займы</a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'pawnshop:pledge_items' %}">Список залоговых имуществ</a>
-                    </li>
+                {% if perms.accounts.add_loan %}
+                {# <a class="nav-item nav-link" href="{% url 'pawnshop:loan_list' %}">Займы</a>#}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'pawnshop:loan_list' %}">Займы</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'pawnshop:pledge_items' %}">Список залоговых имуществ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'pawnshop:operation_list' %}">Журнал операций</a>
+                </li>
                 {% endif %}
             </ul>
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
-                    {#                    <a class="nav-item nav-link" href="{% url 'accounts:logout' %}">Выйти</a>#}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ user.username }}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            {% if perms.accounts.add_user %}
-                            <a class="dropdown-item" href="{% url 'accounts:detail' user.pk %}">Личный кабинет</a>
-                            <div class="dropdown-divider"></div>
-                            {% endif %}
-                            <a class="dropdown-item" href="{% url 'accounts:logout' %}">Выйти</a>
-                        </div>
-                    </li>
+                {# <a class="nav-item nav-link" href="{% url 'accounts:logout' %}">Выйти</a>#}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% if perms.accounts.add_user %}
+                        <a class="dropdown-item" href="{% url 'accounts:detail' user.pk %}">Личный кабинет</a>
+                        <div class="dropdown-divider"></div>
+                        {% endif %}
+                        <a class="dropdown-item" href="{% url 'accounts:logout' %}">Выйти</a>
+                    </div>
+                </li>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:login' %}">Авторизация</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">Авторизация</a>
+                </li>
                 {% endif%}
             </ul>
         </div>

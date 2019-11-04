@@ -6,3 +6,4 @@ from .loan_views import *
 from .criteria_views import *
 from .index_views import *
 from .ticket_views import *
+from .operation_views import *

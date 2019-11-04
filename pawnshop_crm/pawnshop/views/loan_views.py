@@ -89,7 +89,7 @@ class LoanCreateView(UserPassesTestMixin, CreateView):
     def record_operation(self, loan):
         Operation.objects.create(
             employee=self.request.user,
-            amount=loan.total_amount,
+            amount=-1 * loan.client_amount,
             loan=loan,
             operation_type=Operation.TYPE_LOAN_CREATE
         )
