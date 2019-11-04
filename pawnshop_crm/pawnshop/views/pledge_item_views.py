@@ -69,12 +69,18 @@ class PledgeItemCreateAjaxView(View):
         self.request.session.save()
         return JsonResponse(data)
 
+
 class PledgeItemListView(ListView):
     template_name = 'pledge_item/list.html'
     context_object_name = 'pledge_items'
     model = PledgeItem
 
     def get_context_data(self, **kwargs):
-        kwargs['total_amount'] = Loan.objects.aggregate(sum=Sum("total_amount"))['sum']
-        kwargs['client_amount'] = Loan.objects.aggregate(sum=Sum("client_amount"))['sum']
+        VALUE_IF_NONE = 0
+
+        total_amount = Loan.objects.aggregate(sum=Sum("total_amount"))['sum']
+        kwargs['total_amount'] = total_amount if total_amount else VALUE_IF_NONE
+
+        client_amount = Loan.objects.aggregate(sum=Sum("client_amount"))['sum']
+        kwargs['client_amount'] = client_amount if client_amount else VALUE_IF_NONE
         return super().get_context_data(**kwargs)

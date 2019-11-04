@@ -178,6 +178,7 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
 
+
 class LoanBuyoutView(UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
         loan_pk = self.kwargs.get('loan_pk')

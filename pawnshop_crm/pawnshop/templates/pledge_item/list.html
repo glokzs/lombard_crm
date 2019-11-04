@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block content %}
-
     <table class="table table-hover mt-4">
         <thead>
         <tr>
@@ -28,8 +27,8 @@
                 <td>{{ pledge_item.subcategory.name }}</td>
                 <td>{{ pledge_item.loan.date_of_expire }}</td>
                 <td>{{ pledge_item.loan.warranty_date }}</td>
-                <td>{{ pledge_item.loan.total_amount|floatformat:0 }} тг.</td>
-                <td>{{ pledge_item.loan.client_amount|floatformat:0 }} тг.</td>
+                <td>{{ pledge_item.loan.total_amount | floatformat:0 }} тг.</td>
+                <td>{{ pledge_item.loan.client_amount | floatformat:0 }} тг.</td>
             </tr>
         {% empty %}
             <tr>
@@ -39,7 +38,6 @@
                     </div>
                 </td>
             </tr>
-
         {% endfor %}
         <tr>
             <th scope="col"></th>
@@ -48,7 +46,6 @@
             <th scope="col">Итого</th>
             <th scope="col">{{ total_amount }} тг.</th>
             <th scope="col">{{ client_amount }} тг.</th>
-
         </tr>
         </tbody>
     </table>
