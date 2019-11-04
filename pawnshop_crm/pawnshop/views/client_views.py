@@ -29,13 +29,6 @@ class ClientCreateView(UserPassesTestMixin, CreateView):
     def get_success_url(self):
         return reverse('pawnshop:confirm_document_create', kwargs={'client_pk': self.object.pk})
 
-    def record_operation(self):
-        operation = Operation.objects.create(
-            username=self.request.user.username,
-            description_operation=f'Дoбавление клиента{self.request.client.last_name}',
-            type_operation='Добавление'
-        )
-        operation.save()
 
 class ClientChooseView(UserPassesTestMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):

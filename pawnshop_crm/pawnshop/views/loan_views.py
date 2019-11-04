@@ -84,6 +84,15 @@ class LoanCreateView(UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
 
+    def record_operation(self):
+        operation = Operation.objects.create(
+            username=Operation.username.username,
+            amount=Operation.amount.total_amount,
+            ticket_number=Operation.ticket_number.pk,
+            type_operation=Operation.STATUS_OPEN,
+        )
+        return operation
+
 
 class LoanListView(UserPassesTestMixin, ListView):
     template_name = 'loan/list.html'
