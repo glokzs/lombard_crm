@@ -24,4 +24,5 @@ urlpatterns = (
       name='criteria_value_create_ajax'),
     path('loans/<int:loan_pk>/ticket/', TicketDownloadView.as_view(), name='loan_ticket'),
     path('loans/<int:loan_pk>/buyout/', LoanBuyoutView.as_view(), name='loan_buyout'),
-    )
+    path('loans/<int:loan_pk>/prolongation/', LoanProlongationView.as_view(), name='loan_prolongation'),
+)

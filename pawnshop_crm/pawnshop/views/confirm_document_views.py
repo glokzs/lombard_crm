@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import *
@@ -19,6 +20,7 @@ class ConfirmDocumentCreateView(CreateView):
     def form_valid(self, form):
         client = get_object_or_404(Client, pk=self.kwargs.get('client_pk'))
         form.instance.client = client
+        messages.add_message(self.request, messages.SUCCESS, 'Клиент успешно добавлен')
         return super().form_valid(form)
 
     def get_success_url(self):

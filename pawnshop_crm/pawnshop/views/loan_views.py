@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import *
+from django.contrib import messages
 
 from ..models import *
 from ..forms import *
@@ -68,6 +69,7 @@ class LoanCreateView(UserPassesTestMixin, CreateView):
         form.instance.status = Loan.STATUS_OPEN
         form.save()
         self.record_operation(form.instance)
+        messages.add_message(self.request, messages.SUCCESS, 'Залог успешно добавлен')
         return super().form_valid(form)
 
     def _get_expire_date(self, duration):
@@ -197,7 +199,29 @@ class LoanBuyoutView(UserPassesTestMixin, View):
         loan.status = Loan.STATUS_CLOSED
         loan.save()
         self.record_operation(loan)
+
+        messages.add_message(self.request, messages.SUCCESS, 'Залог успешно выкуплен')
         return redirect(reverse('pawnshop:loan_detail', kwargs={'loan_pk': loan_pk}))
+
+    def test_func(self):
+        return self.request.user.has_perm('accounts.add_loan')
+
+
+class LoanProlongationView(UserPassesTestMixin, View):
+    def post(self, request, *args, **kwargs):
+        prolongation_duration = self.request.POST.get('prolongation_duration')
+
+        loan_pk = self.kwargs.get('loan_pk')
+        loan = get_object_or_404(Loan, pk=loan_pk)
+        loan.date_of_expire = self._get_extended_date_of_expire(loan.date_of_expire, prolongation_duration)
+        loan.save()
+
+        messages.add_message(self.request, messages.SUCCESS,
+                             f'Залог успешно продлен на {prolongation_duration} дней (до {loan.date_of_expire.strftime("%m.%d.%Y")})')
+        return redirect(reverse('pawnshop:loan_detail', kwargs={'loan_pk': loan_pk}))
+
+    def _get_extended_date_of_expire(self, old_date, duration):
+        return old_date + timedelta(int(duration))
 
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
