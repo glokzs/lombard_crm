@@ -25,3 +25,11 @@ def admin_index(browser):
     assert 'Pawnshop' in browser.html
     # assert browser.status_code == 200
 
+@then('I click "Пользователи"')
+def click_users(browser):
+    browser.driver.find_element_by_class_name('model-user').first().click()
+
+@then('I should see "Выберите пользователь для изменения"')
+def admin_index(browser):
+    assert 'Выберите пользователь для изменения' in browser.html
+
