@@ -15,7 +15,7 @@ Lombard CRM
         <p class="lead">Залоговые имущества: </p>
         <ul class="list-group">
             {% for pledge_item in loan.pledge_items.all %}
-            <li class="list-group-item">{{ pledge_item.name }} - {{ pledge_item.description }} ({{ pledge_item.price | floatformat:0 }} тенге)</li>
+            <li class="list-group-item">{{ forloop.counter }} - {{ pledge_item.name }} - {{ pledge_item.description }} ({{ pledge_item.price | floatformat:0 }} тенге)</li>
             {% endfor %}
         </ul>
         <p class="lead">Срок займа: {{ loan.duration }} дней</p>

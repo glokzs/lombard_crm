@@ -51,7 +51,7 @@
                 <tbody>
                     {% for pledge_item in loan.pledge_items.all %}
                     <tr>
-                        <td>#</td>
+                        <td>{{ forloop.counter }}</td>
 
                         <td>{{ pledge_item.name }}; {{ pledge_item.description }} - {{ pledge_item.price }} тг.</td>
                     </tr>
