@@ -97,7 +97,6 @@ class LoanCreateView(UserPassesTestMixin, CreateView):
         )
 
 
-
 class LoanListView(UserPassesTestMixin, ListView):
     template_name = 'loan/list.html'
     context_object_name = 'loans'
@@ -206,6 +205,14 @@ class LoanBuyoutView(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
 
+    def record_operation(self, loan):
+        Operation.objects.create(
+            employee=self.request.user,
+            amount=loan.total_amount,
+            loan=loan,
+            operation_type=Operation.TYPE_LOAN_BUYOUT
+        )
+
 
 class LoanProlongationView(UserPassesTestMixin, View):
     def post(self, request, *args, **kwargs):
@@ -225,11 +232,3 @@ class LoanProlongationView(UserPassesTestMixin, View):
 
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
-
-    def record_operation(self,loan):
-        Operation.objects.create(
-            employee=self.request.user,
-            amount=loan.total_amount,
-            loan=loan,
-            operation_type=Operation.TYPE_LOAN_BUYOUT
-        )
