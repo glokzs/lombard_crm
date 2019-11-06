@@ -27,9 +27,33 @@ def admin_index(browser):
 
 @then('I click "Пользователи"')
 def click_users(browser):
-    browser.driver.find_element_by_class_name('model-user').first().click()
+    browser.driver.find_element_by_link_text('Пользователи').click()
 
 @then('I should see "Выберите пользователь для изменения"')
-def admin_index(browser):
+def users_index(browser):
     assert 'Выберите пользователь для изменения' in browser.html
+
+@then('I click "Добавить пользователя"')
+def click_create_users(browser):
+    browser.driver.find_element_by_class_name('addlink').click()
+
+@then('I should see user create menu')
+def create_index(browser):
+    assert 'Пароль' in browser.html
+
+
+@then('I enter new user info')
+def Create_user_form(browser):
+    browser.fill('username', 'testuser')
+    browser.fill('password1', 'xsw2.1qaz')
+    browser.fill('password2', 'xsw2.1qaz')
+    browser.fill('user-0-middle_name', 'testuly')
+    browser.driver.find_element_by_link_text('Сегодня').click()
+    browser.driver.find_element_by_link_text('Сейчас').click()
+    browser.fill('user-0-email', 'test@test.ts')
+    browser.driver.find_element_by_name('_save').click()
+
+@then('I should see user successful creation')
+def creation_success(browser):
+    assert 'было успешно добавлено.' in browser.html
 
