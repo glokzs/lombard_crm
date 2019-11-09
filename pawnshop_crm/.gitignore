@@ -7,7 +7,7 @@ media
 .DS_Store
 *.json
 test-pytest.features.test_login
+test-pytest.features.test_create_client
 geckodriver.log
 .pytest_cache
-.cache
-test-pytest.features.*
+.cachetest-pytest.features.*
