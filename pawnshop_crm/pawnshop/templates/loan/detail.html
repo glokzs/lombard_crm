@@ -77,16 +77,16 @@ Lombard CRM
                             </div>
                             <div class="form-group">
                                 <label>Срок продления<span class="required-indicator"> *</span></label>
-                                <input type="number" min="5" max="30" name="prolongation_duration" class="form-control" placeholder="Введите срок продления в днях">
+                                <input type="number" id="prolongation_duration_input" min="5" max="30" name="prolongation_duration" class="form-control" placeholder="Введите срок продления в днях">
                             </div>
                             <div class="form-group">
                                 <label>Сумма пролонгации</label>
-                                <input type="text" readonly class="form-control">
+                                <input type="text" name="prolongation_amount" id="prolongation_amount_input" readonly class="form-control">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                            <button type="submit" class="btn btn-dark">Продлить</button>
+                            <button type="submit" class="btn btn-dark" id="prolongation_button">Продлить</button>
                         </div>
                     </form>
                 </div>
@@ -94,4 +94,34 @@ Lombard CRM
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('prolongation_duration_input').addEventListener('input', function (event) {
+        const prolongationDuration = event.target.value;
+        if (prolongationDuration === '') {
+            document.getElementById('prolongation_amount_input').value = '';
+            return;
+        }
+        const payload = {
+            duration: event.target.value
+        };
+        const url = '{% url 'pawnshop:loan_prolongation_ajax' loan.pk %}';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
+            },
+            body: JSON.stringify(payload)
+        }).then(function (response) {
+            if (response.ok)
+                return response.json()
+        }).then(function (response) {
+            if (response.amount === null)
+                document.getElementById('prolongation_amount_input').value = '';
+            else
+                document.getElementById('prolongation_amount_input').value = Number(response.amount).toFixed(0);
+        });
+    });
+</script>
 {% endblock %}

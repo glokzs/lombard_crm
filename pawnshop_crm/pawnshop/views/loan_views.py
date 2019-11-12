@@ -1,3 +1,4 @@
+import json
 import os
 import pdfkit
 from datetime import datetime, timedelta
@@ -217,11 +218,14 @@ class LoanBuyoutView(UserPassesTestMixin, View):
 class LoanProlongationView(UserPassesTestMixin, View):
     def post(self, request, *args, **kwargs):
         prolongation_duration = self.request.POST.get('prolongation_duration')
+        prolongation_amount = self.request.POST.get('prolongation_amount')
 
         loan_pk = self.kwargs.get('loan_pk')
         loan = get_object_or_404(Loan, pk=loan_pk)
         loan.date_of_expire = self._get_extended_date_of_expire(loan.date_of_expire, prolongation_duration)
         loan.save()
+
+        self.record_operation(prolongation_amount)
 
         messages.add_message(self.request, messages.SUCCESS,
                              f'Залог успешно продлен на {prolongation_duration} дней (до {loan.date_of_expire.strftime("%m.%d.%Y")})')
@@ -232,3 +236,37 @@ class LoanProlongationView(UserPassesTestMixin, View):
 
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
+
+    def record_operation(self, prolongation_amount):
+        loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
+        Operation.objects.create(
+            employee=self.request.user,
+            amount=prolongation_amount,
+            loan=loan,
+            operation_type=Operation.TYPE_LOAN_PROLONGATION
+        )
+
+
+class LoanProlongationCalculateAjaxView(View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(self.request.body.decode())
+        duration = data.get('duration')
+        payload = {}
+        if self.is_duration_valid(duration):
+            payload['amount'] = self.get_prolongation_amount(duration)
+        else:
+            payload['amount'] = None
+        return JsonResponse(data=payload)
+
+    @staticmethod
+    def is_duration_valid(duration):
+        MIN_DURATION = 5
+        MAX_DURATION = 30
+        if MIN_DURATION <= int(duration) <= MAX_DURATION:
+            return True
+        return False
+
+    def get_prolongation_amount(self, duration):
+        loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
+        interest_rate = loan.pledge_items.first().category.interest_rate
+        return (loan.total_amount * interest_rate * int(duration)) / 100

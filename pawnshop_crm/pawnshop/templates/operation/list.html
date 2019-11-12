@@ -25,7 +25,7 @@ Lombard CRM
         <td>{{ operation.created_at | date:'d.m.Y'}} - {{ operation.created_at|time:'H:i:s' }}</td>
         <td><a href="{% url 'pawnshop:loan_detail' operation.loan.pk %}">{{ operation.loan.id }}</a></td>
         <td>{{ operation.operation_type }}</td>
-        <td>{{ operation.amount |floatformat:0 }}</td>
+        <td><span class="text-{% if operation.amount > 0 %}success{% else %}danger{% endif %}">{{ operation.amount | floatformat:0 }}</span></td>
         <td>{{ operation.employee.username }}</td>
     </tr>
     {% empty %}
