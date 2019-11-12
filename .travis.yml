@@ -6,5 +6,6 @@ install:
   - pip3 install -r requirements.txt
 # command to run tests
 script:
+  - cd pawnshop_crm
   - python3 manage.py migrate
   - pytest -vvv
