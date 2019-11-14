@@ -8,14 +8,15 @@ Lombard CRM
 {% endblock %}
 
 {% block content %}
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid"> 
     <div class="container">
         <h1 class="display-6">#{{ loan.pk }} Кредит</h1>
         <p class="lead">Клиент: {{ loan.client.first_name }} {{ loan.client.last_name }} (ИИН: {{ loan.client.confirm_document.iin }})</p>
         <p class="lead">Залоговые имущества: </p>
         <ul class="list-group">
             {% for pledge_item in loan.pledge_items.all %}
-            <li class="list-group-item">{{ forloop.counter }} - {{ pledge_item.name }} - {{ pledge_item.description }} ({{ pledge_item.price | floatformat:0 }} тенге)</li>
+            <li class="list-group-item">{{ forloop.counter }}. {{ pledge_item.name }} - {{ pledge_item.description }} - {{ pledge_item.price | floatformat:0 }} тенге {% for criteria_value in pledge_item.criteria_values.all %}<br>{{ criteria_value.criteria.name }}: {{ criteria_value.value }}{% empty %}Критерии не указаны{% endfor %}
+            </li>
             {% endfor %}
         </ul>
         <p class="lead">Срок займа: {{ loan.duration }} дней</p>

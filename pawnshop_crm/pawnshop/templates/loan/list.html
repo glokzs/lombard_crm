@@ -19,7 +19,6 @@
         <tr>
             <th scope="col">№</th>
             <th scope="col">Клиент</th>
-            <th scope="col">Вид залога</th>
             <th scope="col">Дата выдачи</th>
             <th scope="col">Срок выдачи</th>
             <th scope="col">Дата возврата</th>
@@ -27,14 +26,14 @@
             <th scope="col">Процентная ставка</th>
             <th scope="col">Статус</th>
             <th scope="col">Кем выдан</th>
+            <th scope="col">Операции</th>
         </tr>
         </thead>
         <tbody>
         {% for loan in loans %}
             <tr>
-                <td><a href="{% url 'pawnshop:loan_detail' loan.pk %}">{{ loan.id }}</a></td>
+                <td>{{ loan.id }}</td>
                 <td>{{ loan.client.first_name }} {{ loan.client.last_name }}</td>
-                <td>{{ loan.pledge_item.category.name }}</td>
                 <td>{{ loan.created_at|date:'d.m.Y' }}</td>
                 <td>{{ loan.duration }}</td>
                 <td>{{ loan.date_of_expire|date:'d.m.Y' }}</td>
@@ -42,6 +41,7 @@
                 <td>{{ loan.pledge_items.first.category.interest_rate }} %</td>
                 <td>{{ loan.status }}</td>
                 <td>Сотрудник</td>
+                <td><a href="{% url 'pawnshop:loan_detail' loan.pk %}" class="btn btn-dark btn-sm">Детали</a></td>
             </tr>
         {% empty %}
             <tr>
