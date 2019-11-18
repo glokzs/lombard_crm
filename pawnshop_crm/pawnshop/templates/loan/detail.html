@@ -26,10 +26,10 @@ Lombard CRM
         <p class="lead">Процентная ставка: {{ interest_rate }}%</p>
         <p class="lead">Выданная сумма: {{ loan.client_amount | floatformat:0 }} тенге</p>
         <p class="lead">Общая сумма кредита: {{ loan.total_amount | floatformat:0 }} тенге</p>
-        <p class="lead">Статус: <span class="text-danger">{{ loan.status }}</span></p>
+        <p class="lead">Статус: <span class="text-danger">{{ loan.status }}{% if expired_days %}(Просрочено дней: {{ expired_days }}){% endif %}</span></p>
         <a href="{{ ticket_url }}" class="btn btn-dark" download>Скачать залоговый билет</a>
         <div class="btn-group ml-auto" role="group" aria-label="Basic example">
-            {% if is_open %}
+            {% if not is_closed %}
             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#buyout_modal">Выкуп</button>
             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#prolongation_modal">Продление</button>
             {% endif %}
@@ -46,7 +46,7 @@ Lombard CRM
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Сумма для выкупа</label>
-                            <input type="text" readonly class="form-control" value="{{ loan.total_amount | floatformat:0 }}">
+                            <input type="text" readonly class="form-control" value="{{ loan.total_amount | floatformat:0 }}{% if expired_days %} + {{ amount_to_buyout | floatformat:0 }}(Просрочено дней: {{ expired_days }}){% endif %}">
                         </div>
                     </div>
                     <div class="modal-footer">

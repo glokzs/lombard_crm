@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.datetime_safe import datetime
 
 class Loan(models.Model):
     STATUS_OPEN = 'Открыт'
@@ -70,6 +70,21 @@ class Loan(models.Model):
     class Meta:
         verbose_name = 'Займ',
         verbose_name_plural = 'Займы'
+
+    @classmethod
+    def expire_loans(cls):
+        for loan in cls.objects.all():
+            if loan.status != cls.STATUS_CLOSED:
+                if datetime.date(loan.date_of_expire) < datetime.now():
+                    loan.status = cls.STATUS_EXPIRED
+                    loan.save()
+                else:
+                    loan.status = cls.STATUS_OPEN
+                    loan.save()
+
+    def get_expired_days(self):
+        expired_days = (datetime.now().date() - self.date_of_expire).days
+        return expired_days if expired_days > 0 else None
 
     def __str__(self):
         return f'{self.client} - {self.client_amount} ({self.total_amount})'

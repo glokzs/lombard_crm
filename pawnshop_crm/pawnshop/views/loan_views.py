@@ -107,6 +107,12 @@ class LoanListView(UserPassesTestMixin, ListView):
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
 
+    def get_context_data(self, **kwargs):
+        Loan.expire_loans()
+        loan = Loan.objects.first()
+        print(loan.get_expired_days())
+        return super().get_context_data(**kwargs)
+
 
 class LoanListAjaxView(View):
     def get(self, request, *args, **kwargs):
@@ -152,7 +158,9 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
         kwargs['total_price'] = self._get_total_price()
         kwargs['interest_rate'] = self._get_interest_rate()
         kwargs['ticket_url'] = os.path.join(settings.MEDIA_URL, loan.ticket.file_path)
-        kwargs['is_open'] = True if loan.status == Loan.STATUS_OPEN else False
+        kwargs['is_closed'] = True if loan.status == Loan.STATUS_CLOSED else False
+        kwargs['amount_to_buyout'] = self.get_amount_to_buyout()
+        kwargs['expired_days'] = self.object.get_expired_days()
         return super().get_context_data(**kwargs)
 
     def _generate_ticket(self):
@@ -188,6 +196,12 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
             total_price += pledge_item.price
         return total_price
 
+    def get_amount_to_buyout(self):
+        fine = 2.5  # Штраф в день
+        expired_days = self.object.get_expired_days()
+        if expired_days:
+            return float(self.object.total_amount) * fine * expired_days / 100
+
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
 
@@ -206,10 +220,17 @@ class LoanBuyoutView(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
 
+    def get_amount_to_buyout(self, loan):
+        fine = 2.5  # Штраф в день
+        expired_days = loan.get_expired_days()
+        if expired_days:
+            return float(loan.total_amount) * fine * expired_days / 100 + float(loan.total_amount)
+        return loan.total_amount
+
     def record_operation(self, loan):
         Operation.objects.create(
             employee=self.request.user,
-            amount=loan.total_amount,
+            amount=self.get_amount_to_buyout(loan),
             loan=loan,
             operation_type=Operation.TYPE_LOAN_BUYOUT
         )
