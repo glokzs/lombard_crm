@@ -109,8 +109,6 @@ class LoanListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         Loan.expire_loans()
-        loan = Loan.objects.first()
-        print(loan.get_expired_days())
         return super().get_context_data(**kwargs)
 
 
@@ -161,6 +159,8 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
         kwargs['is_closed'] = True if loan.status == Loan.STATUS_CLOSED else False
         kwargs['amount_to_buyout'] = self.get_amount_to_buyout()
         kwargs['expired_days'] = self.object.get_expired_days()
+
+        Loan.expire_loans()
         return super().get_context_data(**kwargs)
 
     def _generate_ticket(self):
@@ -241,12 +241,13 @@ class LoanProlongationView(UserPassesTestMixin, View):
         prolongation_duration = self.request.POST.get('prolongation_duration')
         prolongation_amount = self.request.POST.get('prolongation_amount')
 
+        self.record_operation(prolongation_amount)
+
         loan_pk = self.kwargs.get('loan_pk')
         loan = get_object_or_404(Loan, pk=loan_pk)
+        loan.duration += int(prolongation_duration)
         loan.date_of_expire = self._get_extended_date_of_expire(loan.date_of_expire, prolongation_duration)
         loan.save()
-
-        self.record_operation(prolongation_amount)
 
         messages.add_message(self.request, messages.SUCCESS,
                              f'Залог успешно продлен на {prolongation_duration} дней (до {loan.date_of_expire.strftime("%m.%d.%Y")})')
@@ -258,8 +259,18 @@ class LoanProlongationView(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.has_perm('accounts.add_loan')
 
+    def get_amount_to_buyout(self, loan):
+        fine = 2.5  # Штраф в день
+        expired_days = loan.get_expired_days()
+        if expired_days:
+            return float(loan.total_amount) * fine * expired_days / 100
+
     def record_operation(self, prolongation_amount):
         loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
+
+        if loan.status == Loan.STATUS_EXPIRED:
+            prolongation_amount = float(prolongation_amount) + self.get_amount_to_buyout(loan)
+
         Operation.objects.create(
             employee=self.request.user,
             amount=prolongation_amount,

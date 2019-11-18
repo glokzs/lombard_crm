@@ -68,14 +68,16 @@ Lombard CRM
                     <form action="{% url 'pawnshop:loan_prolongation' loan.pk %}" method="post">
                         {% csrf_token %}
                         <div class="modal-body">
+                            {% if expired_days %}
                             <div class="form-group">
                                 <label>Просрочено дней</label>
-                                <input type="text" readonly class="form-control" value="#">
+                                <input type="text" readonly class="form-control" value="{{ expired_days }}">
                             </div>
                             <div class="form-group">
                                 <label>Пеня</label>
-                                <input type="text" readonly class="form-control" value="#">
+                                <input type="text" readonly class="form-control" value="{{ amount_to_buyout | floatformat:0 }}">
                             </div>
+                            {% endif %}
                             <div class="form-group">
                                 <label>Срок продления<span class="required-indicator"> *</span></label>
                                 <input type="number" id="prolongation_duration_input" min="5" max="30" name="prolongation_duration" class="form-control" placeholder="Введите срок продления в днях">
