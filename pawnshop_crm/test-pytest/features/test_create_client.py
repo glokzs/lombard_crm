@@ -1,7 +1,7 @@
 from pytest_bdd import scenario, given, then
 
 
-@scenario('create_loans.feature', 'Create loan')
+@scenario('create_client.feature', 'Create client')
 def test_login(live_server):
     return live_server
 
@@ -43,7 +43,7 @@ def create_index(browser):
 
 
 @then('I enter new client info')
-def Create_client_form(browser):
+def create_client_form(browser):
     browser.fill('first_name', 'Ivan')
     browser.fill('last_name', 'Ivanov')
     browser.fill('middle_name', 'Ivanovich')
@@ -64,7 +64,7 @@ def creation_success(browser):
     assert 'Добавить документ' in browser.html
 
 @then('I enter client document info')
-def Create_client_document_form(browser):
+def create_client_document_form(browser):
     select_elem = browser.driver.find_element_by_name('document_type')
     select_elem.click()
     options = select_elem.find_elements_by_tag_name('option')
@@ -81,3 +81,4 @@ def Create_client_document_form(browser):
 @then('I should see "Выбор клиента"')
 def create_index(browser):
     assert 'Выбор клиента' in browser.html
+

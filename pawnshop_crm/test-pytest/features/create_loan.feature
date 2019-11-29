@@ -1,6 +1,6 @@
 Feature: Create loan
   A sample test
-  
+
 Scenario: Create loan
     Given Create superuser
     And Login page
@@ -10,7 +10,9 @@ Scenario: Create loan
     Then I should see "Список кредитов"
     Then I click "Добавить операцию"
     Then I should see "Выбор клиента"
-    Then I enter new client info
-    Then I should see "Добавить документ"
-    Then I enter client document info
-    Then I should see "Выбор клиента"
+    Then I click on client
+    Then I click to choose client
+    Then I should see "Добавить займ"
+    Then I click "Добавить залоговое имущество"
+    Then I should see "Добавить залоговое имущество"
+    Then I add loan item

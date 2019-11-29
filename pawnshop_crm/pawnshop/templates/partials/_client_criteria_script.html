@@ -26,7 +26,7 @@
             criteriaField.classList.add('form-group', 'fade-in');
             criteriaField.innerHTML = `
                     <label for="id_subcategory">${criteria.name}<span class="required-indicator"> *</span></label>
-                    <input type="text" id="${inputName}" required class="form-control criteria_input">
+                    <input type="text" id="${inputName}" required class="form-control criteria_input" name="criteria">
                 `;
             document.querySelector('.criteria-container').appendChild(criteriaField);
         });
