@@ -1,7 +1,7 @@
 Feature: Create client
   A sample test
-  
-Scenario: Create client
+
+  Scenario: Create client
     Given Create superuser
     And Login page
     Then I logging as user
@@ -13,4 +13,4 @@ Scenario: Create client
     Then I enter new client info
     Then I should see "Добавить документ"
     Then I enter client document info
-    Then I should see "Выбор клиента"
+    Then I should see test client

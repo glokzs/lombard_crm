@@ -1,18 +1,26 @@
-Feature: Create loan
-  A sample test
+Feature: Create client, category and subcategory and after create loan
+   Category, tariffs and subcategory test
 
 Scenario: Create loan
-    Given Create superuser
+    Given Client
+    And Client document
+    And Category
+    And Subcategory
+    And Create superuser
     And Login page
     Then I logging as user
-    Then I should see index page
-    Then I click "Займы"
-    Then I should see "Список кредитов"
-    Then I click "Добавить операцию"
-    Then I should see "Выбор клиента"
-    Then I click on client
-    Then I click to choose client
-    Then I should see "Добавить займ"
-    Then I click "Добавить залоговое имущество"
-    Then I should see "Добавить залоговое имущество"
-    Then I add loan item
+    And I should see index page
+    And I click "Займы"
+    And I should see "Список кредитов"
+    And I click "Добавить операцию"
+    And I should see "Выбор клиента"
+    And I click on client
+    And I click to choose client
+    And I should see "Добавить займ"
+    And I click "Добавить залоговое имущество"
+    And I should see "Добавить залоговое имущество"
+    And I add loan item
+    And I should see "Добавить займ"
+    And I add loan sum, duration, warranty period
+    And I should see "Кредит"
+    And I click on "Выкуп"
