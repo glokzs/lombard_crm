@@ -1,6 +1,5 @@
 import json
 import os
-import pdfkit
 from datetime import datetime, timedelta
 
 from django.conf import settings
