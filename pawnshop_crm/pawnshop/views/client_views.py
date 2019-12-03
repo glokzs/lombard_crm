@@ -3,10 +3,10 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.views.generic import *
+from django.views.generic import CreateView, RedirectView, View
 
-from ..models import *
-from ..forms import *
+from ..models import Client
+from ..forms import ClientCreateForm
 
 
 class ClientCreateView(UserPassesTestMixin, CreateView):

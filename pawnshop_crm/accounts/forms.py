@@ -1,7 +1,5 @@
+from .models import Users
 from django import forms
-from django.contrib.auth.models import Group
-
-from accounts.models import Users
 
 
 class UserForm(forms.ModelForm):

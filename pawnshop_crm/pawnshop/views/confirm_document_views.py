@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.views.generic import *
+from django.views.generic import CreateView
 
-from ..models import *
-from ..forms import *
+from ..models import ConfirmDocument, Client
+from ..forms import ConfirmDocumentCreateForm
 
 
 class ConfirmDocumentCreateView(CreateView):

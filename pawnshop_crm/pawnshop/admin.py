@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import *
-
+from .models import Client, ConfirmDocument, Category, Subcategory, Criteria, CriteriaValue, PledgeItem, Loan, \
+    FakeOperation, Operation
 
 admin.site.register(Client)
 admin.site.register(ConfirmDocument)
@@ -13,6 +13,5 @@ admin.site.register(PledgeItem)
 admin.site.register(Loan)
 admin.site.register(FakeOperation)
 admin.site.register(Operation)
-
 
 admin.site.site_header = 'Lombard CRM'

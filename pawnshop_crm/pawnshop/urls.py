@@ -1,5 +1,10 @@
 from django.urls import path
-from .views import *
+
+from .views import IndexView, ClientListAjaxView, ClientDetailAjaxView, ConfirmDocumentCreateView, ClientCreateView, \
+    ClientChooseView, LoanListView, OperationListView, SubcategoryListAjaxView, CriteriaListAjaxView, \
+    LoanCalculateAjaxView, LoanDetailView, LoanCreateView, PledgeItemCreateAjaxView, PledgeItemListView, \
+    CriteriaValueCreateAjaxView, TicketDownloadView, LoanBuyoutView, LoanProlongationView, \
+    LoanProlongationCalculateAjaxView
 
 app_name = 'pawnshop'
 

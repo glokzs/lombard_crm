@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.datetime_safe import datetime
 
+
 class Loan(models.Model):
     STATUS_OPEN = 'Открыт'
     STATUS_CLOSED = 'Закрыт'

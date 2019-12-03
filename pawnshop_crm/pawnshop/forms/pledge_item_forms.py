@@ -1,5 +1,5 @@
 from django import forms
-from ..models import *
+from ..models import PledgeItem, Category
 
 
 def _get_category_choices():
@@ -12,7 +12,7 @@ def _get_category_choices():
         for category in categories:
             category_choices.append([category.pk, category.name])
         return category_choices
-    except:
+    except BaseException:
         return []
 
 

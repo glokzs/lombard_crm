@@ -1,12 +1,13 @@
 import json
+
 from django.db.models import Sum
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.views.generic import *
+from django.views.generic import CreateView, View, ListView
 
-from ..models import *
-from ..forms import *
+from ..models import PledgeItem, Category, Subcategory, Loan
+from ..forms import PledgeItemCreateForm
 
 
 class PledgeItemCreateView(CreateView):

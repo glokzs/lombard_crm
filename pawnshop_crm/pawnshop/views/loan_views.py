@@ -1,18 +1,16 @@
 import json
-import os
 from datetime import datetime, timedelta
 
-from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.views.generic import *
-from django.contrib import messages
+from django.views.generic import View, CreateView, ListView, DetailView
 
-from ..models import *
-from ..forms import *
+from ..forms import LoanCreateForm
+from ..models import Loan, Category, Client, PledgeItem, Operation
 
 
 class LoanCalculateAjaxView(View):
@@ -162,18 +160,6 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
         Loan.expire_loans()
         return super().get_context_data(**kwargs)
 
-    # def _generate_ticket(self):
-    #     file_name = f'Залоговый_билет_{self.kwargs.get("loan_pk")}'
-    #     loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
-    #
-    #     context = {
-    #         'loan': get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
-    #     }
-    #     rendered_ticket = render(self.request, 'ticket/ticket.html', context=context)
-    #
-    #     output_file_name = os.path.join(settings.TICKET_FOLDER_PATH, file_name)
-    #     pdfkit.from_string(rendered_ticket.content.decode(), f'{output_file_name}.pdf')
-
     def _get_interest_rate(self):
         return self.object.pledge_items.first().category.interest_rate
 
@@ -236,8 +222,8 @@ class LoanProlongationView(UserPassesTestMixin, View):
         loan.date_of_expire = self._get_extended_date_of_expire(loan.date_of_expire, prolongation_duration)
         loan.save()
 
-        messages.add_message(self.request, messages.SUCCESS,
-                             f'Залог успешно продлен на {prolongation_duration} дней (до {loan.date_of_expire.strftime("%m.%d.%Y")})')
+        messages.add_message(self.request, messages.SUCCESS, f'Залог успешно продлен на {prolongation_duration} дней '
+                                                             f'(до {loan.date_of_expire.strftime("%m.%d.%Y")})')
         return redirect(reverse('pawnshop:loan_detail', kwargs={'loan_pk': loan_pk}))
 
     def _get_extended_date_of_expire(self, old_date, duration):

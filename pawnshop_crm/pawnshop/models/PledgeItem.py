@@ -68,5 +68,3 @@ class PledgeItem(models.Model):
     class Meta:
         verbose_name = 'Предмет залога'
         verbose_name_plural = 'Предметы залога'
-
-

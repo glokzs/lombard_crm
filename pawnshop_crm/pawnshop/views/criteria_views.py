@@ -2,10 +2,9 @@ import json
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import *
-from django import forms
+from django.views.generic import View
 
-from ..models import *
+from ..models import PledgeItem, CriteriaValue, Criteria, Category
 
 
 class CriteriaValueCreateView(View):

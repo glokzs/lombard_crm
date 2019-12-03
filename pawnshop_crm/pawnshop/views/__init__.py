@@ -1,9 +1,10 @@
-from .client_views import *
-from .confirm_document_views import *
-from .pledge_item_views import *
-from .subcategory_views import *
-from .loan_views import *
-from .criteria_views import *
-from .index_views import *
-from .operation_views import *
+from .client_views import ClientCreateView, ClientChooseView, ClientDetailAjaxView, ClientListAjaxView
+from .confirm_document_views import ConfirmDocumentCreateView
+from .pledge_item_views import PledgeItemCreateView, PledgeItemCreateAjaxView, PledgeItemListView
+from .subcategory_views import SubcategoryListAjaxView
+from .loan_views import LoanCalculateAjaxView, LoanCreateView, LoanListView, LoanListAjaxView, LoanDetailView, \
+    LoanBuyoutView, LoanProlongationView, LoanProlongationCalculateAjaxView
+from .criteria_views import CriteriaValueCreateView, CriteriaValueCreateAjaxView, CriteriaListAjaxView
+from .index_views import IndexView
+from .operation_views import OperationListView
 from .ticket_views import TicketDownloadView

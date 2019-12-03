@@ -1,38 +1,12 @@
 from django.contrib.auth import login, authenticate, logout
-
-# Create your views here.
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.auth.models import Group
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import ListView, CreateView
 
-from accounts.forms import UserForm
+from .forms import UserForm
+from .models import Users
 
-
-from accounts.models import Users
-
-from accounts.models import User
-
-
-#
-# def user_login_view(request):
-#     context = {}
-#     if request.method == 'POST':
-#         email = request.POST.get('email')
-#         try:
-#             username = Users.objects.get(email__iexact=email).username
-#         except Users.DoesNotExist:
-#             context['has_error'] = True
-#             return render(request, 'registration/login.html', context=context)
-#         password = request.POST.get('password')
-#         user = authenticate(request, username=username, password=password)
-#         if user:
-#             login(request, user)
-#             return redirect('pawnshop:index')
-#         else:
-#             context['has_error'] = True
-#     return render(request, 'registration/login.html', context=context)
 
 def user_login_view(request):
     context = {}
@@ -67,6 +41,7 @@ class UserDetailView(UserPassesTestMixin, ListView):
 
     def test_func(self):
         return self.request.user.has_perm('add_user')
+
 
 class UserCreateView(UserPassesTestMixin, CreateView):
     template_name = 'user/create.html'

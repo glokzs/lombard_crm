@@ -133,7 +133,7 @@ def click_create_loans(browser):
 
 
 @then('I should see "Выбор клиента"')
-def create_index(browser):
+def check_client_choose(browser):
     assert 'Выбор клиента' in browser.html
 
 
@@ -151,7 +151,7 @@ def choose_client(browser):
 
 
 @then('I should see "Добавить займ"')
-def create_index(browser):
+def check_add_loan(browser):
     assert 'Добавить займ' in browser.html
 
 

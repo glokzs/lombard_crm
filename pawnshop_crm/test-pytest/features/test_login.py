@@ -63,5 +63,3 @@ def create_user_form(browser):
 @then('I should see user successful creation')
 def creation_success(browser):
     assert 'было успешно добавлено.' in browser.html, "Пожалуйста, исправьте ошибки ниже."
-
-
