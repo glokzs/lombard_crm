@@ -56,9 +56,8 @@ class Operation(models.Model):
         verbose_name_plural = 'Операции'
 
     def __str__(self):
-        return f'Операция №\'{self.pk},' \
+        return f'Залог #\'{self.pk},' \
             f'Тип операции: {self.operation_type}, ' \
-            f'Билет№ {self.loan.ticket.pk}, ' \
             f'Сумма: {self.amount}, ' \
             f'Операция проведена: {self.created_at}\'' \
             f'Инициатор: {self.employee} '
