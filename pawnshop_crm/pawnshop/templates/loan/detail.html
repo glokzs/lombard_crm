@@ -27,7 +27,7 @@ Lombard CRM
         <p class="lead">Выданная сумма: {{ loan.client_amount | floatformat:0 }} тенге</p>
         <p class="lead">Общая сумма кредита: {{ loan.total_amount | floatformat:0 }} тенге</p>
         <p class="lead">Статус: <span class="text-danger">{{ loan.status }}{% if expired_days %}(Просрочено дней: {{ expired_days }}){% endif %}</span></p>
-        <a href="{{ ticket_url }}" class="btn btn-dark" download>Скачать залоговый билет</a>
+        <a href="{% url 'pawnshop:loan_ticket' loan.pk %}" class="btn btn-dark">Скачать залоговый билет</a>
         <div class="btn-group ml-auto" role="group" aria-label="Basic example">
             {% if not is_closed %}
             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#buyout_modal">Выкуп</button>

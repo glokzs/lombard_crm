@@ -150,12 +150,12 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
     pk_url_kwarg = 'loan_pk'
 
     def get_context_data(self, **kwargs):
-        self._generate_ticket()
+        # self._generate_ticket()
         loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
 
         kwargs['total_price'] = self._get_total_price()
         kwargs['interest_rate'] = self._get_interest_rate()
-        kwargs['ticket_url'] = os.path.join(settings.MEDIA_URL, loan.ticket.file_path)
+        # kwargs['ticket_url'] = os.path.join(settings.MEDIA_URL, loan.ticket.file_path)
         kwargs['is_closed'] = True if loan.status == Loan.STATUS_CLOSED else False
         kwargs['amount_to_buyout'] = self.get_amount_to_buyout()
         kwargs['expired_days'] = self.object.get_expired_days()
@@ -163,29 +163,17 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
         Loan.expire_loans()
         return super().get_context_data(**kwargs)
 
-    def _generate_ticket(self):
-        file_name = f'Залоговый_билет_{self.kwargs.get("loan_pk")}'
-        loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
-
-        try:
-            loan.ticket
-        except Ticket.DoesNotExist:
-            Ticket.objects.create(
-                loan=loan,
-                file_name=file_name,
-                file_path=os.path.join(settings.TICKET_FOLDER, f'{file_name}.pdf')
-            )
-
-        context = {
-            'loan': get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
-        }
-        rendered_ticket = render(self.request, 'ticket/ticket.html', context=context)
-
-        if not os.path.exists(settings.TICKET_FOLDER_PATH):
-            os.makedirs(settings.TICKET_FOLDER_PATH)
-
-        output_file_name = os.path.join(settings.TICKET_FOLDER_PATH, file_name)
-        pdfkit.from_string(rendered_ticket.content.decode(), f'{output_file_name}.pdf')
+    # def _generate_ticket(self):
+    #     file_name = f'Залоговый_билет_{self.kwargs.get("loan_pk")}'
+    #     loan = get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
+    #
+    #     context = {
+    #         'loan': get_object_or_404(Loan, pk=self.kwargs.get('loan_pk'))
+    #     }
+    #     rendered_ticket = render(self.request, 'ticket/ticket.html', context=context)
+    #
+    #     output_file_name = os.path.join(settings.TICKET_FOLDER_PATH, file_name)
+    #     pdfkit.from_string(rendered_ticket.content.decode(), f'{output_file_name}.pdf')
 
     def _get_interest_rate(self):
         return self.object.pledge_items.first().category.interest_rate
