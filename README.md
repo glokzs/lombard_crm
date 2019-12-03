@@ -8,7 +8,7 @@ Pawnshop crm application on Django Framework
 virtualenv -p python3 venv  
 source venv/bin/activate  
 pip3 install -r requirements.txt
-cd instagram  
+cd pawnshop_crm  
 python3 manage.py migrate
 python3 manage.py createsuperuser 
 ```
@@ -17,7 +17,7 @@ python3 manage.py createsuperuser
 
 ```bash
 source venv/bin/activate  
-cd instagram   
+cd pawnshop_crm   
 python3 manage.py runserver  
 ```
 
@@ -25,6 +25,6 @@ python3 manage.py runserver
 
 ```bash
 source venv/bin/activate  
-cd instagram  
+cd pawnshop_crm  
 pytest -vvv
 ```
