@@ -1,99 +1,99 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Lombard CRM
+Lombard CRM
 {% endblock %}
 
 {% block heading %}
-    Добавить займ
+Добавить займ
 {% endblock %}
 
 {% block content %}
-    <div class="form-wrapper">
-        <div class="form">
-            <div class="form-group">
-                <label>Залоговые имущества<span class="required-indicator"> *</span></label>
+<div class="form-wrapper">
+    <div class="form">
+        <div class="form-group">
+            <label>Залоговые имущества<span class="required-indicator"> *</span></label>
+        </div>
+        <ul class="list-group mb-2" id="pledge_item_list">
+            {% for pledge_item in request.session.pledge_item_list %}
+            <li class="list-group-item pledge_item_element">{{ pledge_item.name }} (Цена: {{ pledge_item.price }})</li>
+            {% empty %}
+            <div class="no-content">
+                <p class="no-content-text">Ничего не добавлено</p>
             </div>
-            <ul class="list-group mb-2" id="pledge_item_list">
-                {% for pledge_item in request.session.pledge_item_list %}
-                    <li class="list-group-item pledge_item_element">{{ pledge_item.name }} (Цена: {{ pledge_item.price }})</li>
-                {% empty %}
-                    <div class="no-content">
-                        <p class="no-content-text">Ничего не добавлено</p>
+            {% endfor %}
+        </ul>
+        <div class="form-group">
+            <button type="button" class="btn btn-dark btn-sm mb-4" data-toggle="modal" data-target="#pledge_item_modal">Добавить залоговое имущество</button>
+        </div>
+        <div class="form-group total_price_form_group">
+            <label>Общая оценочная сумма<span class="required-indicator"> *</span></label>
+            <input type="number" readonly id="total_price_input" value="{{ total_price }}" class="form-control">
+        </div>
+        <div class="modal fade" id="pledge_item_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Добавить залоговое имущество</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                {% endfor %}
-            </ul>
-            <div class="form-group">
-                <button type="button" class="btn btn-dark btn-sm mb-4" data-toggle="modal" data-target="#pledge_item_modal">Добавить залоговое имущество</button>
-            </div>
-            <div class="form-group total_price_form_group">
-                <label>Общая оценочная сумма<span class="required-indicator"> *</span></label>
-                <input type="number" readonly id="total_price_input" value="{{ total_price }}" class="form-control">
-            </div>
-            <div class="modal fade" id="pledge_item_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Добавить залоговое имущество</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="#" method="post" enctype="multipart/form-data" id="form">
-                                <div class="form-group">
-                                    <label for="id_category">Категория<span class="required-indicator"> *</span></label>
-                                    <select name="category" class="form-control" required="" id="id_category">
-                                        <option value="" selected="">Выберите категорию</option>
-                                        {% for category in category_list %}
-                                            <option value="{{ category.pk }}">{{ category.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="subcategory-field-container"></div>
-                                <div class="form-group">
-                                    <label for="id_name">Название<span class="required-indicator"> *</span></label>
-                                    <input type="text" name="name" class="form-control" placeholder="Введите название" required="" id="id_name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="id_price">Оценочная стоимость<span class="required-indicator"> *</span></label>
-                                    <input type="number" name="price" class="form-control" placeholder="Введите оценочную стоимость (тенге)" step="any" required="" id="id_price">
-                                </div>
-                                <div class="form-group">
-                                    <label for="id_description">Описание<span class="required-indicator"> *</span></label>
-                                    <input type="text" name="description" class="form-control" placeholder="Введите описание" required="" id="id_description">
-                                </div>
-                                <div class="form-group">
-                                    <label for="id_note">Примечание</label>
-                                    <input type="text" name="note" class="form-control" placeholder="Введите примечание" id="id_note">
-                                </div>
-                                <div class="form-group">
-                                    <label for="id_image">Фотография</label>
-                                    <input type="file" name="image" class="form-control-file" accept="image/*" id="id_image">
-                                </div>
-                                <div class="criteria-container"></div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal" id="pledge_item_create_button">Добавить</button>
-                        </div>
+                    <div class="modal-body">
+                        <form action="#" method="post" enctype="multipart/form-data" id="form">
+                            <div class="form-group">
+                                <label for="id_category">Категория<span class="required-indicator"> *</span></label>
+                                <select name="category" class="form-control" required="" id="id_category">
+                                    <option value="" selected="">Выберите категорию</option>
+                                    {% for category in category_list %}
+                                    <option value="{{ category.pk }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="subcategory-field-container"></div>
+                            <div class="form-group">
+                                <label for="id_name">Название<span class="required-indicator"> *</span></label>
+                                <input type="text" name="name" class="form-control" placeholder="Введите название" required="" id="id_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_price">Оценочная стоимость<span class="required-indicator"> *</span></label>
+                                <input type="number" name="price" class="form-control" placeholder="Введите оценочную стоимость (тенге)" step="any" required="" id="id_price">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_description">Описание<span class="required-indicator"> *</span></label>
+                                <input type="text" name="description" class="form-control" placeholder="Введите описание" required="" id="id_description">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_note">Примечание</label>
+                                <input type="text" name="note" class="form-control" placeholder="Введите примечание" id="id_note">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_image">Фотография</label>
+                                <input type="file" name="image" class="form-control-file" accept="image/*" id="id_image">
+                            </div>
+                            <div class="criteria-container"></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark btn-sm" id="pledge_item_create_button">Добавить</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="form-wrapper">
-        <form action="{% url 'pawnshop:loan_create' client_pk %}" method="post" enctype="multipart/form-data" class="form">
-            {% csrf_token %}
-            {% include 'partials/_form.html' %}
-            <div class="form-group">
-                <button type="submit" class="btn btn-dark btn-sm">Добавить займ</button>
-            </div>
-        </form>
-    </div>
-    {% include 'partials/_loan_amount_calculate_script.html' %}
-    {% include 'partials/_client_subcategory_script.html' %}
-    {% include 'partials/_client_criteria_script.html' %}
-    {% include 'partials/_loan_create_script.html' %}
-    {% include 'partials/_datepicker_script.html' with field_id='warranty_date' %}
+</div>
+<div class="form-wrapper">
+    <form action="{% url 'pawnshop:loan_create' client_pk %}" method="post" enctype="multipart/form-data" class="form">
+        {% csrf_token %}
+        {% include 'partials/_form.html' %}
+        <div class="form-group">
+            <button type="submit" class="btn btn-dark btn-sm">Добавить займ</button>
+        </div>
+    </form>
+</div>
+{% include 'partials/_loan_amount_calculate_script.html' %}
+{% include 'partials/_client_subcategory_script.html' %}
+{% include 'partials/_client_criteria_script.html' %}
+{% include 'partials/_loan_create_script.html' %}
+{% include 'partials/_datepicker_script.html' with field_id='warranty_date' %}
 {% endblock %}

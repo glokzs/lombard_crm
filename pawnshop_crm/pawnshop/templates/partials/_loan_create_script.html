@@ -10,7 +10,14 @@
         pledgeItemData['note'] = document.getElementById('id_note').value;
         // pledgeItemData['image'] = document.getElementById('id_image').value;
 
-         createPledgeItemAjax(pledgeItemData);
+        if (pledgeItemData['category_pk'] && pledgeItemData['subcategory_pk'])
+            createPledgeItemAjax(pledgeItemData);
+        else if (!pledgeItemData['category_pk']) {
+            document.getElementById('id_category').parentElement.classList.add('error');
+        }
+        else if (!pledgeItemData['subcategory_pk']) {
+            document.getElementById('id_subcategory').parentElement.classList.add('error');
+        }
     });
 
     function createPledgeItemAjax(data) {
@@ -27,10 +34,22 @@
             if (response.ok)
                 return response.json();
         }).then(function (response) {
-            createCriteriaAjax(response.pledge_item);
-            addPledgeItemToList(response.pledge_item);
-            // addPledgeItemPkToForm(response.pledge_item);
-            calculateTotalEvaluationPrice(response.pledge_item);
+            if (response.errors) {
+                showFieldErrors(response.errors);
+            }
+            else {
+                createCriteriaAjax(response.pledge_item);
+                addPledgeItemToList(response.pledge_item);
+                // addPledgeItemPkToForm(response.pledge_item);
+                calculateTotalEvaluationPrice(response.pledge_item);
+                $('#pledge_item_modal').modal('hide');
+            }
+        });
+    }
+
+    function showFieldErrors(errors) {
+        errors.forEach(function(error) {
+            document.getElementById(error).parentElement.classList.add('error');
         });
     }
 
@@ -65,12 +84,12 @@
         document.getElementById('pledge_item_list').appendChild(pledgeItemElement);
     }
 
-    {#function addPledgeItemPkToForm(pledgeItem) {#}
-    {#    const inputElement = document.createElement('input');#}
-    {#    inputElement.setAttribute('type', 'hidden');#}
-    {#    inputElement.name = 'pledge_item' + pledgeItem.pk;#}
-    {#    inputElement.value = pledgeItem.pk;#}
-    {#    document.getElementById('pledge_item_pk_container').appendChild(inputElement);#}
+    // {#function addPledgeItemPkToForm(pledgeItem) {#}
+    // {#    const inputElement = document.createElement('input');#}
+    // {#    inputElement.setAttribute('type', 'hidden');#}
+    // {#    inputElement.name = 'pledge_item' + pledgeItem.pk;#}
+    // {#    inputElement.value = pledgeItem.pk;#}
+    // {#    document.getElementById('pledge_item_pk_container').appendChild(inputElement);#}
 
     function calculateTotalEvaluationPrice(pledgeItem) {
         const input = document.getElementById('total_price_input');

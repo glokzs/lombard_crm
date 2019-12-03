@@ -40,35 +40,49 @@ class PledgeItemCreateView(CreateView):
 class PledgeItemCreateAjaxView(View):
     def post(self, request, *args, **kwargs):
         data = json.loads(self.request.body.decode())
-        pledge_item = PledgeItem.objects.create(
-            category=get_object_or_404(Category, pk=int(data.get('category_pk'))),
-            subcategory=get_object_or_404(Subcategory, pk=int(data.get('subcategory_pk'))),
-            name=data.get('name'),
-            price=data.get('price'),
-            description=data.get('description'),
-            note=data.get('note'),
-        )
 
-        data = {
-            'pledge_item': {
+        payload = {}
+        invalid_fields = self.get_invalid_fields(data)
+        if invalid_fields:
+            payload['errors'] = invalid_fields
+        else:
+            pledge_item = PledgeItem.objects.create(
+                category=get_object_or_404(Category, pk=int(data.get('category_pk'))),
+                subcategory=get_object_or_404(Subcategory, pk=int(data.get('subcategory_pk'))),
+                name=data.get('name'),
+                price=data.get('price'),
+                description=data.get('description'),
+                note=data.get('note'),
+            )
+
+            payload['pledge_item'] = {
                 'pk': pledge_item.pk,
                 'name': pledge_item.name,
                 'price': pledge_item.price,
             }
-        }
 
-        if not self.request.session.get('pledge_item_list'):
-            self.request.session['pledge_item_list'] = []
+            if not self.request.session.get('pledge_item_list'):
+                self.request.session['pledge_item_list'] = []
 
-        self.request.session['pledge_item_list'].append({
-            'pk': str(pledge_item.pk),
-            'name': pledge_item.name,
-            'price': pledge_item.price,
-            'interest_rate': str(pledge_item.category.interest_rate)
-        })
+            self.request.session['pledge_item_list'].append({
+                'pk': str(pledge_item.pk),
+                'name': pledge_item.name,
+                'price': pledge_item.price,
+                'interest_rate': str(pledge_item.category.interest_rate)
+            })
 
-        self.request.session.save()
-        return JsonResponse(data)
+            self.request.session.save()
+        return JsonResponse(payload)
+
+    def get_invalid_fields(self, data):
+        invalid_fields = []
+        if not data.get('name'):
+            invalid_fields.append('id_name')
+        if not data.get('price'):
+            invalid_fields.append('id_price')
+        if not data.get('description'):
+            invalid_fields.append('id_description')
+        return invalid_fields
 
 
 class PledgeItemListView(ListView):
