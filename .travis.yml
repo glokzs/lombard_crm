@@ -18,4 +18,4 @@ install:
 script:
   - cd pawnshop_crm
   - python3 manage.py migrate
-  - pytest -vvv
+  - pytest -vvv --flake8
