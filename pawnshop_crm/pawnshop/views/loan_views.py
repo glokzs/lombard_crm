@@ -1,6 +1,5 @@
 import json
 from datetime import datetime, timedelta
-
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q

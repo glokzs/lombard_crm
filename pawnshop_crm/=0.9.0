@@ -1,0 +1,4 @@
+Requirement already satisfied: cairocffi in /home/aqr/.pyenv/versions/3.7.1/lib/python3.7/site-packages (1.1.0)
+Requirement already satisfied: cffi>=1.1.0 in /home/aqr/.pyenv/versions/3.7.1/lib/python3.7/site-packages (from cairocffi) (1.13.2)
+Requirement already satisfied: setuptools>=39.2.0 in /home/aqr/.pyenv/versions/3.7.1/lib/python3.7/site-packages (from cairocffi) (42.0.2)
+Requirement already satisfied: pycparser in /home/aqr/.pyenv/versions/3.7.1/lib/python3.7/site-packages (from cffi>=1.1.0->cairocffi) (2.19)

@@ -5,12 +5,12 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import CreateView, View, ListView
-
+from django.contrib.auth.mixins import UserPassesTestMixin
 from ..models import PledgeItem, Category, Subcategory, Loan
 from ..forms import PledgeItemCreateForm
 
 
-class PledgeItemCreateView(CreateView):
+class PledgeItemCreateView(UserPassesTestMixin, CreateView):
     template_name = 'pledge_item/create.html'
     model = PledgeItem
     form_class = PledgeItemCreateForm
@@ -36,6 +36,8 @@ class PledgeItemCreateView(CreateView):
         }
         return reverse('pawnshop:criteria_value_create', kwargs=kwargs)
 
+    def test_func(self):
+        return self.request.user.has_perm('accounts.loan_item_list_view')
 
 class PledgeItemCreateAjaxView(View):
     def post(self, request, *args, **kwargs):
@@ -85,7 +87,7 @@ class PledgeItemCreateAjaxView(View):
         return invalid_fields
 
 
-class PledgeItemListView(ListView):
+class PledgeItemListView(UserPassesTestMixin, ListView):
     template_name = 'pledge_item/list.html'
     context_object_name = 'pledge_items'
     model = PledgeItem
@@ -99,3 +101,6 @@ class PledgeItemListView(ListView):
         client_amount = Loan.objects.aggregate(sum=Sum("client_amount"))['sum']
         kwargs['client_amount'] = client_amount if client_amount else VALUE_IF_NONE
         return super().get_context_data(**kwargs)
+
+    def test_func(self):
+        return self.request.user.has_perm('accounts.loan_item_list_view')
