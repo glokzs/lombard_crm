@@ -33,8 +33,7 @@ def logout_view(request):
     logout(request)
     return redirect('pawnshop:index')
 
-
-class UserDetailView(UserPassesTestMixin, ListView):
+class UserDetailView(ListView):
     model = Users
     template_name = 'user/detail.html'
     context_object_name = 'users'

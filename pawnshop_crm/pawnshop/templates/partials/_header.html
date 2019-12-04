@@ -14,12 +14,16 @@
                     <a class="nav-link" href="{% url 'pawnshop:loan_list' %}">Займы</a>
                 </li>
                 {% endif %}
+                {% if perms.accounts.loan_item_list_view %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'pawnshop:pledge_items' %}">Список залоговых имуществ</a>
                 </li>
+                {% endif %}
+                {% if perms.accounts.operations_view %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'pawnshop:operation_list' %}">Журнал операций</a>
                 </li>
+                {% endif %}
                 {% endif %}
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -31,10 +35,8 @@
                         {{ user.username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% if perms.accounts.add_user %}
                         <a class="dropdown-item" href="{% url 'accounts:detail' user.pk %}">Личный кабинет</a>
                         <div class="dropdown-divider"></div>
-                        {% endif %}
                         <a class="dropdown-item" href="{% url 'accounts:logout' %}">Выйти</a>
                     </div>
                 </li>

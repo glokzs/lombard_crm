@@ -28,7 +28,9 @@ class Users(models.Model):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+        default_permissions = ()
         permissions = (
-                ('add_user', 'Добавление пользователей'),
+                ('operations_view', 'Просмотр журнала операций'),
+                ('loan_item_list_view', 'Просмотр списка залоговых имуществ'),
                 ('add_loan', 'Добавление займа'),
             )
