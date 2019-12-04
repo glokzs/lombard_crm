@@ -1,7 +1,7 @@
 import factory
 from pytest_factoryboy import register
 
-from pawnshop.models import Client, ConfirmDocument, Category, Subcategory, PledgeItem, Loan, Ticket
+from pawnshop.models import Client, ConfirmDocument, Category, Subcategory, PledgeItem, Loan
 
 from pytest_bdd import scenario, given, then
 
@@ -78,18 +78,6 @@ class LoanFactory(factory.Factory):
 
 
 @register
-class TicketFactory(factory.Factory):
-    class Meta:
-        model = Ticket
-
-    pk = '1'
-    loan = factory.SubFactory(LoanFactory)
-    file_name = 'test ticket'
-    file_path = '../media/tickets/Залоговый_билет_1.pdf'
-    created_at = '2019-10-16'
-
-
-@register
 class PledgeItemFactory(factory.Factory):
     class Meta:
         model = PledgeItem
@@ -149,13 +137,6 @@ def test_pledgeitem():
     pledgeitem = PledgeItemFactory.build()
     pledgeitem.save()
     return pledgeitem
-
-
-@given('Ticket')
-def test_ticket():
-    ticket = TicketFactory.build()
-    ticket.save()
-    return ticket
 
 
 @given('Create superuser')
@@ -222,7 +203,7 @@ def credit_close(browser):
         '/html/body/section/div/div/div/div[1]/button[1]').click()
 
 
-@then('I click close botton')
+@then('I click close button')
 def push_credit_close(browser):
     from time import sleep
     sleep(0.9)
@@ -230,7 +211,7 @@ def push_credit_close(browser):
 
 
 @then('I click to the "Журнал операций"')
-def click_loans(browser):
+def click_on_operation_list(browser):
     from time import sleep
     sleep(0.9)
     browser.driver.find_element_by_link_text('Журнал операций').click()

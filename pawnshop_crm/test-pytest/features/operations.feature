@@ -7,7 +7,6 @@ Scenario: Operations
     And Subcategory
     And Loan
     And PledgeItem
-    And Ticket
     And Create superuser
     And Login page
     Then I logging as user
@@ -18,7 +17,6 @@ Scenario: Operations
     And I click on "Продление"
     And I should see and fill in prolongation loan option
     And I click close loan option
-    And I click close botton
+    And I click close button
     And I click to the "Журнал операций"
     And I should see list of made operations
-#
