@@ -105,7 +105,7 @@ class LoanListView(UserPassesTestMixin, ListView):
         return self.request.user.has_perm('accounts.add_loan')
 
     def get_context_data(self, **kwargs):
-        Loan.expire_loans()
+        # Loan.expire_loans()
         return super().get_context_data(**kwargs)
 
 
@@ -157,7 +157,7 @@ class LoanDetailView(UserPassesTestMixin, DetailView):
         kwargs['amount_to_buyout'] = self.get_amount_to_buyout()
         kwargs['expired_days'] = self.object.get_expired_days()
 
-        Loan.expire_loans()
+        # Loan.expire_loans()
         return super().get_context_data(**kwargs)
 
     def _get_interest_rate(self):
