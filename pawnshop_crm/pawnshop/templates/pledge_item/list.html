@@ -44,8 +44,8 @@
             <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col" class="text-right">Итого</th>
-            <th scope="col">{{ total_amount }} тг.</th>
-            <th scope="col">{{ client_amount }} тг.</th>
+            <th scope="col">{{ total_amount | floatformat:0 }} тг.</th>
+            <th scope="col">{{ client_amount | floatformat:0 }} тг.</th>
         </tr>
         </tbody>
     </table>
