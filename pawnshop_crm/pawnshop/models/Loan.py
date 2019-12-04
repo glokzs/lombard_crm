@@ -76,13 +76,7 @@ class Loan(models.Model):
 
     @classmethod
     def expire_loans(cls):
-        for loan in cls.objects.all():
-            # if loan is CLOSED
-            if loan.status == cls.STATUS_CLOSED:
-                print(f'[{default_datetime.now()}] #{loan.pk} {cls.STATUS_CLOSED}')
-                continue
-
-            # if loan is open or expired
+        for loan in cls.objects.exclude(status__exact=Loan.STATUS_CLOSED):
             if datetime.date(loan.date_of_expire) < datetime.now():
                 loan.status = cls.STATUS_EXPIRED
                 loan.save()
