@@ -1,5 +1,4 @@
 import json
-
 from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -39,6 +38,7 @@ class PledgeItemCreateView(UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.has_perm('accounts.loan_item_list_view')
 
+
 class PledgeItemCreateAjaxView(View):
     def post(self, request, *args, **kwargs):
         data = json.loads(self.request.body.decode())
@@ -56,23 +56,19 @@ class PledgeItemCreateAjaxView(View):
                 description=data.get('description'),
                 note=data.get('note'),
             )
-
             payload['pledge_item'] = {
                 'pk': pledge_item.pk,
                 'name': pledge_item.name,
                 'price': pledge_item.price,
             }
-
             if not self.request.session.get('pledge_item_list'):
                 self.request.session['pledge_item_list'] = []
-
             self.request.session['pledge_item_list'].append({
                 'pk': str(pledge_item.pk),
                 'name': pledge_item.name,
                 'price': pledge_item.price,
                 'interest_rate': str(pledge_item.category.interest_rate)
             })
-
             self.request.session.save()
         return JsonResponse(payload)
 
@@ -94,10 +90,8 @@ class PledgeItemListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         VALUE_IF_NONE = 0
-
         total_amount = Loan.objects.aggregate(sum=Sum("total_amount"))['sum']
         kwargs['total_amount'] = total_amount if total_amount else VALUE_IF_NONE
-
         client_amount = Loan.objects.aggregate(sum=Sum("client_amount"))['sum']
         kwargs['client_amount'] = client_amount if client_amount else VALUE_IF_NONE
         return super().get_context_data(**kwargs)

@@ -3,7 +3,6 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import ListView, CreateView
-
 from .forms import UserForm
 from .models import Users
 
@@ -32,6 +31,7 @@ def user_login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('pawnshop:index')
+
 
 class UserDetailView(ListView):
     model = Users
