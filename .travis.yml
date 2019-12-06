@@ -14,6 +14,8 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_7781db333198_key -iv $encrypted_7781db333198_iv -in deploy_id_rsa.enc -out deploy_id_rsa -d
 install:
   - pip3 install -r requirements.txt
+  - docker login docker.pkg.github.com -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker build . -t docker.pkg.github.com/qwanysh/lombard_crm/lombard_crm; docker push docker.pkg.github.com/qwanysh/lombard_crm/lombard_crm
 script:
   - cd pawnshop_crm
   - python3 manage.py migrate
