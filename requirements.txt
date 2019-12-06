@@ -27,7 +27,7 @@ packaging==19.2
 paramiko==2.7.0
 parse==1.12.1
 parse-type==0.5.2
-Pillow==6.2.0
+Pillow==6.2.1
 pluggy==0.13.0
 py==1.8.0
 pycodestyle==2.5.0
