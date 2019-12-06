@@ -1,22 +1,25 @@
-Feature: Create category and subcategory
-   Category, tariffs and subcategory test
+Feature: Логирование,
+  Создание категорий, подкатегорий, тарифов
 
-  Scenario: Create category
-    Given Create superuser
-    And Login page
-    Then I login as admin
-    And I should see admin page
-    And I click on Category option
-    And I should see Category list
-    And I click creation option
-    And I should see form
-    And I filling name and tariff and save form
-    And I should see Category list and success message
-    And I click main admin menu
-    And I should see admin page
-    And I click subcategory option
-    And I should see subcategory menu
-    And I click create subcategory option
-    And I should see create subcategory form
-    And I filling form and click save
-    And I should see success creation page
+  Scenario: Логирование
+    Given Суперпользователь
+    And Страница авторизации
+    When Я логирусь как администратор
+    Then Я должен видеть админ страницу
+
+
+  Scenario: Создание категорий
+    Given Суперпользователь
+    And Страница входа в форму создания категорий
+    When Я логирусь как администратор
+    And Я заполняю поля формы категорий
+    Then Я вижу сообщение об успешном создании категории
+
+
+  Scenario: Создание подкатегорий
+    Given Суперпользователь
+    And Категория
+    And Страница входа в форму создания подкатегорий
+    When Я логирусь как администратор
+    And Я заполняю поля формы подкатегорий
+    Then Я вижу сообщение об успешном создании подкатегории

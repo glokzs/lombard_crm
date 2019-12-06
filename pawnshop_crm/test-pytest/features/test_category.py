@@ -1,96 +1,111 @@
-from pytest_bdd import scenario, given, then
+from pytest_bdd import scenario, given, then, when
+import factory
+from pytest_factoryboy import register
+
+from pawnshop.models import Category
 
 
-@scenario('category.feature', 'Create category')
-def test_category(live_server):
+@scenario('category.feature', 'Логирование')
+def test_login(live_server):
     return live_server
 
 
-@given("Create superuser")
-def super_user(admin_user):
+@given("Суперпользователь")
+def super_user_login(admin_user):
     return admin_user
 
 
-@given('Login page')
-def go_to_login_page(browser, live_server):
+@given('Страница авторизации')
+def go_to_login_page_login(browser, live_server):
     browser.visit(live_server.url + '/admin')
 
 
-@then('I login as admin')
-def admin_log_in(browser):
+@when('Я логирусь как администратор')
+def admin_log_in_login(browser):
     browser.fill('username', 'admin')
     browser.fill('password', 'password')
     browser.driver.find_element_by_class_name('submit-row').click()
 
 
-@then('I should see admin page')
-def admin_index(browser):
+@then('Я должен видеть админ страницу')
+def admin_index_login(browser):
     assert 'Pawnshop' in browser.html
 
 
-@then('I click on Category option')
-def admin_page_category(browser):
-    browser.driver.find_element_by_link_text('Категории').click()
+@scenario('category.feature', 'Создание категорий')
+def test_category(live_server):
+    return live_server
 
 
-@then('I should see Category list')
-def category_index(browser):
-    assert 'Категория' in browser.html
+@given('Суперпользователь')
+def super_user_category(admin_user):
+    return admin_user
 
 
-@then('I click creation option')
-def click_create_catefory(browser):
-    browser.driver.find_element_by_class_name('addlink').click()
+@given('Страница входа в форму создания категорий')
+def go_to_login_page_category(browser, live_server):
+    browser.visit(live_server.url + '/admin/pawnshop/category/add/')
 
 
-@then('I should see form')
-def category_form(browser):
-    assert 'Добавить Категория' in browser.html
+@when('Я логирусь как администратор')
+def admin_log_in_category(browser):
+    browser.fill('username', 'admin')
+    browser.fill('password', 'password')
+    browser.driver.find_element_by_class_name('submit-row').click()
 
 
-@then('I filling name and tariff and save form')
-def fill_form(browser):
+@when('Я заполняю поля формы категорий')
+def fill_form_category(browser):
     browser.fill('name', 'Тест категория')
     browser.fill('interest_rate', '0,9')
     browser.driver.find_element_by_name('_save').click()
 
 
-@then('I should see Category list and success message')
-def check_category_list(browser):
+@then('Я вижу сообщение об успешном создании категории')
+def check_category_list_category(browser):
     assert 'было успешно добавлено' in browser.html
 
 
-@then('I click main admin menu')
-def click_admin_main_menu(browser):
-    browser.driver.find_element_by_link_text('Начало').click()
+@register
+class CategoryFactory(factory.Factory):
+    class Meta:
+        model = Category
+
+    pk = '1'
+    name = 'test_category'
+    interest_rate = '0.9'
 
 
-@then('I should see admin page')
-def see_admin_index(browser):
-    assert 'Pawnshop' in browser.html
+@scenario('category.feature', 'Создание подкатегорий')
+def test_subcategory(live_server):
+    return live_server
 
 
-@then('I click subcategory option')
-def admin_page_subcategory(browser):
-    browser.driver.find_element_by_link_text('Подкатегории').click()
+@given('Суперпользователь')
+def super_user_subcategory(admin_user):
+    return admin_user
 
 
-@then('I should see subcategory menu')
-def subcategory_menu(browser):
-    assert 'Подкатегория' in browser.html
+@given('Категория')
+def test_category_category():
+    category = CategoryFactory.build()
+    category.save()
+    return category
 
 
-@then('I click create subcategory option')
-def click_create_subcategory(browser):
-    browser.driver.find_element_by_class_name('addlink').click()
+@given('Страница входа в форму создания подкатегорий')
+def go_to_login_page_subcategory(browser, live_server):
+    browser.visit(live_server.url + '/admin/pawnshop/subcategory/add/')
 
 
-@then('I should see create subcategory form')
-def see_subcategory_creattion_form(browser):
-    assert 'Добавить Подкатегория' in browser.html
+@when('Я логирусь как администратор')
+def admin_log_in_subcategory(browser):
+    browser.fill('username', 'admin')
+    browser.fill('password', 'password')
+    browser.driver.find_element_by_class_name('submit-row').click()
 
 
-@then('I filling form and click save')
+@when('Я заполняю поля формы подкатегорий')
 def fill_subcategory_form(browser):
     select_elem = browser.driver.find_element_by_name('category')
     select_elem.click()
@@ -100,6 +115,7 @@ def fill_subcategory_form(browser):
     browser.driver.find_element_by_name('_save').click()
 
 
-@then('I should see success creation page')
-def success_message(browser):
+@then('Я вижу сообщение об успешном создании подкатегории')
+def success_message_subcategory(browser):
     assert 'было успешно добавлено' in browser.html
+
