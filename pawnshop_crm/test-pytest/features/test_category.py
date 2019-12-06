@@ -118,4 +118,3 @@ def fill_subcategory_form(browser):
 @then('Я вижу сообщение об успешном создании подкатегории')
 def success_message_subcategory(browser):
     assert 'было успешно добавлено' in browser.html
-
