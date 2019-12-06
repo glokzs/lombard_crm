@@ -20,3 +20,10 @@ script:
   - cd pawnshop_crm
   - python3 manage.py migrate
   - pytest -vvv --flake8
+  - cd ..
+deploy:
+  on:
+    branch: master
+  skip_cleanup: true
+  provider: script
+  script: fab -i deploy_id_rsa deploy
