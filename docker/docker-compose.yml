@@ -2,7 +2,7 @@ version: '3'
 
 services:
   django:
-    image: docker.pkg.github.com/glokzs/lombard_crm/lombard_crm
+    image: qwanysh/lombard_crm
     command: bash -c 'python3 pawnshop_crm/manage.py collectstatic --noinput && python3 pawnshop_crm/manage.py migrate && cd pawnshop_crm && gunicorn -c gunicorn.conf pawnshop_crm.wsgi'
     volumes:
       - ./gunicorn.conf:/src/pawnshop_crm/gunicorn.conf
