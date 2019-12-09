@@ -78,8 +78,8 @@ DATABASES = {
         'NAME': 'pawnshop_crm',
         'USER': 'root',
         'PASSWORD': 'attractor_python',
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': '46.101.124.151',
+        'PORT': '5432',
     }
 }
 
