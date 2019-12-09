@@ -8,14 +8,27 @@ Lombard CRM
 {% endblock %}
 
 {% block content %}
-<div class="jumbotron jumbotron-fluid"> 
+<div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-6">#{{ loan.pk }} Кредит</h1>
         <p class="lead">Клиент: {{ loan.client.first_name }} {{ loan.client.last_name }} (ИИН: {{ loan.client.confirm_document.iin }})</p>
         <p class="lead">Залоговые имущества: </p>
-        <ul class="list-group">
+        <ul class="list-unstyled">
             {% for pledge_item in loan.pledge_items.all %}
-            <li class="list-group-item">{{ forloop.counter }}. {{ pledge_item.name }} - {% if pledge_item.description %}{{ pledge_item.description }} - {% endif %}{{ pledge_item.price | floatformat:0 }} тенге {% for criteria_value in pledge_item.criteria_values.all %}<br>{{ criteria_value.criteria.name }}: {{ criteria_value.value }}{% empty %}<br>Критерии не указаны{% endfor %}
+            <li class="media bg-light p-2">
+                <div class="media-body">
+                    <h5 class="mt-0 mb-1">{{ forloop.counter }}. Наименование: <b>{{ pledge_item.name }}</b> (Оценочная стоимость: <b>{{ pledge_item.price | floatformat:0 }}</b> тенге)</h5>
+                    Категория: <b>{{ pledge_item.category.name }}</b>, Подкатегория: <b>{{ pledge_item.subcategory.name }}</b><br>
+                    {% if pledge_item.description %}Описание: {{ pledge_item.description }}{% endif %}<br>
+                    <b>Критерии:</b>
+                    <ul class="list-group">
+                        {% for criteria in pledge_item.criteria_valius.all %}
+                        <li class="list-group-item">{{ criteria_value.criteria.name }}: {{ criteria_value.value }}</li>
+                        {% empty %}
+                        <li class="list-group-item disabled" aria-disabled="true">Нет оценок по критериям</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </li>
             {% endfor %}
         </ul>
