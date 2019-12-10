@@ -77,7 +77,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'pawnshop_crm',
         'USER': 'root',
-        'PASSWORD': 'attractor_python',
+        'PASSWORD': '357200357200',
         'HOST': '46.101.124.151',
         'PORT': '5432',
     }
