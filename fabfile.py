@@ -29,5 +29,5 @@ def deploy(connection):
         f'cd {PROJECT_DIR}; docker login -u {DOCKER_USERNAME} -p {DOCKER_PASSWORD}'
     )
     connection.run(
-        f'cd {PROJECT_DIR}; docker-compose pull && docker-compose down && docker-compose up -d'
+        f'cd {PROJECT_DIR}; docker-compose pull; docker-compose down; docker-compose up -d; docker system prune -f'
     )
