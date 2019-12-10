@@ -18,6 +18,10 @@ def deploy(connection):
         f'{PROJECT_DIR}/docker-compose.yml'
     )
     connection.put(
+        'docker/nginx.conf',
+        f'{PROJECT_DIR}/nginx.conf'
+    )
+    connection.put(
         'docker/gunicorn.conf',
         f'{PROJECT_DIR}/gunicorn.conf'
     )
