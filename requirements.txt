@@ -7,7 +7,7 @@ cffi==1.13.2
 cryptography==2.8
 cssselect2==0.2.2
 defusedxml==0.6.0
-Django==2.1.11
+Django==2.2.13
 entrypoints==0.3
 fabric==2.5.0
 factory-boy==2.12.0
